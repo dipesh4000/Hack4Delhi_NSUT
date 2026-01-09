@@ -16,15 +16,20 @@
       "static/chunks/main-app.js",
       "static/chunks/app/sign-in/[[...sign-in]]/page.js"
     ],
-    "/citizen/page": [
+    "/authority/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/citizen/page.js"
+      "static/chunks/app/authority/page.js"
     ],
     "/sign-up/[[...sign-up]]/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/sign-up/[[...sign-up]]/page.js"
+    ],
+    "/citizen/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/citizen/page.js"
     ]
   }
 }
