@@ -10,7 +10,7 @@ export default function AQITrendChart({ data }: AQITrendChartProps) {
   return (
     <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 h-full">
       <h3 className="text-slate-500 font-medium text-sm uppercase tracking-wide mb-4">
-        AQI Trend (Last 24 Hours)
+        AQI Trend (Past 7 Days)
       </h3>
       <div className="h-48 w-full">
         <ResponsiveContainer width="100%" height="100%">
@@ -43,7 +43,7 @@ export default function AQITrendChart({ data }: AQITrendChartProps) {
         </ResponsiveContainer>
       </div>
       <p className="text-xs text-slate-400 mt-2 text-center">
-        AQI has increased by 12% since morning.
+        Pollution trend over the last week.
       </p>
     </div>
   );

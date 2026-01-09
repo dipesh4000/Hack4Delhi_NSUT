@@ -8,7 +8,7 @@ interface PollutantSourceChartProps {
 
 export default function PollutantSourceChart({ data }: PollutantSourceChartProps) {
   return (
-    <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 h-full flex flex-col">
+    <div className="w-full h-full flex flex-col">
       <h3 className="text-slate-500 font-medium text-sm uppercase tracking-wide mb-2">
         Pollutant Contribution
       </h3>
@@ -16,15 +16,15 @@ export default function PollutantSourceChart({ data }: PollutantSourceChartProps
         Breakdown of pollutants causing the current AQI.
       </p>
       
-      <div className="flex-1 min-h-[200px]">
+      <div className="flex-1 min-h-[180px]">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
               data={data}
               cx="50%"
               cy="50%"
-              innerRadius={60}
-              outerRadius={80}
+              innerRadius={50}
+              outerRadius={70}
               paddingAngle={5}
               dataKey="value"
             >

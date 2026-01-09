@@ -26,7 +26,7 @@ export default function UserLocation({ fallbackName }: { fallbackName: string })
           
           // Using OpenStreetMap Nominatim API (Free, No Key)
           const response = await fetch(
-            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`,
+            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&accept-language=en`,
             { headers: { 'User-Agent': 'WardAir-Hack4Delhi/1.0' } } // Good practice for OSM
           );
           
