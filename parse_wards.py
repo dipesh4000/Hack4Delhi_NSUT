@@ -2,7 +2,6 @@ import re
 import os
 
 def parse_wards():
-    print("Starting parse_wards...")
     try:
         with open('wards.txt', 'r') as f:
             lines = f.readlines()
