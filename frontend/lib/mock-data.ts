@@ -23,13 +23,18 @@ export interface ActionItem {
 export interface WardData {
   id: string;
   name: string;
+  coordinates: { lat: number; lon: number };
   aqi: number;
   lastUpdated: string;
   dominantSource: string;
+  sourceConfidence?: "Low" | "Medium" | "High";
+  sourceReasoning?: string;
   pollutants: Pollutant[];
   alerts: Alert[];
   hourlyTrend: { time: string; aqi: number }[];
   pollutantComposition: { name: string; value: number; color: string }[];
+  sourceContribution: { source: string; percentage: number; color: string }[];
+  sourceForecast: { date: string; [key: string]: string | number }[];
   dailyActions: {
     dos: ActionItem[];
     avoids: ActionItem[];
@@ -40,6 +45,7 @@ export interface WardData {
 export const MOCK_WARD_DATA: WardData = {
   id: "ward-101",
   name: "Dwarka Sector 10",
+  coordinates: { lat: 28.5733, lon: 77.0601 },
   aqi: 342,
   lastUpdated: "10 mins ago",
   dominantSource: "Vehicular Emissions",
@@ -97,6 +103,19 @@ export const MOCK_WARD_DATA: WardData = {
     { name: "PM10", value: 25, color: "#F97316" }, // Orange
     { name: "NO₂", value: 15, color: "#EAB308" }, // Yellow
     { name: "SO₂", value: 5, color: "#22C55E" },  // Green
+  ],
+  sourceContribution: [
+    { source: "Transport", percentage: 45, color: "#3B82F6" },
+    { source: "Dust / Construction", percentage: 25, color: "#F59E0B" },
+    { source: "Industry", percentage: 15, color: "#6366F1" },
+    { source: "Biomass Burning", percentage: 10, color: "#EF4444" },
+    { source: "Others", percentage: 5, color: "#94A3B8" },
+  ],
+  sourceForecast: [
+    { date: "Jan 9", Transport: 40, Dust: 20, Industry: 15, Biomass: 15, Others: 10 },
+    { date: "Jan 10", Transport: 35, Dust: 25, Industry: 15, Biomass: 15, Others: 10 },
+    { date: "Jan 11", Transport: 30, Dust: 30, Industry: 20, Biomass: 10, Others: 10 },
+    { date: "Jan 12", Transport: 35, Dust: 25, Industry: 20, Biomass: 10, Others: 10 },
   ],
   dailyActions: {
     dos: [
