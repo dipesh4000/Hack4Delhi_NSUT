@@ -7,6 +7,10 @@ const aqiRoutes = require('./routes/aqiRoutes');
 const sourceRoutes = require('./routes/sourceRoutes');
 const alertRoutes = require('./routes/alertRoutes');
 
+const pollutionRoutes = require('./routes/pollutionRoutes');
+const cron = require('node-cron');
+const pollutionService = require('./services/pollutionService');
+
 dotenv.config();
 
 const app = express();
@@ -24,15 +28,24 @@ app.use('/api/wards', wardRoutes);
 app.use('/api/aqi', aqiRoutes);
 app.use('/api/sources', sourceRoutes);
 app.use('/api/alerts', alertRoutes);
+app.use('/api/pollution', pollutionRoutes);
 
 // Health Check
 app.get('/', (req, res) => {
     res.send('Ward Pollution Backend is running');
 });
 
+// Scheduler: Fetch pollution data every hour
+cron.schedule('0 * * * *', () => {
+    console.log('Running hourly pollution update...');
+    pollutionService.updatePollutionData();
+});
+
 // Start Server
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
+    // Initial fetch on startup
+    pollutionService.getLatestPollution();
 });
 
 module.exports = app;

@@ -1,0 +1,1 @@
+self.__REACT_LOADABLE_MANIFEST="{\"app/authority/page.tsx -> @/components/dashboard/PollutionMap\":{\"id\":\"app/authority/page.tsx -> @/components/dashboard/PollutionMap\",\"files\":[\"static/css/_app-pages-browser_components_dashboard_PollutionMap_tsx.css\",\"static/chunks/_app-pages-browser_components_dashboard_PollutionMap_tsx.js\"]}}"
