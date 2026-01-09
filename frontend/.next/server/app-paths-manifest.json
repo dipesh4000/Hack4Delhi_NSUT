@@ -1,6 +1,0 @@
-{
-  "/page": "app/page.js",
-  "/citizen/page": "app/citizen/page.js",
-  "/citizen/alerts/page": "app/citizen/alerts/page.js",
-  "/citizen/ward/page": "app/citizen/ward/page.js"
-}
