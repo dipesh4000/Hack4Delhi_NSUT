@@ -1,7 +1,5 @@
-"use client";
-
 import { useEffect } from 'react';
-import { MapContainer, TileLayer, CircleMarker, Popup, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L, { LatLngExpression } from 'leaflet';
 
@@ -40,7 +38,9 @@ L.Icon.Default.mergeOptions({
 function MapController({ center }: { center: LatLngExpression }) {
     const map = useMap();
     useEffect(() => {
-        map.flyTo(center as L.LatLngExpression, 11);
+        map.flyTo(center as L.LatLngExpression, 13, {
+            duration: 1.5
+        });
     }, [center, map]);
     return null;
 }
@@ -48,42 +48,72 @@ function MapController({ center }: { center: LatLngExpression }) {
 export default function PollutionMap({ wards, selectedWard, onSelectWard }: PollutionMapProps) {
     const defaultCenter: LatLngExpression = [28.6139, 77.2090]; // Delhi Center
 
-    const getColor = (aqi: number) => {
-        if (aqi <= 50) return '#22c55e'; // Green
-        if (aqi <= 100) return '#84cc16'; // Lime
-        if (aqi <= 200) return '#eab308'; // Yellow
-        if (aqi <= 300) return '#f97316'; // Orange
-        if (aqi <= 400) return '#ef4444'; // Red
-        return '#a855f7'; // Purple
+    const getStatusColor = (aqi: number) => {
+        if (aqi <= 50) return { bg: '#22c55e', text: '#fff', border: '#15803d' };     // Good (Green)
+        if (aqi <= 100) return { bg: '#84cc16', text: '#fff', border: '#4d7c0f' };    // Moderate (Lime)
+        if (aqi <= 200) return { bg: '#eab308', text: '#fff', border: '#a16207' };    // Poor (Yellow)
+        if (aqi <= 300) return { bg: '#f97316', text: '#fff', border: '#c2410c' };    // Very Poor (Orange)
+        return { bg: '#ef4444', text: '#fff', border: '#b91c1c' };                    // Severe (Red)
+    };
+
+    const createCustomIcon = (aqi: number) => {
+        const colors = getStatusColor(aqi);
+
+        return L.divIcon({
+            className: 'custom-aqi-marker',
+            html: `<div style="
+                background-color: ${colors.bg};
+                color: ${colors.text};
+                border: 2px solid ${colors.border};
+                border-radius: 50%;
+                width: 32px;
+                height: 32px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: bold;
+                font-size: 12px;
+                box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            ">${aqi}</div>`,
+            iconSize: [32, 32],
+            iconAnchor: [16, 16],
+            popupAnchor: [0, -20]
+
+        });
     };
 
     return (
-        <div className="h-[500px] w-full rounded-xl overflow-hidden shadow-sm border border-slate-200">
-            <MapContainer center={defaultCenter} zoom={11} scrollWheelZoom={false} style={{ height: '100%', width: '100%' }}>
+        <div className="h-[500px] w-full rounded-xl overflow-hidden shadow-sm border border-slate-200 z-0">
+            <MapContainer center={defaultCenter} zoom={11} scrollWheelZoom={false} style={{ height: '100%', width: '100%', zIndex: 0 }}>
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
                 />
+
                 {selectedWard && <MapController center={[selectedWard.lat, selectedWard.lon]} />}
 
-                {wards.map((ward: Ward) => (
-                    <CircleMarker
+                {wards.filter(w => w.lat && w.lon).map((ward: Ward) => (
+                    <Marker
                         key={ward.wardId}
-                        center={[ward.lat, ward.lon]}
-                        pathOptions={{ color: getColor(ward.aqi), fillColor: getColor(ward.aqi), fillOpacity: 0.7 }}
-                        radius={20}
+                        position={[ward.lat, ward.lon]}
+                        icon={createCustomIcon(ward.aqi)}
                         eventHandlers={{
                             click: () => onSelectWard(ward),
+                            mouseover: (e) => e.target.openPopup(),
+                            mouseout: (e) => e.target.closePopup(),
                         }}
                     >
-                        <Popup>
-                            <div className="p-2">
-                                <h3 className="font-bold">{ward.wardName}</h3>
-                                <p>AQI: <span className="font-semibold" style={{ color: getColor(ward.aqi) }}>{ward.aqi}</span></p>
-                                <p className="text-xs text-secondary">Status: {ward.status}</p>
+                        <Popup closeButton={false} autoPan={false}>
+                            <div className="text-center min-w-[120px]">
+                                <h3 className="font-bold text-slate-800 text-sm mb-1">{ward.wardName}</h3>
+                                <div className="text-xs text-slate-500 mb-2">{ward.sourceStation}</div>
+                                <div className="flex justify-between items-center text-xs border-t pt-2">
+                                    <span className="font-semibold">AQI: {ward.aqi}</span>
+                                    <span className="text-slate-500">{ward.status}</span>
+                                </div>
                             </div>
                         </Popup>
-                    </CircleMarker>
+                    </Marker>
                 ))}
             </MapContainer>
         </div>
