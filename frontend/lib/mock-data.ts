@@ -13,6 +13,10 @@ export interface Alert {
   message: string;
   timestamp: string;
   targetGroups?: string[];
+  // Video alert fields
+  videoUrl?: string;
+  thumbnailUrl?: string;
+  duration?: string;
 }
 
 export interface ActionItem {
@@ -84,10 +88,30 @@ export const MOCK_WARD_DATA: WardData = {
     {
       id: "alert-1",
       type: "Severe",
-      title: "Severe Air Quality Alert",
-      message: "AQI has crossed 300. Avoid outdoor activities.",
+      title: "🚨 Hazardous Air Quality Alert",
+      message: "AQI has crossed 300. Air is extremely dangerous. Avoid ALL outdoor activities immediately and keep windows sealed.",
       timestamp: "1 hour ago",
-      targetGroups: ["Children", "Elderly", "Asthma Patients"],
+      targetGroups: ["Children", "Elderly", "Asthma Patients", "Heart Patients"],
+      videoUrl: "https://assets.mixkit.co/videos/preview/mixkit-red-alert-lights-flashing-in-red-and-yellow-25844-large.mp4",
+      duration: "0:15"
+    },
+    {
+      id: "alert-2",
+      type: "Warning",
+      title: "⚠️ Poor Air Quality Warning",
+      message: "AQI levels are rising due to traffic congestion. Sensitive groups should limit outdoor exposure.",
+      timestamp: "3 hours ago",
+      targetGroups: ["Sensitive Groups", "Outdoor Workers"],
+      videoUrl: "https://assets.mixkit.co/videos/preview/mixkit-smoke-rising-in-the-air-from-the-ground-27451-large.mp4",
+      duration: "0:12"
+    },
+    {
+      id: "alert-3",
+      type: "Info",
+      title: "📋 Air Quality Update",
+      message: "MCD authorities are taking action to reduce pollution in your ward. Road water sprinkling scheduled for 4 PM.",
+      timestamp: "5 hours ago",
+      duration: "0:20"
     },
   ],
   hourlyTrend: [

@@ -10,7 +10,8 @@ import ImpactActionCard from "@/components/citizen/ImpactActionCard";
 import ContextualAdviceCard from "@/components/citizen/ContextualAdviceCard";
 import HealthAdvisoryCard from "@/components/citizen/HealthAdvisoryCard";
 import PollutantCard from "@/components/citizen/PollutantCard";
-import { AlertTriangle, Wind, Loader2, MapPin } from "lucide-react";
+import VideoAlertModal from "@/components/citizen/VideoAlertModal";
+import { AlertTriangle, Wind, Loader2, MapPin, Bell } from "lucide-react";
 import Link from "next/link";
 import PollutionContributionChart from "@/components/citizen/PollutionContributionChart";
 
@@ -19,6 +20,7 @@ export default function LiveDashboard({ userName }: { userName: string }) {
   const [loading, setLoading] = useState(true);
   const [usingRealData, setUsingRealData] = useState(false);
   const [locationName, setLocationName] = useState(MOCK_WARD_DATA.name);
+  const [showVideoAlert, setShowVideoAlert] = useState(false);
 
   useEffect(() => {
     if (!navigator.geolocation) {
@@ -67,6 +69,23 @@ export default function LiveDashboard({ userName }: { userName: string }) {
       }
     );
   }, []);
+
+  // Auto-show video alert when AQI is high
+  useEffect(() => {
+    if (!loading && data.aqi > 200) {
+      const alertKey = `videoAlertSeen_${data.aqi > 300 ? "severe" : "poor"}_${new Date().toDateString()}`;
+      const hasSeenToday = localStorage.getItem(alertKey);
+      
+      if (!hasSeenToday) {
+        // Small delay for better UX
+        const timer = setTimeout(() => {
+          setShowVideoAlert(true);
+          localStorage.setItem(alertKey, "true");
+        }, 1500);
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [loading, data.aqi]);
 
   if (loading) {
     return (
@@ -189,6 +208,27 @@ export default function LiveDashboard({ userName }: { userName: string }) {
           ))}
         </div>
       </div>
+
+      {/* Video Alert Modal - Auto-popup for high AQI */}
+      <VideoAlertModal
+        isOpen={showVideoAlert}
+        onClose={() => setShowVideoAlert(false)}
+        aqi={data.aqi}
+        wardName={locationName}
+      />
+
+      {/* Floating Alert Bell */}
+      {data.aqi > 200 && (
+        <button
+          onClick={() => setShowVideoAlert(true)}
+          className="fixed bottom-6 right-6 z-40 p-4 bg-gradient-to-br from-red-500 to-orange-500 rounded-full shadow-lg hover:scale-110 transition-transform animate-bounce"
+          title="View AQI Alert"
+        >
+          <Bell className="w-6 h-6 text-white" />
+          <span className="absolute -top-1 -right-1 w-4 h-4 bg-yellow-400 rounded-full animate-ping" />
+          <span className="absolute -top-1 -right-1 w-4 h-4 bg-yellow-400 rounded-full" />
+        </button>
+      )}
     </div>
   );
 }
