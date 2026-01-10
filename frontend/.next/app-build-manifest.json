@@ -39,6 +39,7 @@
     "/onboarding/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
+<<<<<<< HEAD
       "static/chunks/app/onboarding/page.js"
     ],
     "/sign-up/[[...sign-up]]/page": [
@@ -50,6 +51,14 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/citizen/alerts/page.js"
+=======
+      "static/chunks/app/citizen/wards/page.js"
+    ],
+    "/citizen/ward/[wardId]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/citizen/ward/[wardId]/page.js"
+>>>>>>> cfdd03c (commit)
     ]
   }
 }
