@@ -1,0 +1,182 @@
+{
+    "zone": "Shahdara South",
+    "ward_number": "190",
+    "ward_name": "NEW ASHOK NAGAR",
+    "station_uid": 10704,
+    "generated_at_ist": "2026-01-11T01:02:53.121433+05:30",
+    "aqi": 216,
+    "idx": 10704,
+    "dominentpol": "pm25",
+    "city_name": "Mother Dairy Plant, Parparganj, Delhi, Delhi, India",
+    "city_geo": [
+        28.620171,
+        77.287705
+    ],
+    "city_url": "https://aqicn.org/city/delhi/mother-dairy-plant--parparganj",
+    "iaqi_pm25": 216,
+    "iaqi_pm10": 123,
+    "iaqi_no2": 30.8,
+    "iaqi_o3": 0.9,
+    "iaqi_so2": 3.3,
+    "iaqi_co": 10.3,
+    "timestamp_ist_iso": "2026-01-11T00:00:00+05:30",
+    "timestamp_ist_epoch": 1768069800,
+    "reading_date_ist": "2026-01-11",
+    "reading_time_ist": "00:00:00",
+    "time_raw": {
+        "s": "2026-01-11 00:00:00",
+        "tz": "+05:30",
+        "v": 1768089600,
+        "iso": "2026-01-11T00:00:00+05:30"
+    },
+    "forecast_daily_pm25": [
+        {
+            "avg": 164,
+            "day": "2026-01-09",
+            "max": 171,
+            "min": 157
+        },
+        {
+            "avg": 166,
+            "day": "2026-01-10",
+            "max": 174,
+            "min": 138
+        },
+        {
+            "avg": 161,
+            "day": "2026-01-11",
+            "max": 174,
+            "min": 138
+        },
+        {
+            "avg": 169,
+            "day": "2026-01-12",
+            "max": 174,
+            "min": 159
+        },
+        {
+            "avg": 174,
+            "day": "2026-01-13",
+            "max": 209,
+            "min": 138
+        },
+        {
+            "avg": 165,
+            "day": "2026-01-14",
+            "max": 174,
+            "min": 141
+        },
+        {
+            "avg": 162,
+            "day": "2026-01-15",
+            "max": 174,
+            "min": 138
+        },
+        {
+            "avg": 164,
+            "day": "2026-01-16",
+            "max": 174,
+            "min": 138
+        },
+        {
+            "avg": 169,
+            "day": "2026-01-17",
+            "max": 172,
+            "min": 138
+        }
+    ],
+    "forecast_daily_pm10": [
+        {
+            "avg": 64,
+            "day": "2026-01-09",
+            "max": 70,
+            "min": 58
+        },
+        {
+            "avg": 65,
+            "day": "2026-01-10",
+            "max": 73,
+            "min": 46
+        },
+        {
+            "avg": 62,
+            "day": "2026-01-11",
+            "max": 73,
+            "min": 46
+        },
+        {
+            "avg": 68,
+            "day": "2026-01-12",
+            "max": 73,
+            "min": 58
+        },
+        {
+            "avg": 73,
+            "day": "2026-01-13",
+            "max": 102,
+            "min": 46
+        },
+        {
+            "avg": 65,
+            "day": "2026-01-14",
+            "max": 73,
+            "min": 50
+        },
+        {
+            "avg": 62,
+            "day": "2026-01-15",
+            "max": 73,
+            "min": 46
+        },
+        {
+            "avg": 65,
+            "day": "2026-01-16",
+            "max": 73,
+            "min": 46
+        },
+        {
+            "avg": 69,
+            "day": "2026-01-17",
+            "max": 73,
+            "min": 46
+        }
+    ],
+    "forecast_daily_uvi": [
+        {
+            "avg": 1,
+            "day": "2026-01-10",
+            "max": 4,
+            "min": 0
+        },
+        {
+            "avg": 1,
+            "day": "2026-01-11",
+            "max": 4,
+            "min": 0
+        },
+        {
+            "avg": 1,
+            "day": "2026-01-12",
+            "max": 4,
+            "min": 0
+        },
+        {
+            "avg": 1,
+            "day": "2026-01-13",
+            "max": 4,
+            "min": 0
+        },
+        {
+            "avg": 1,
+            "day": "2026-01-14",
+            "max": 4,
+            "min": 0
+        },
+        {
+            "avg": 0,
+            "day": "2026-01-15",
+            "max": 0,
+            "min": 0
+        }
+    ]
+}

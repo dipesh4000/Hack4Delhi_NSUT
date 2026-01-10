@@ -1,0 +1,1513 @@
+{
+  "city": "Delhi",
+  "source": "Open City Delhi Wards KML (Projected centroid calculation)",
+  "total_wards": 251,
+  "wards": [
+    {
+      "ward_number": 100,
+      "ward_name": "FATEH NAGAR",
+      "latitude": 28.627465,
+      "longitude": 77.098704
+    },
+    {
+      "ward_number": 113,
+      "ward_name": "MOHAN GARDEN",
+      "latitude": 28.626414,
+      "longitude": 77.029077
+    },
+    {
+      "ward_number": 115,
+      "ward_name": "UTTAM NAGAR",
+      "latitude": 28.616959,
+      "longitude": 77.051736
+    },
+    {
+      "ward_number": 116,
+      "ward_name": "BINDA PUR",
+      "latitude": 28.611384,
+      "longitude": 77.068221
+    },
+    {
+      "ward_number": 12,
+      "ward_name": "MALKA GANJ",
+      "latitude": 28.683714,
+      "longitude": 77.209969
+    },
+    {
+      "ward_number": 13,
+      "ward_name": "MUKHERJEE NAGAR",
+      "latitude": 28.705935,
+      "longitude": 77.207454
+    },
+    {
+      "ward_number": 130,
+      "ward_name": "DWARKA-C",
+      "latitude": 28.55195,
+      "longitude": 77.043741
+    },
+    {
+      "ward_number": 132,
+      "ward_name": "KAPASHERA",
+      "latitude": 28.522752,
+      "longitude": 77.085194
+    },
+    {
+      "ward_number": 134,
+      "ward_name": "RAJ NAGAR",
+      "latitude": 28.579336,
+      "longitude": 77.081743
+    },
+    {
+      "ward_number": 135,
+      "ward_name": "PALAM",
+      "latitude": 28.587072,
+      "longitude": 77.07621
+    },
+    {
+      "ward_number": 136,
+      "ward_name": "MADHU VIHAR",
+      "latitude": 28.603848,
+      "longitude": 77.062397
+    },
+    {
+      "ward_number": 138,
+      "ward_name": "SADH NAGAR",
+      "latitude": 28.591645,
+      "longitude": 77.093862
+    },
+    {
+      "ward_number": 139,
+      "ward_name": "NARAINA",
+      "latitude": 28.633792,
+      "longitude": 77.141589
+    },
+    {
+      "ward_number": 140,
+      "ward_name": "INDER PURI",
+      "latitude": 28.635455,
+      "longitude": 77.15688
+    },
+    {
+      "ward_number": 141,
+      "ward_name": "RAJINDER NAGAR",
+      "latitude": 28.628353,
+      "longitude": 77.176352
+    },
+    {
+      "ward_number": 152,
+      "ward_name": "R.K. PURAM",
+      "latitude": 28.568895,
+      "longitude": 77.172184
+    },
+    {
+      "ward_number": 37,
+      "ward_name": "KIRARI",
+      "latitude": 28.695164,
+      "longitude": 77.061067
+    },
+    {
+      "ward_number": 38,
+      "ward_name": "PREM NAGAR",
+      "latitude": 28.692805,
+      "longitude": 77.052202
+    },
+    {
+      "ward_number": 39,
+      "ward_name": "MUBARIKPUR",
+      "latitude": 28.698326,
+      "longitude": 77.038959
+    },
+    {
+      "ward_number": 41,
+      "ward_name": "AMAN VIHAR",
+      "latitude": 28.704576,
+      "longitude": 77.064387
+    },
+    {
+      "ward_number": 49,
+      "ward_name": "MANGOLPURI-A",
+      "latitude": 28.690713,
+      "longitude": 77.083987
+    },
+    {
+      "ward_number": 50,
+      "ward_name": "MANGOLPURI-B",
+      "latitude": 28.691573,
+      "longitude": 77.093875
+    },
+    {
+      "ward_number": 51,
+      "ward_name": "ROHINI-C",
+      "latitude": 28.701602,
+      "longitude": 77.106715
+    },
+    {
+      "ward_number": 52,
+      "ward_name": "ROHINI-F",
+      "latitude": 28.71117,
+      "longitude": 77.120458
+    },
+    {
+      "ward_number": 53,
+      "ward_name": "ROHINI-E",
+      "latitude": 28.711971,
+      "longitude": 77.129595
+    },
+    {
+      "ward_number": 54,
+      "ward_name": "ROHINI-D",
+      "latitude": 28.736946,
+      "longitude": 77.133253
+    },
+    {
+      "ward_number": 55,
+      "ward_name": "SHALIMAR BAGH-A",
+      "latitude": 28.721917,
+      "longitude": 77.151146
+    },
+    {
+      "ward_number": 56,
+      "ward_name": "SHALIMAR BAGH-B",
+      "latitude": 28.70922,
+      "longitude": 77.160724
+    },
+    {
+      "ward_number": 57,
+      "ward_name": "PITAM PURA",
+      "latitude": 28.705524,
+      "longitude": 77.14463
+    },
+    {
+      "ward_number": 58,
+      "ward_name": "SARASWATI VIHAR",
+      "latitude": 28.686593,
+      "longitude": 77.107727
+    },
+    {
+      "ward_number": 59,
+      "ward_name": "PASCHIM VIHAR",
+      "latitude": 28.66665,
+      "longitude": 77.103657
+    },
+    {
+      "ward_number": 60,
+      "ward_name": "RANI BAGH",
+      "latitude": 28.683077,
+      "longitude": 77.121386
+    },
+    {
+      "ward_number": 64,
+      "ward_name": "KESHAV PURAM",
+      "latitude": 28.691838,
+      "longitude": 77.161786
+    },
+    {
+      "ward_number": 65,
+      "ward_name": "ASHOK VIHAR",
+      "latitude": 28.695785,
+      "longitude": 77.173054
+    },
+    {
+      "ward_number": 66,
+      "ward_name": "WAZIR PUR",
+      "latitude": 28.684891,
+      "longitude": 77.177791
+    },
+    {
+      "ward_number": 67,
+      "ward_name": "SANGAM PARK",
+      "latitude": 28.696316,
+      "longitude": 77.184641
+    },
+    {
+      "ward_number": 68,
+      "ward_name": "MODEL TOWN",
+      "latitude": 28.700165,
+      "longitude": 77.191802
+    },
+    {
+      "ward_number": 69,
+      "ward_name": "KAMLA NAGAR",
+      "latitude": 28.679286,
+      "longitude": 77.195606
+    },
+    {
+      "ward_number": 82,
+      "ward_name": "PAHAR GANJ",
+      "latitude": 28.644943,
+      "longitude": 77.208189
+    },
+    {
+      "ward_number": 83,
+      "ward_name": "KAROL BAGH",
+      "latitude": 28.656005,
+      "longitude": 77.194403
+    },
+    {
+      "ward_number": 84,
+      "ward_name": "DEV NAGAR",
+      "latitude": 28.652693,
+      "longitude": 77.181684
+    },
+    {
+      "ward_number": 85,
+      "ward_name": "WEST PATEL NAGAR",
+      "latitude": 28.658524,
+      "longitude": 77.172254
+    },
+    {
+      "ward_number": 86,
+      "ward_name": "EAST PATEL NAGAR",
+      "latitude": 28.649055,
+      "longitude": 77.170966
+    },
+    {
+      "ward_number": 87,
+      "ward_name": "RANJEET NAGAR",
+      "latitude": 28.647984,
+      "longitude": 77.161884
+    },
+    {
+      "ward_number": 88,
+      "ward_name": "BALJEET NAGAR",
+      "latitude": 28.658267,
+      "longitude": 77.159613
+    },
+    {
+      "ward_number": 89,
+      "ward_name": "KARAM PURA",
+      "latitude": 28.665951,
+      "longitude": 77.151641
+    },
+    {
+      "ward_number": 90,
+      "ward_name": "MOTI NAGAR",
+      "latitude": 28.656278,
+      "longitude": 77.141123
+    },
+    {
+      "ward_number": 91,
+      "ward_name": "RAMESH NAGAR",
+      "latitude": 28.644379,
+      "longitude": 77.134024
+    },
+    {
+      "ward_number": 92,
+      "ward_name": "PUNJABI BAGH",
+      "latitude": 28.662712,
+      "longitude": 77.127435
+    },
+    {
+      "ward_number": 93,
+      "ward_name": "MADIPUR",
+      "latitude": 28.671319,
+      "longitude": 77.119304
+    },
+    {
+      "ward_number": 94,
+      "ward_name": "RAGHUBIR NAGAR",
+      "latitude": 28.654169,
+      "longitude": 77.11595
+    },
+    {
+      "ward_number": 98,
+      "ward_name": "SUBHASH NAGAR",
+      "latitude": 28.633267,
+      "longitude": 77.119468
+    },
+    {
+      "ward_number": 99,
+      "ward_name": "HARI NAGAR",
+      "latitude": 28.618909,
+      "longitude": 77.113657
+    },
+    {
+      "ward_number": 0,
+      "ward_name": "",
+      "latitude": 28.567766,
+      "longitude": 77.146277
+    },
+    {
+      "ward_number": 114,
+      "ward_name": "NAWADA",
+      "latitude": 28.626374,
+      "longitude": 77.043641
+    },
+    {
+      "ward_number": 137,
+      "ward_name": "MAHAVIR ENCLAVE",
+      "latitude": 28.600866,
+      "longitude": 77.077163
+    },
+    {
+      "ward_number": 40,
+      "ward_name": "NITHARI",
+      "latitude": 28.710657,
+      "longitude": 77.046439
+    },
+    {
+      "ward_number": 11,
+      "ward_name": "TIMARPUR",
+      "latitude": 28.711793,
+      "longitude": 77.222455
+    },
+    {
+      "ward_number": 131,
+      "ward_name": "BIJWASAN",
+      "latitude": 28.529744,
+      "longitude": 77.069582
+    },
+    {
+      "ward_number": 133,
+      "ward_name": "MAHIPALPUR",
+      "latitude": 28.542905,
+      "longitude": 77.108315
+    },
+    {
+      "ward_number": 142,
+      "ward_name": "DARYAGANJ",
+      "latitude": 28.619721,
+      "longitude": 77.249964
+    },
+    {
+      "ward_number": 143,
+      "ward_name": "SIDHARTHA NAGAR",
+      "latitude": 28.586285,
+      "longitude": 77.263683
+    },
+    {
+      "ward_number": 144,
+      "ward_name": "LAJPAT NAGAR",
+      "latitude": 28.573771,
+      "longitude": 77.247926
+    },
+    {
+      "ward_number": 151,
+      "ward_name": "MUNIRKA",
+      "latitude": 28.559898,
+      "longitude": 77.179867
+    },
+    {
+      "ward_number": 160,
+      "ward_name": "SAID-UL-AJAIB",
+      "latitude": 28.482866,
+      "longitude": 77.207591
+    },
+    {
+      "ward_number": 158,
+      "ward_name": "BHATI",
+      "latitude": 28.439852,
+      "longitude": 77.191457
+    },
+    {
+      "ward_number": 157,
+      "ward_name": "AYA NAGAR",
+      "latitude": 28.47476,
+      "longitude": 77.130755
+    },
+    {
+      "ward_number": 159,
+      "ward_name": "CHHATARPUR",
+      "latitude": 28.488891,
+      "longitude": 77.166797
+    },
+    {
+      "ward_number": 167,
+      "ward_name": "KHANPUR",
+      "latitude": 28.510568,
+      "longitude": 77.224498
+    },
+    {
+      "ward_number": 177,
+      "ward_name": "HARKESH NAGAR",
+      "latitude": 28.534655,
+      "longitude": 77.277774
+    },
+    {
+      "ward_number": 179,
+      "ward_name": "PUL PEHLADPUR",
+      "latitude": 28.501214,
+      "longitude": 77.286195
+    },
+    {
+      "ward_number": 178,
+      "ward_name": "TUGHLAKABAD",
+      "latitude": 28.516728,
+      "longitude": 77.275231
+    },
+    {
+      "ward_number": 184,
+      "ward_name": "JAITPUR",
+      "latitude": 28.512178,
+      "longitude": 77.333865
+    },
+    {
+      "ward_number": 182,
+      "ward_name": "MEETHAPUR",
+      "latitude": 28.494701,
+      "longitude": 77.322109
+    },
+    {
+      "ward_number": 181,
+      "ward_name": "MOLARBAND",
+      "latitude": 28.494793,
+      "longitude": 77.311876
+    },
+    {
+      "ward_number": 180,
+      "ward_name": "BADARPUR",
+      "latitude": 28.504651,
+      "longitude": 77.305252
+    },
+    {
+      "ward_number": 183,
+      "ward_name": "HARI NAGAR EXTENSION",
+      "latitude": 28.505864,
+      "longitude": 77.320066
+    },
+    {
+      "ward_number": 185,
+      "ward_name": "MADANPUR KHADAR EAST",
+      "latitude": 28.527639,
+      "longitude": 77.317404
+    },
+    {
+      "ward_number": 186,
+      "ward_name": "MADANPUR KHADAR WEST",
+      "latitude": 28.524295,
+      "longitude": 77.3009
+    },
+    {
+      "ward_number": 187,
+      "ward_name": "SARITA VIHAR",
+      "latitude": 28.551068,
+      "longitude": 77.283748
+    },
+    {
+      "ward_number": 188,
+      "ward_name": "ABUL FAZAL ENCLAVE",
+      "latitude": 28.552356,
+      "longitude": 77.298242
+    },
+    {
+      "ward_number": 189,
+      "ward_name": "ZAKIR NAGAR",
+      "latitude": 28.570851,
+      "longitude": 77.282881
+    },
+    {
+      "ward_number": 192,
+      "ward_name": "TRILOKPURI",
+      "latitude": 28.608375,
+      "longitude": 77.310405
+    },
+    {
+      "ward_number": 190,
+      "ward_name": "NEW ASHOK NAGAR",
+      "latitude": 28.593222,
+      "longitude": 77.305611
+    },
+    {
+      "ward_number": 191,
+      "ward_name": "MAYUR VIHAR PHASE-I",
+      "latitude": 28.604945,
+      "longitude": 77.300973
+    },
+    {
+      "ward_number": 197,
+      "ward_name": "PATPAR GANJ",
+      "latitude": 28.594423,
+      "longitude": 77.286495
+    },
+    {
+      "ward_number": 196,
+      "ward_name": "MAYUR VIHAR PHASE-II",
+      "latitude": 28.618724,
+      "longitude": 77.304618
+    },
+    {
+      "ward_number": 198,
+      "ward_name": "VINOD NAGAR",
+      "latitude": 28.622462,
+      "longitude": 77.293875
+    },
+    {
+      "ward_number": 199,
+      "ward_name": "MANDAWALI",
+      "latitude": 28.630537,
+      "longitude": 77.295761
+    },
+    {
+      "ward_number": 208,
+      "ward_name": "ANARKALI",
+      "latitude": 28.650624,
+      "longitude": 77.28901
+    },
+    {
+      "ward_number": 209,
+      "ward_name": "JAGAT PURI",
+      "latitude": 28.648789,
+      "longitude": 77.28212
+    },
+    {
+      "ward_number": 210,
+      "ward_name": "GEETA COLONY",
+      "latitude": 28.648316,
+      "longitude": 77.273943
+    },
+    {
+      "ward_number": 211,
+      "ward_name": "KRISHNA NAGAR",
+      "latitude": 28.655451,
+      "longitude": 77.274546
+    },
+    {
+      "ward_number": 213,
+      "ward_name": "SHASTRI PARK",
+      "latitude": 28.669412,
+      "longitude": 77.253941
+    },
+    {
+      "ward_number": 212,
+      "ward_name": "GANDHI NAGAR",
+      "latitude": 28.662363,
+      "longitude": 77.262249
+    },
+    {
+      "ward_number": 214,
+      "ward_name": "AZAD NAGAR",
+      "latitude": 28.665732,
+      "longitude": 77.276288
+    },
+    {
+      "ward_number": 217,
+      "ward_name": "DILSHAD COLONY",
+      "latitude": 28.680266,
+      "longitude": 77.320297
+    },
+    {
+      "ward_number": 216,
+      "ward_name": "JHILMIL",
+      "latitude": 28.671556,
+      "longitude": 77.310543
+    },
+    {
+      "ward_number": 215,
+      "ward_name": "SHAHDARA",
+      "latitude": 28.668842,
+      "longitude": 77.288568
+    },
+    {
+      "ward_number": 220,
+      "ward_name": "NAND NAGRI",
+      "latitude": 28.690167,
+      "longitude": 77.306847
+    },
+    {
+      "ward_number": 218,
+      "ward_name": "SUNDAR NAGRI",
+      "latitude": 28.692384,
+      "longitude": 77.323262
+    },
+    {
+      "ward_number": 221,
+      "ward_name": "ASHOK NAGAR",
+      "latitude": 28.695109,
+      "longitude": 77.296321
+    },
+    {
+      "ward_number": 223,
+      "ward_name": "ROHTASH NAGAR",
+      "latitude": 28.680863,
+      "longitude": 77.29345
+    },
+    {
+      "ward_number": 224,
+      "ward_name": "WELCOME COLONY",
+      "latitude": 28.6769,
+      "longitude": 77.281942
+    },
+    {
+      "ward_number": 227,
+      "ward_name": "CHAUHAN BANGER",
+      "latitude": 28.681345,
+      "longitude": 77.270901
+    },
+    {
+      "ward_number": 225,
+      "ward_name": "SEELAMPUR",
+      "latitude": 28.674329,
+      "longitude": 77.265655
+    },
+    {
+      "ward_number": 226,
+      "ward_name": "GAUTAM PURI",
+      "latitude": 28.679216,
+      "longitude": 77.248083
+    },
+    {
+      "ward_number": 230,
+      "ward_name": "BHAJANPURA",
+      "latitude": 28.69965,
+      "longitude": 77.245522
+    },
+    {
+      "ward_number": 232,
+      "ward_name": "YAMUNA VIHAR",
+      "latitude": 28.700046,
+      "longitude": 77.271142
+    },
+    {
+      "ward_number": 231,
+      "ward_name": "GHONDA",
+      "latitude": 28.691167,
+      "longitude": 77.264755
+    },
+    {
+      "ward_number": 229,
+      "ward_name": "BRAHAM PURI",
+      "latitude": 28.688275,
+      "longitude": 77.245884
+    },
+    {
+      "ward_number": 233,
+      "ward_name": "SUBHASH MOHALLA",
+      "latitude": 28.694818,
+      "longitude": 77.271589
+    },
+    {
+      "ward_number": 234,
+      "ward_name": "KABIR NAGAR",
+      "latitude": 28.69194,
+      "longitude": 77.281552
+    },
+    {
+      "ward_number": 236,
+      "ward_name": "KARDAM PURI",
+      "latitude": 28.692511,
+      "longitude": 77.287191
+    },
+    {
+      "ward_number": 235,
+      "ward_name": "GORAKH PARK",
+      "latitude": 28.682788,
+      "longitude": 77.282229
+    },
+    {
+      "ward_number": 237,
+      "ward_name": "HARSH VIHAR",
+      "latitude": 28.705129,
+      "longitude": 77.317475
+    },
+    {
+      "ward_number": 238,
+      "ward_name": "SABOLI",
+      "latitude": 28.707449,
+      "longitude": 77.305351
+    },
+    {
+      "ward_number": 239,
+      "ward_name": "GOKAL PURI",
+      "latitude": 28.704664,
+      "longitude": 77.286092
+    },
+    {
+      "ward_number": 240,
+      "ward_name": "JOHARIPUR",
+      "latitude": 28.715612,
+      "longitude": 77.284354
+    },
+    {
+      "ward_number": 241,
+      "ward_name": "KARAWAL NAGAR-EAST",
+      "latitude": 28.725262,
+      "longitude": 77.280603
+    },
+    {
+      "ward_number": 242,
+      "ward_name": "DAYALPUR",
+      "latitude": 28.724018,
+      "longitude": 77.273332
+    },
+    {
+      "ward_number": 243,
+      "ward_name": "MUSTAFABAD",
+      "latitude": 28.712637,
+      "longitude": 77.275924
+    },
+    {
+      "ward_number": 245,
+      "ward_name": "BRIJ PURI",
+      "latitude": 28.707181,
+      "longitude": 77.271488
+    },
+    {
+      "ward_number": 248,
+      "ward_name": "KARAWAL NAGAR-WEST",
+      "latitude": 28.729989,
+      "longitude": 77.266671
+    },
+    {
+      "ward_number": 247,
+      "ward_name": "SADATPUR",
+      "latitude": 28.716968,
+      "longitude": 77.261465
+    },
+    {
+      "ward_number": 246,
+      "ward_name": "SRI RAM COLONY",
+      "latitude": 28.707321,
+      "longitude": 77.25834
+    },
+    {
+      "ward_number": 249,
+      "ward_name": "SONIA VIHAR",
+      "latitude": 28.720452,
+      "longitude": 77.251094
+    },
+    {
+      "ward_number": 222,
+      "ward_name": "RAM NAGAR EAST",
+      "latitude": 28.683531,
+      "longitude": 77.299092
+    },
+    {
+      "ward_number": 228,
+      "ward_name": "MAUJPUR",
+      "latitude": 28.688751,
+      "longitude": 77.273369
+    },
+    {
+      "ward_number": 244,
+      "ward_name": "NEHRU VIHAR",
+      "latitude": 28.713605,
+      "longitude": 77.267807
+    },
+    {
+      "ward_number": 250,
+      "ward_name": "SABAPUR",
+      "latitude": 28.7499,
+      "longitude": 77.235999
+    },
+    {
+      "ward_number": 153,
+      "ward_name": "VASANT VIHAR",
+      "latitude": 28.564689,
+      "longitude": 77.159959
+    },
+    {
+      "ward_number": 219,
+      "ward_name": "DILSHAD GARDEN",
+      "latitude": 28.686266,
+      "longitude": 77.314586
+    },
+    {
+      "ward_number": 165,
+      "ward_name": "MADANGIR",
+      "latitude": 28.520933,
+      "longitude": 77.235238
+    },
+    {
+      "ward_number": 166,
+      "ward_name": "PUSHP VIHAR",
+      "latitude": 28.522948,
+      "longitude": 77.225586
+    },
+    {
+      "ward_number": 1,
+      "ward_name": "NARELA",
+      "latitude": 28.861487,
+      "longitude": 77.089342
+    },
+    {
+      "ward_number": 110,
+      "ward_name": "KUNWAR SINGH NAGAR",
+      "latitude": 28.65623,
+      "longitude": 77.01859
+    },
+    {
+      "ward_number": 109,
+      "ward_name": "VIKAS NAGAR",
+      "latitude": 28.644953,
+      "longitude": 77.047721
+    },
+    {
+      "ward_number": 108,
+      "ward_name": "HASTSAL",
+      "latitude": 28.631323,
+      "longitude": 77.054348
+    },
+    {
+      "ward_number": 107,
+      "ward_name": "VIKAS PURI",
+      "latitude": 28.636285,
+      "longitude": 77.068491
+    },
+    {
+      "ward_number": 112,
+      "ward_name": "SAINIK ENCLAVE",
+      "latitude": 28.639039,
+      "longitude": 77.035903
+    },
+    {
+      "ward_number": 111,
+      "ward_name": "BAPROLA",
+      "latitude": 28.639582,
+      "longitude": 77.022351
+    },
+    {
+      "ward_number": 117,
+      "ward_name": "DABRI",
+      "latitude": 28.607106,
+      "longitude": 77.090809
+    },
+    {
+      "ward_number": 118,
+      "ward_name": "SAGARPUR",
+      "latitude": 28.602566,
+      "longitude": 77.100849
+    },
+    {
+      "ward_number": 120,
+      "ward_name": "DWARKA-B",
+      "latitude": 28.575587,
+      "longitude": 77.052309
+    },
+    {
+      "ward_number": 122,
+      "ward_name": "MATIALA",
+      "latitude": 28.611615,
+      "longitude": 77.04357
+    },
+    {
+      "ward_number": 123,
+      "ward_name": "KAKROLA",
+      "latitude": 28.610634,
+      "longitude": 77.022527
+    },
+    {
+      "ward_number": 121,
+      "ward_name": "DWARKA-A",
+      "latitude": 28.595542,
+      "longitude": 77.035525
+    },
+    {
+      "ward_number": 125,
+      "ward_name": "CHHAWALA",
+      "latitude": 28.545835,
+      "longitude": 76.952399
+    },
+    {
+      "ward_number": 126,
+      "ward_name": "ISAPUR",
+      "latitude": 28.586335,
+      "longitude": 76.901822
+    },
+    {
+      "ward_number": 127,
+      "ward_name": "NAJAFGARH",
+      "latitude": 28.635881,
+      "longitude": 76.951235
+    },
+    {
+      "ward_number": 129,
+      "ward_name": "ROSHAN PURA",
+      "latitude": 28.60627,
+      "longitude": 76.99778
+    },
+    {
+      "ward_number": 14,
+      "ward_name": "DHIRPUR",
+      "latitude": 28.718915,
+      "longitude": 77.194501
+    },
+    {
+      "ward_number": 15,
+      "ward_name": "ADARSH NAGAR",
+      "latitude": 28.720837,
+      "longitude": 77.175166
+    },
+    {
+      "ward_number": 16,
+      "ward_name": "AZADPUR",
+      "latitude": 28.72688,
+      "longitude": 77.162676
+    },
+    {
+      "ward_number": 2,
+      "ward_name": "BANKNER",
+      "latitude": 28.839792,
+      "longitude": 77.065618
+    },
+    {
+      "ward_number": 26,
+      "ward_name": "POOTH KALAN",
+      "latitude": 28.71575,
+      "longitude": 77.071846
+    },
+    {
+      "ward_number": 28,
+      "ward_name": "SHAHBAAD DAIRY",
+      "latitude": 28.739216,
+      "longitude": 77.094529
+    },
+    {
+      "ward_number": 29,
+      "ward_name": "POOTH KHURD",
+      "latitude": 28.760042,
+      "longitude": 77.063724
+    },
+    {
+      "ward_number": 3,
+      "ward_name": "HOLAMBI KALAN",
+      "latitude": 28.81483,
+      "longitude": 77.09108
+    },
+    {
+      "ward_number": 30,
+      "ward_name": "BAWANA",
+      "latitude": 28.806525,
+      "longitude": 77.045782
+    },
+    {
+      "ward_number": 31,
+      "ward_name": "NANGAL THAKRAN",
+      "latitude": 28.795734,
+      "longitude": 76.992405
+    },
+    {
+      "ward_number": 4,
+      "ward_name": "ALIPUR",
+      "latitude": 28.799705,
+      "longitude": 77.116429
+    },
+    {
+      "ward_number": 5,
+      "ward_name": "BAKHTAWARPUR",
+      "latitude": 28.823972,
+      "longitude": 77.174741
+    },
+    {
+      "ward_number": 6,
+      "ward_name": "BURARI",
+      "latitude": 28.768691,
+      "longitude": 77.201074
+    },
+    {
+      "ward_number": 7,
+      "ward_name": "KADIPUR",
+      "latitude": 28.774726,
+      "longitude": 77.162212
+    },
+    {
+      "ward_number": 79,
+      "ward_name": "BALLIMARAN",
+      "latitude": 28.65176,
+      "longitude": 77.222611
+    },
+    {
+      "ward_number": 8,
+      "ward_name": "MUKUNDPUR",
+      "latitude": 28.742233,
+      "longitude": 77.177976
+    },
+    {
+      "ward_number": 80,
+      "ward_name": "RAM NAGAR",
+      "latitude": 28.650461,
+      "longitude": 77.212859
+    },
+    {
+      "ward_number": 119,
+      "ward_name": "MANGLAPURI",
+      "latitude": 28.596732,
+      "longitude": 77.087642
+    },
+    {
+      "ward_number": 124,
+      "ward_name": "NANGLI SAKRAWATI",
+      "latitude": 28.587917,
+      "longitude": 77.013414
+    },
+    {
+      "ward_number": 27,
+      "ward_name": "BEGUMPUR",
+      "latitude": 28.732661,
+      "longitude": 77.073067
+    },
+    {
+      "ward_number": 10,
+      "ward_name": "JHARODA",
+      "latitude": 28.741449,
+      "longitude": 77.215351
+    },
+    {
+      "ward_number": 200,
+      "ward_name": "PANDAV NAGAR",
+      "latitude": 28.613632,
+      "longitude": 77.273373
+    },
+    {
+      "ward_number": 201,
+      "ward_name": "LALITA PARK",
+      "latitude": 28.627854,
+      "longitude": 77.265882
+    },
+    {
+      "ward_number": 202,
+      "ward_name": "SHAKARPUR",
+      "latitude": 28.627727,
+      "longitude": 77.281035
+    },
+    {
+      "ward_number": 203,
+      "ward_name": "LAXMI NAGAR",
+      "latitude": 28.638299,
+      "longitude": 77.279006
+    },
+    {
+      "ward_number": 104,
+      "ward_name": "JANAK PURI SOUTH",
+      "latitude": 28.617764,
+      "longitude": 77.09436
+    },
+    {
+      "ward_number": 105,
+      "ward_name": "MAHAVEER ENCLAVE",
+      "latitude": 28.611159,
+      "longitude": 77.073315
+    },
+    {
+      "ward_number": 102,
+      "ward_name": "KHYALA",
+      "latitude": 28.650202,
+      "longitude": 77.086537
+    },
+    {
+      "ward_number": 101,
+      "ward_name": "TILAK NAGAR",
+      "latitude": 28.638416,
+      "longitude": 77.096586
+    },
+    {
+      "ward_number": 106,
+      "ward_name": "JANAK PURI WEST",
+      "latitude": 28.622746,
+      "longitude": 77.073213
+    },
+    {
+      "ward_number": 103,
+      "ward_name": "KESHOPUR",
+      "latitude": 28.637288,
+      "longitude": 77.077304
+    },
+    {
+      "ward_number": 128,
+      "ward_name": "DICHAON KALAN",
+      "latitude": 28.637499,
+      "longitude": 76.978898
+    },
+    {
+      "ward_number": 9,
+      "ward_name": "SANT NAGAR",
+      "latitude": 28.748766,
+      "longitude": 77.189025
+    },
+    {
+      "ward_number": 81,
+      "ward_name": "QURAISH NAGAR",
+      "latitude": 28.656639,
+      "longitude": 77.210632
+    },
+    {
+      "ward_number": 145,
+      "ward_name": "ANDREWS GANJ",
+      "latitude": 28.574964,
+      "longitude": 77.229893
+    },
+    {
+      "ward_number": 150,
+      "ward_name": "GREEN PARK",
+      "latitude": 28.55665,
+      "longitude": 77.196072
+    },
+    {
+      "ward_number": 155,
+      "ward_name": "MEHRAULI",
+      "latitude": 28.521759,
+      "longitude": 77.177034
+    },
+    {
+      "ward_number": 156,
+      "ward_name": "VASANT KUNJ",
+      "latitude": 28.514395,
+      "longitude": 77.134017
+    },
+    {
+      "ward_number": 164,
+      "ward_name": "DAKSHIN PURI",
+      "latitude": 28.524465,
+      "longitude": 77.240123
+    },
+    {
+      "ward_number": 162,
+      "ward_name": "TIGRI",
+      "latitude": 28.509068,
+      "longitude": 77.239104
+    },
+    {
+      "ward_number": 163,
+      "ward_name": "SANGAM VIHAR-A",
+      "latitude": 28.493675,
+      "longitude": 77.234965
+    },
+    {
+      "ward_number": 161,
+      "ward_name": "DEOLI",
+      "latitude": 28.491822,
+      "longitude": 77.223053
+    },
+    {
+      "ward_number": 170,
+      "ward_name": "TUGHLAKABAD EXTENSION",
+      "latitude": 28.513139,
+      "longitude": 77.256094
+    },
+    {
+      "ward_number": 169,
+      "ward_name": "SANGAM VIHAR-B",
+      "latitude": 28.495102,
+      "longitude": 77.25837
+    },
+    {
+      "ward_number": 168,
+      "ward_name": "SANGAM VIHAR-C",
+      "latitude": 28.49527,
+      "longitude": 77.245466
+    },
+    {
+      "ward_number": 173,
+      "ward_name": "GREATER KAILASH",
+      "latitude": 28.550556,
+      "longitude": 77.239457
+    },
+    {
+      "ward_number": 171,
+      "ward_name": "CHITARANJAN PARK",
+      "latitude": 28.533597,
+      "longitude": 77.247132
+    },
+    {
+      "ward_number": 172,
+      "ward_name": "CHIRAG DELHI",
+      "latitude": 28.542901,
+      "longitude": 77.221215
+    },
+    {
+      "ward_number": 175,
+      "ward_name": "KALKAJI",
+      "latitude": 28.545253,
+      "longitude": 77.259021
+    },
+    {
+      "ward_number": 176,
+      "ward_name": "GOVIND PURI",
+      "latitude": 28.533009,
+      "longitude": 77.263956
+    },
+    {
+      "ward_number": 195,
+      "ward_name": "KALYANPURI",
+      "latitude": 28.620713,
+      "longitude": 77.322553
+    },
+    {
+      "ward_number": 194,
+      "ward_name": "GHAROLI",
+      "latitude": 28.615869,
+      "longitude": 77.334428
+    },
+    {
+      "ward_number": 193,
+      "ward_name": "KONDLI",
+      "latitude": 28.604375,
+      "longitude": 77.322733
+    },
+    {
+      "ward_number": 204,
+      "ward_name": "PREET VIHAR",
+      "latitude": 28.640889,
+      "longitude": 77.294773
+    },
+    {
+      "ward_number": 205,
+      "ward_name": "I.P. EXTENSION",
+      "latitude": 28.631337,
+      "longitude": 77.31248
+    },
+    {
+      "ward_number": 206,
+      "ward_name": "ANAND VIHAR",
+      "latitude": 28.652775,
+      "longitude": 77.310722
+    },
+    {
+      "ward_number": 207,
+      "ward_name": "VISHWAS NAGAR",
+      "latitude": 28.661393,
+      "longitude": 77.296583
+    },
+    {
+      "ward_number": 146,
+      "ward_name": "AMAR COLONY",
+      "latitude": 28.567883,
+      "longitude": 77.242287
+    },
+    {
+      "ward_number": 174,
+      "ward_name": "SRI NIWAS PURI",
+      "latitude": 28.559363,
+      "longitude": 77.266218
+    },
+    {
+      "ward_number": 148,
+      "ward_name": "HAUZ KHAS",
+      "latitude": 28.545658,
+      "longitude": 77.196872
+    },
+    {
+      "ward_number": 154,
+      "ward_name": "LADO SARAI",
+      "latitude": 28.533273,
+      "longitude": 77.182574
+    },
+    {
+      "ward_number": 149,
+      "ward_name": "MALVIYA NAGAR",
+      "latitude": 28.535305,
+      "longitude": 77.206889
+    },
+    {
+      "ward_number": 147,
+      "ward_name": "KOTLA MUBARAKPUR",
+      "latitude": 28.572439,
+      "longitude": 77.219704
+    },
+    {
+      "ward_number": 17,
+      "ward_name": "BHALSWA",
+      "latitude": 28.732733,
+      "longitude": 77.168807
+    },
+    {
+      "ward_number": 18,
+      "ward_name": "JAHANGIR PURI",
+      "latitude": 28.741783,
+      "longitude": 77.16199
+    },
+    {
+      "ward_number": 19,
+      "ward_name": "SARUP NAGAR",
+      "latitude": 28.757282,
+      "longitude": 77.151755
+    },
+    {
+      "ward_number": 20,
+      "ward_name": "SAMAYPUR BADLI",
+      "latitude": 28.747281,
+      "longitude": 77.141937
+    },
+    {
+      "ward_number": 21,
+      "ward_name": "ROHINI-A",
+      "latitude": 28.738292,
+      "longitude": 77.121547
+    },
+    {
+      "ward_number": 24,
+      "ward_name": "VIJAY VIHAR",
+      "latitude": 28.708402,
+      "longitude": 77.096411
+    },
+    {
+      "ward_number": 25,
+      "ward_name": "BUDH VIHAR",
+      "latitude": 28.710319,
+      "longitude": 77.087975
+    },
+    {
+      "ward_number": 23,
+      "ward_name": "RITHALA",
+      "latitude": 28.720621,
+      "longitude": 77.103534
+    },
+    {
+      "ward_number": 32,
+      "ward_name": "KANJHAWALA",
+      "latitude": 28.736175,
+      "longitude": 76.987289
+    },
+    {
+      "ward_number": 34,
+      "ward_name": "NANGLOI",
+      "latitude": 28.694822,
+      "longitude": 76.998197
+    },
+    {
+      "ward_number": 35,
+      "ward_name": "MUNDKA",
+      "latitude": 28.672777,
+      "longitude": 76.994679
+    },
+    {
+      "ward_number": 42,
+      "ward_name": "MANGOL PURI",
+      "latitude": 28.700845,
+      "longitude": 77.084315
+    },
+    {
+      "ward_number": 43,
+      "ward_name": "SULTANPURI-A",
+      "latitude": 28.693861,
+      "longitude": 77.076569
+    },
+    {
+      "ward_number": 44,
+      "ward_name": "SULTANPURI-B",
+      "latitude": 28.693108,
+      "longitude": 77.069707
+    },
+    {
+      "ward_number": 45,
+      "ward_name": "JAWALAPURI",
+      "latitude": 28.677384,
+      "longitude": 77.076863
+    },
+    {
+      "ward_number": 46,
+      "ward_name": "NANGLOI JAT",
+      "latitude": 28.674512,
+      "longitude": 77.065935
+    },
+    {
+      "ward_number": 47,
+      "ward_name": "NIHAL VIHAR",
+      "latitude": 28.665328,
+      "longitude": 77.065965
+    },
+    {
+      "ward_number": 48,
+      "ward_name": "GURU HARKISHAN NAGAR",
+      "latitude": 28.670366,
+      "longitude": 77.086281
+    },
+    {
+      "ward_number": 61,
+      "ward_name": "KOHAT ENCLAVE",
+      "latitude": 28.691588,
+      "longitude": 77.136839
+    },
+    {
+      "ward_number": 62,
+      "ward_name": "SHAKUR PUR",
+      "latitude": 28.682906,
+      "longitude": 77.147809
+    },
+    {
+      "ward_number": 63,
+      "ward_name": "TRI NAGAR",
+      "latitude": 28.677209,
+      "longitude": 77.159183
+    },
+    {
+      "ward_number": 70,
+      "ward_name": "SHASTRI NAGAR",
+      "latitude": 28.673535,
+      "longitude": 77.178419
+    },
+    {
+      "ward_number": 71,
+      "ward_name": "KISHAN GANJ",
+      "latitude": 28.665124,
+      "longitude": 77.182516
+    },
+    {
+      "ward_number": 72,
+      "ward_name": "SADAR BAZAR",
+      "latitude": 28.664352,
+      "longitude": 77.206264
+    },
+    {
+      "ward_number": 78,
+      "ward_name": "BAZAR SITA RAM",
+      "latitude": 28.648267,
+      "longitude": 77.228562
+    },
+    {
+      "ward_number": 95,
+      "ward_name": "VISHNU GARDEN",
+      "latitude": 28.654269,
+      "longitude": 77.102543
+    },
+    {
+      "ward_number": 96,
+      "ward_name": "RAJOURI GARDEN",
+      "latitude": 28.644293,
+      "longitude": 77.117291
+    },
+    {
+      "ward_number": 97,
+      "ward_name": "CHAUKHANDI NAGAR",
+      "latitude": 28.64554,
+      "longitude": 77.099573
+    },
+    {
+      "ward_number": 33,
+      "ward_name": "RANI KHERA",
+      "latitude": 28.715478,
+      "longitude": 77.022697
+    },
+    {
+      "ward_number": 36,
+      "ward_name": "NILOTHI",
+      "latitude": 28.660147,
+      "longitude": 77.062255
+    },
+    {
+      "ward_number": 73,
+      "ward_name": "CIVIL LINES",
+      "latitude": 28.679122,
+      "longitude": 77.223539
+    },
+    {
+      "ward_number": 75,
+      "ward_name": "JAMA MASJID",
+      "latitude": 28.64886,
+      "longitude": 77.236643
+    },
+    {
+      "ward_number": 76,
+      "ward_name": "CHANDANI MAHAL",
+      "latitude": 28.641761,
+      "longitude": 77.233605
+    },
+    {
+      "ward_number": 77,
+      "ward_name": "DELHI GATE",
+      "latitude": 28.637356,
+      "longitude": 77.231498
+    },
+    {
+      "ward_number": 74,
+      "ward_name": "CHANDNI CHOWK",
+      "latitude": 28.658643,
+      "longitude": 77.23781
+    },
+    {
+      "ward_number": 22,
+      "ward_name": "ROHINI-B",
+      "latitude": 28.725679,
+      "longitude": 77.108169
+    }
+  ]
+}
