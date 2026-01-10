@@ -36,7 +36,7 @@ const PollutionMap = dynamic(() => import('@/components/dashboard/PollutionMap')
   loading: () => <div className="h-[500px] w-full bg-slate-100 animate-pulse rounded-xl flex items-center justify-center">Loading Map...</div>
 });
 
-const BACKEND_URL = 'http://localhost:5000';
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5001';
 
 export default function AuthorityDashboard() {
   const [wards, setWards] = useState<Ward[]>([]);

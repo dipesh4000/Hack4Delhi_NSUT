@@ -1,4 +1,4 @@
-// File: /home/sassysanya/Hack4Delhi_NSUT/frontend/app/authority/layout.tsx
+// File: /Users/diptipathak/Desktop/MCD/Hack4Delhi_NSUT/frontend/app/authority/layout.tsx
 import * as entry from '../../../../app/authority/layout.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

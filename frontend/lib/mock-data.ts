@@ -2,7 +2,7 @@ export interface Pollutant {
   name: string;
   value: number;
   unit: string;
-  status: "Good" | "Moderate" | "Poor" | "Severe";
+  status: AQISeverity;
   description: string;
 }
 
@@ -44,6 +44,8 @@ export interface WardData {
     avoids: ActionItem[];
   };
   contextualAdvice: string;
+  weeklyAqi: { day: string; aqi: number }[];
+  pollutantRadar: { name: string; value: number; fullMark: number }[];
 }
 
 export const MOCK_WARD_DATA: WardData = {
@@ -153,6 +155,23 @@ export const MOCK_WARD_DATA: WardData = {
       { text: "Idling at traffic signals", impact: "Medium Impact" },
     ],
   },
+  weeklyAqi: [
+    { day: "Mon", aqi: 210 },
+    { day: "Tue", aqi: 245 },
+    { day: "Wed", aqi: 310 },
+    { day: "Thu", aqi: 342 },
+    { day: "Fri", aqi: 290 },
+    { day: "Sat", aqi: 220 },
+    { day: "Sun", aqi: 180 },
+  ],
+  pollutantRadar: [
+    { name: "PM2.5", value: 92, fullMark: 100 },
+    { name: "PM10", value: 75, fullMark: 100 },
+    { name: "NO₂", value: 65, fullMark: 100 },
+    { name: "SO₂", value: 25, fullMark: 100 },
+    { name: "CO", value: 45, fullMark: 100 },
+    { name: "O₃", value: 35, fullMark: 100 },
+  ],
 };
 
 export const HEALTH_ADVISORY = {
@@ -182,19 +201,25 @@ export const HEALTH_ADVISORY = {
   },
 };
 
-export function getSeverity(aqi: number): "Good" | "Moderate" | "Poor" | "Severe" {
+export type AQISeverity = "Good" | "Moderate" | "Poor" | "Very Poor" | "Severe" | "Hazardous";
+
+export function getSeverity(aqi: number): AQISeverity {
   if (aqi <= 50) return "Good";
   if (aqi <= 100) return "Moderate";
-  if (aqi <= 300) return "Poor";
-  return "Severe";
+  if (aqi <= 200) return "Poor";
+  if (aqi <= 300) return "Very Poor";
+  if (aqi <= 400) return "Severe";
+  return "Hazardous";
 }
 
-export function getSeverityColor(severity: string): string {
+export function getSeverityColor(severity: AQISeverity | string): string {
   switch (severity) {
     case "Good": return "bg-emerald-500";
-    case "Moderate": return "bg-yellow-500";
+    case "Moderate": return "bg-amber-500";
     case "Poor": return "bg-orange-500";
-    case "Severe": return "bg-red-600";
+    case "Very Poor": return "bg-red-500";
+    case "Severe": return "bg-red-700";
+    case "Hazardous": return "bg-purple-900";
     default: return "bg-slate-500";
   }
 }
