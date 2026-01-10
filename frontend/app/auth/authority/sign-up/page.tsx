@@ -3,9 +3,9 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { ArrowRight, AlertCircle, Loader2, Lock, Shield, Mail, User, MapPin } from "lucide-react";
+import { ArrowRight, AlertCircle, Loader2, Lock, Shield, Mail, User, MapPin, Search } from "lucide-react";
 import Link from "next/link";
-import { DELHI_WARDS } from "@/lib/wards";
+import { DELHI_WARDS } from "@/lib/delhi-wards";
 
 export default function AuthoritySignUpPage() {
   const router = useRouter();
@@ -19,9 +19,30 @@ export default function AuthoritySignUpPage() {
   });
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [wardSearch, setWardSearch] = useState("");
+  const [showWardDropdown, setShowWardDropdown] = useState(false);
+
+  const allWards = [
+    { id: "central", name: "Central Officer" },
+    ...DELHI_WARDS
+  ];
+
+  const filteredWards = allWards.filter(ward => 
+    ward.name.toLowerCase().includes(wardSearch.toLowerCase())
+  );
 
   useEffect(() => {
     localStorage.setItem("selectedRole", "authority");
+    
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (!target.closest('.ward-dropdown-container')) {
+        setShowWardDropdown(false);
+      }
+    };
+    
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -91,7 +112,7 @@ export default function AuthoritySignUpPage() {
           authorityId: formData.authorityId,
           name: formData.name,
           email: formData.email,
-          wardId: parseInt(formData.ward),
+          wardId: formData.ward === "central" ? "central" : parseInt(formData.ward),
           password: formData.password,
         }),
       });
@@ -106,6 +127,7 @@ export default function AuthoritySignUpPage() {
       if (signupData.token) {
         localStorage.setItem("authToken", signupData.token);
         localStorage.setItem("userRole", "authority");
+        localStorage.setItem("myWardId", formData.ward);
       }
 
       router.push("/authority");
@@ -211,20 +233,45 @@ export default function AuthoritySignUpPage() {
               </label>
               <div className="relative">
                 <MapPin size={20} className="absolute left-3 top-3 text-slate-400 pointer-events-none z-10" />
-                <select
-                  name="ward"
-                  value={formData.ward}
-                  onChange={handleChange}
-                  className="w-full pl-10 pr-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white"
-                  disabled={isLoading}
-                >
-                  <option value="">Select your ward</option>
-                  {DELHI_WARDS.map((ward) => (
-                    <option key={ward.id} value={ward.id}>
-                      {ward.name}
-                    </option>
-                  ))}
-                </select>
+                <div className="relative ward-dropdown-container">
+                  <input
+                    type="text"
+                    value={wardSearch}
+                    onChange={(e) => {
+                      setWardSearch(e.target.value);
+                      setShowWardDropdown(true);
+                    }}
+                    onFocus={() => setShowWardDropdown(true)}
+                    placeholder="Search for ward or select Central Officer"
+                    className="w-full pl-10 pr-10 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    disabled={isLoading}
+                  />
+                  <Search size={16} className="absolute right-3 top-3.5 text-slate-400" />
+                  {showWardDropdown && (
+                    <div className="absolute z-20 w-full mt-1 bg-white border border-slate-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                      {filteredWards.map((ward) => (
+                        <div
+                          key={ward.id}
+                          onClick={() => {
+                            setFormData(prev => ({ ...prev, ward: ward.id.toString() }));
+                            setWardSearch(ward.name);
+                            setShowWardDropdown(false);
+                          }}
+                          className="px-4 py-2 hover:bg-blue-50 cursor-pointer border-b border-slate-100 last:border-b-0"
+                        >
+                          <span className={ward.id === "central" ? "font-semibold text-blue-600" : ""}>
+                            {ward.name}
+                          </span>
+                        </div>
+                      ))}
+                      {filteredWards.length === 0 && (
+                        <div className="px-4 py-2 text-slate-500 text-sm">
+                          No wards found
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
 

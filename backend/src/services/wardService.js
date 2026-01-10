@@ -2,8 +2,8 @@ const fs = require('fs').promises;
 const path = require('path');
 
 // Path to ward_data directory relative to this file
-// backend/src/services -> ../../../data-pipeline/ward_data
-const WARD_DATA_DIR = path.join(__dirname, '../../../data-pipeline/ward_data');
+// backend/src/services -> ../../../data-pipeline/static_ward_data
+const WARD_DATA_DIR = path.join(__dirname, '../../../data-pipeline/static_ward_data');
 
 /**
  * Reads all ward data files and returns a list of basic ward info.

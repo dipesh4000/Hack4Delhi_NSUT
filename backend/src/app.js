@@ -3,14 +3,20 @@ const cors = require('cors');
 const config = require('./config/env');
 const dashboardController = require('./controllers/dashboardController');
 const wardController = require('./controllers/wardController');
+const testController = require('./controllers/testController');
 const otpRoutes = require('./routes/otpRoutes');
 const userRoutes = require('./routes/userRoutes');
 const authRoutes = require('./routes/authRoutes');
 const complaintRoutes = require('./routes/complaintRoutes');
+const pollutionRoutes = require('./routes/pollutionRoutes');
 const connectDB = require('./config/database');
+const DataSchedulerService = require('./services/dataSchedulerService');
 
 // Connect to Database
 connectDB();
+
+// Initialize Data Scheduler
+const dataScheduler = new DataSchedulerService();
 
 const app = express();
 
@@ -19,12 +25,13 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
+// Test endpoints
+app.get('/api/test', testController.testConnection);
+app.get('/api/wards', testController.getBasicWards);
+app.get('/api/wards/:wardId', testController.getBasicWard);
+
 // 1. Authority Dashboard Data (Aggregated)
 app.get('/api/pollution/dashboard', dashboardController.getDashboardData);
-
-// 2. Citizen/Ward Data
-app.get('/api/wards', wardController.getWards);
-app.get('/api/wards/:wardId', wardController.getWardDetails);
 
 // 3. OTP Routes
 app.use('/api/otp', otpRoutes);
@@ -37,6 +44,9 @@ app.use('/api/auth', authRoutes);
 
 // 6. Complaint Routes
 app.use('/api/complaints', complaintRoutes);
+
+// 7. Enhanced Pollution Routes
+app.use('/api/pollution', pollutionRoutes);
 
 // Health Check
 app.get('/health', (req, res) => res.send('OK'));
@@ -51,6 +61,27 @@ app.use((err, req, res, next) => {
 if (require.main === module) {
     app.listen(config.PORT, () => {
         console.log(`Server running on port ${config.PORT} in ${config.NODE_ENV} mode`);
+        
+        // Start the data scheduler in production
+        if (config.NODE_ENV === 'production') {
+            console.log('Starting data scheduler...');
+            dataScheduler.start();
+        } else {
+            console.log('Data scheduler not started in development mode. Use /api/pollution/update to manually update data.');
+        }
+    });
+    
+    // Graceful shutdown
+    process.on('SIGTERM', () => {
+        console.log('SIGTERM received, shutting down gracefully...');
+        dataScheduler.stop();
+        process.exit(0);
+    });
+    
+    process.on('SIGINT', () => {
+        console.log('SIGINT received, shutting down gracefully...');
+        dataScheduler.stop();
+        process.exit(0);
     });
 }
 

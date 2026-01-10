@@ -8,6 +8,9 @@ module.exports = {
     OPENAQ_API_URL: process.env.OPENAQ_API_URL || 'https://api.openaq.org/v3/locations',
     DATA_REFRESH_RATE: 10 * 60 * 1000, // 10 minutes
     
+    // WAQI Configuration
+    WAQI_TOKEN: process.env.WAQI_TOKEN,
+    
     // Email Configuration
     EMAIL_USER: process.env.EMAIL_USER,
     EMAIL_PASSWORD: process.env.EMAIL_PASSWORD,

@@ -14,6 +14,10 @@ module.exports = {
         warning: "#EAB308", // Yellow 500
         danger: "#EF4444", // Red 500
       },
+      gridTemplateColumns: {
+        '20': 'repeat(20, minmax(0, 1fr))',
+        '16': 'repeat(16, minmax(0, 1fr))',
+      }
     },
   },
   plugins: [],

@@ -16,7 +16,7 @@ export default function CTASection() {
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link 
-            href="/sign-up"
+            href="/citizen"
             className="px-8 py-4 bg-white text-blue-600 rounded-xl font-bold hover:bg-blue-50 transition-colors flex items-center justify-center gap-2"
           >
             Get Started Now

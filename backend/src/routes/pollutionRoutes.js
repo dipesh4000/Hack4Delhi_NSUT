@@ -1,31 +1,24 @@
 const express = require('express');
 const router = express.Router();
-const pollutionService = require('../services/pollutionService');
+const pollutionController = require('../controllers/pollutionController');
 
-// GET /api/pollution/dashboard
-// Returns latest pollution stats for all wards
-router.get('/dashboard', async (req, res) => {
-    try {
-        const data = await pollutionService.getLatestPollution();
-        res.json({
-            success: true,
-            count: data.length,
-            data: data
-        });
-    } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
-    }
-});
+// Ward-specific routes
+router.get('/ward/:wardNumber/analysis', pollutionController.getWardAnalysis);
+router.get('/ward/:wardNumber/trends', pollutionController.getWardTrends);
+router.get('/ward/:wardNumber/health', pollutionController.getHealthRecommendations);
+router.get('/ward/:wardNumber/sources', pollutionController.getPollutionSources);
 
-// POST /api/pollution/refresh
-// Force manual refresh of data
-router.post('/refresh', async (req, res) => {
-    try {
-        const data = await pollutionService.updatePollutionData();
-        res.json({ success: true, message: 'Data refreshed', count: data.length });
-    } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
-    }
-});
+// General pollution data routes
+router.get('/wards', pollutionController.getAllWards);
+router.get('/hotspots', pollutionController.getHotspots);
+router.get('/zones/summary', pollutionController.getZoneSummary);
+router.get('/report/daily', pollutionController.getDailyReport);
+
+// Comparative analysis
+router.post('/compare', pollutionController.getComparativeAnalysis);
+
+// System management routes
+router.post('/update', pollutionController.triggerDataUpdate);
+router.get('/health', pollutionController.getSystemHealth);
 
 module.exports = router;

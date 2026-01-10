@@ -112,14 +112,6 @@ export default function RoleSelectPage() {
           </motion.button>
         </div>
 
-        <div className="text-center mt-8">
-          <p className="text-slate-600">
-            Already have an account?{" "}
-            <Link href="/role-select?mode=signin" className="text-blue-600 font-semibold hover:text-blue-700">
-              Sign In
-            </Link>
-          </p>
-        </div>
       </motion.div>
     </div>
   );

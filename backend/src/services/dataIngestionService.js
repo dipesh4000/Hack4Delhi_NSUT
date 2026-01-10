@@ -4,7 +4,7 @@ const csv = require('csv-parser');
 const wardCoordinates = require('../data/wardCoordinates');
 const { createReadStream } = require('fs');
 
-const WARD_DATA_DIR = path.join(__dirname, '../../../data-pipeline/ward_data');
+const WARD_DATA_DIR = path.join(__dirname, '../../../data-pipeline/static_ward_data');
 const CSV_DATA_PATH = path.join(__dirname, '../../../data-pipeline/raw_data/zone_data.csv');
 
 // In-memory cache
