@@ -44,12 +44,6 @@ export default function HeroSection() {
               Check My Ward AQI
               <ArrowRight size={20} />
             </Link>
-            <Link 
-              href="/authority"
-              className="w-full sm:w-auto px-8 py-4 bg-white text-slate-700 border border-slate-200 rounded-xl font-semibold hover:bg-slate-50 transition-all flex items-center justify-center gap-2"
-            >
-              Authority Login
-            </Link>
           </div>
         </motion.div>
       </div>

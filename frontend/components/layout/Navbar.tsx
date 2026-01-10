@@ -1,14 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { UserButton, useUser } from "@clerk/nextjs";
 import { motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 
 export default function Navbar() {
-  const { isSignedIn, user } = useUser();
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -32,32 +30,20 @@ export default function Navbar() {
               Impact
             </Link>
             
-            {isSignedIn ? (
-              <div className="flex items-center gap-4">
-                <Link 
-                  href="/citizen" 
-                  className="text-sm font-medium text-slate-700 hover:text-blue-600"
-                >
-                  Dashboard
-                </Link>
-                <UserButton afterSignOutUrl="/" />
-              </div>
-            ) : (
-              <div className="flex items-center gap-4">
-                <Link 
-                  href="/sign-in"
-                  className="text-slate-700 hover:text-blue-600 font-medium"
-                >
-                  Sign In
-                </Link>
-                <Link 
-                  href="/sign-up"
-                  className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium"
-                >
-                  Get Started
-                </Link>
-              </div>
-            )}
+            <div className="flex items-center gap-4">
+              <Link 
+                href="/role-select?mode=signin"
+                className="text-slate-700 hover:text-blue-600 font-medium"
+              >
+                Sign In
+              </Link>
+              <Link 
+                href="/role-select"
+                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+              >
+                Get Started
+              </Link>
+            </div>
           </div>
 
           <div className="md:hidden flex items-center">
@@ -84,16 +70,12 @@ export default function Navbar() {
           <Link href="#impact" className="block text-slate-600 hover:text-blue-600">
             Impact
           </Link>
-          {!isSignedIn && (
-            <>
-              <Link href="/sign-in" className="block text-slate-600 hover:text-blue-600">
-                Sign In
-              </Link>
-              <Link href="/sign-up" className="block text-blue-600 font-medium">
-                Get Started
-              </Link>
-            </>
-          )}
+          <Link href="/role-select?mode=signin" className="block text-slate-600 hover:text-blue-600">
+            Sign In
+          </Link>
+          <Link href="/role-select" className="block text-blue-600 font-medium">
+            Get Started
+          </Link>
         </motion.div>
       )}
     </nav>
