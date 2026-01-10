@@ -1,6 +1,6 @@
 "use client";
 
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import { useEffect } from "react";
@@ -22,13 +22,27 @@ interface WardMapProps {
   name: string;
 }
 
+// Component to update map view when coordinates change
+function MapUpdater({ lat, lon }: { lat: number; lon: number }) {
+  const map = useMap();
+
+  useEffect(() => {
+    // Fly to new coordinates with smooth animation
+    map.flyTo([lat, lon], 13, {
+      duration: 1.5, // Animation duration in seconds
+    });
+  }, [lat, lon, map]);
+
+  return null;
+}
+
 export default function WardMap({ lat, lon, name }: WardMapProps) {
   return (
     <div className="h-full w-full rounded-2xl overflow-hidden z-0">
-      <MapContainer 
-        center={[lat, lon]} 
-        zoom={13} 
-        scrollWheelZoom={false} 
+      <MapContainer
+        center={[lat, lon]}
+        zoom={13}
+        scrollWheelZoom={false}
         style={{ height: "100%", width: "100%" }}
       >
         <TileLayer
@@ -41,7 +55,9 @@ export default function WardMap({ lat, lon, name }: WardMapProps) {
             <div className="text-xs text-slate-500">Air Quality Monitoring Station</div>
           </Popup>
         </Marker>
+        <MapUpdater lat={lat} lon={lon} />
       </MapContainer>
     </div>
   );
 }
+

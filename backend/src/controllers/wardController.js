@@ -4,7 +4,18 @@ const pollutionService = require('../services/pollutionService');
 exports.getWards = async (req, res) => {
     try {
         const wards = await ingestionService.loadWardData();
-        res.json({ success: true, data: wards }); // Basic list
+        const pollutionMap = await pollutionService.getAllPollution();
+
+        const enrichedWards = wards.map(ward => {
+            const pollution = pollutionMap.get(ward.wardId);
+            return {
+                ...ward,
+                aqi: pollution?.aqi || 0,
+                status: pollution?.status || 'Unknown'
+            };
+        });
+
+        res.json({ success: true, data: enrichedWards });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
     }
