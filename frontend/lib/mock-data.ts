@@ -2,7 +2,7 @@ export interface Pollutant {
   name: string;
   value: number;
   unit: string;
-  status: "Good" | "Moderate" | "Poor" | "Severe";
+  status: AQISeverity;
   description: string;
 }
 
@@ -13,6 +13,10 @@ export interface Alert {
   message: string;
   timestamp: string;
   targetGroups?: string[];
+  // Video alert fields
+  videoUrl?: string;
+  thumbnailUrl?: string;
+  duration?: string;
 }
 
 export interface ActionItem {
@@ -40,6 +44,8 @@ export interface WardData {
     avoids: ActionItem[];
   };
   contextualAdvice: string;
+  weeklyAqi: { day: string; aqi: number }[];
+  pollutantRadar: { name: string; value: number; fullMark: number }[];
 }
 
 export const MOCK_WARD_DATA: WardData = {
@@ -84,10 +90,30 @@ export const MOCK_WARD_DATA: WardData = {
     {
       id: "alert-1",
       type: "Severe",
-      title: "Severe Air Quality Alert",
-      message: "AQI has crossed 300. Avoid outdoor activities.",
+      title: "🚨 Hazardous Air Quality Alert",
+      message: "AQI has crossed 300. Air is extremely dangerous. Avoid ALL outdoor activities immediately and keep windows sealed.",
       timestamp: "1 hour ago",
-      targetGroups: ["Children", "Elderly", "Asthma Patients"],
+      targetGroups: ["Children", "Elderly", "Asthma Patients", "Heart Patients"],
+      videoUrl: "https://assets.mixkit.co/videos/preview/mixkit-red-alert-lights-flashing-in-red-and-yellow-25844-large.mp4",
+      duration: "0:15"
+    },
+    {
+      id: "alert-2",
+      type: "Warning",
+      title: "⚠️ Poor Air Quality Warning",
+      message: "AQI levels are rising due to traffic congestion. Sensitive groups should limit outdoor exposure.",
+      timestamp: "3 hours ago",
+      targetGroups: ["Sensitive Groups", "Outdoor Workers"],
+      videoUrl: "https://assets.mixkit.co/videos/preview/mixkit-smoke-rising-in-the-air-from-the-ground-27451-large.mp4",
+      duration: "0:12"
+    },
+    {
+      id: "alert-3",
+      type: "Info",
+      title: "📋 Air Quality Update",
+      message: "MCD authorities are taking action to reduce pollution in your ward. Road water sprinkling scheduled for 4 PM.",
+      timestamp: "5 hours ago",
+      duration: "0:20"
     },
   ],
   hourlyTrend: [
@@ -129,6 +155,23 @@ export const MOCK_WARD_DATA: WardData = {
       { text: "Idling at traffic signals", impact: "Medium Impact" },
     ],
   },
+  weeklyAqi: [
+    { day: "Mon", aqi: 210 },
+    { day: "Tue", aqi: 245 },
+    { day: "Wed", aqi: 310 },
+    { day: "Thu", aqi: 342 },
+    { day: "Fri", aqi: 290 },
+    { day: "Sat", aqi: 220 },
+    { day: "Sun", aqi: 180 },
+  ],
+  pollutantRadar: [
+    { name: "PM2.5", value: 92, fullMark: 100 },
+    { name: "PM10", value: 75, fullMark: 100 },
+    { name: "NO₂", value: 65, fullMark: 100 },
+    { name: "SO₂", value: 25, fullMark: 100 },
+    { name: "CO", value: 45, fullMark: 100 },
+    { name: "O₃", value: 35, fullMark: 100 },
+  ],
 };
 
 export const HEALTH_ADVISORY = {
@@ -158,19 +201,25 @@ export const HEALTH_ADVISORY = {
   },
 };
 
-export function getSeverity(aqi: number): "Good" | "Moderate" | "Poor" | "Severe" {
+export type AQISeverity = "Good" | "Moderate" | "Poor" | "Very Poor" | "Severe" | "Hazardous";
+
+export function getSeverity(aqi: number): AQISeverity {
   if (aqi <= 50) return "Good";
   if (aqi <= 100) return "Moderate";
-  if (aqi <= 300) return "Poor";
-  return "Severe";
+  if (aqi <= 200) return "Poor";
+  if (aqi <= 300) return "Very Poor";
+  if (aqi <= 400) return "Severe";
+  return "Hazardous";
 }
 
-export function getSeverityColor(severity: string): string {
+export function getSeverityColor(severity: AQISeverity | string): string {
   switch (severity) {
     case "Good": return "bg-emerald-500";
-    case "Moderate": return "bg-yellow-500";
+    case "Moderate": return "bg-amber-500";
     case "Poor": return "bg-orange-500";
-    case "Severe": return "bg-red-600";
+    case "Very Poor": return "bg-red-500";
+    case "Severe": return "bg-red-700";
+    case "Hazardous": return "bg-purple-900";
     default: return "bg-slate-500";
   }
 }

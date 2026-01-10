@@ -27,6 +27,8 @@ interface Ward {
   };
 }
 
+import CitizenLayout from "@/components/citizen/CitizenLayout";
+
 export default function WardDirectoryPage() {
   const router = useRouter();
   const [wards, setWards] = useState<Ward[]>([]);
@@ -41,7 +43,8 @@ export default function WardDirectoryPage() {
 
   const fetchWards = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/wards");
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5001";
+      const response = await axios.get(`${backendUrl}/api/wards`);
       if (response.data.success) {
         setWards(response.data.data);
       } else {
@@ -71,170 +74,180 @@ export default function WardDirectoryPage() {
 
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[60vh]">
-        <Loader2 className="w-10 h-10 text-blue-600 animate-spin mb-4" />
-        <p className="text-slate-500">Loading Ward Directory...</p>
-      </div>
+      <CitizenLayout>
+        <div className="flex flex-col items-center justify-center min-h-[60vh]">
+          <Loader2 className="w-10 h-10 text-blue-600 animate-spin mb-4" />
+          <p className="text-slate-500 font-bold">Loading Ward Directory...</p>
+        </div>
+      </CitizenLayout>
     );
   }
 
   if (error) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[60vh] text-red-500">
-        <AlertCircle className="w-12 h-12 mb-4" />
-        <p className="text-lg font-medium">{error}</p>
-        <button
-          onClick={fetchWards}
-          className="mt-4 px-4 py-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors"
-        >
-          Try Again
-        </button>
-      </div>
+      <CitizenLayout>
+        <div className="flex flex-col items-center justify-center min-h-[60vh] text-red-500">
+          <AlertCircle className="w-12 h-12 mb-4" />
+          <p className="text-lg font-bold">{error}</p>
+          <button
+            onClick={fetchWards}
+            className="mt-4 px-6 py-3 bg-blue-600 text-white rounded-2xl hover:bg-blue-700 transition-all font-bold shadow-lg shadow-blue-600/20"
+          >
+            Try Again
+          </button>
+        </div>
+      </CitizenLayout>
     );
   }
 
   return (
-    <div className="container mx-auto max-w-7xl px-4 py-8 space-y-8">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-bold text-slate-900">Ward Directory</h1>
-          <p className="text-slate-500 mt-1">
-            Browse pollution data for all {wards.length} managed wards.
-          </p>
-        </div>
-
-        {/* Search */}
-        <div className="relative w-full md:w-96">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
-          <input
-            type="text"
-            placeholder="Search by name or zone..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all shadow-sm"
-          />
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 h-[700px]">
-        {/* Left List */}
-        <div className="lg:col-span-1 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
-          <div className="p-4 border-b border-slate-100 bg-slate-50/50">
-            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
-              {filteredWards.length} Wards Found
-            </span>
+    <CitizenLayout>
+      <div className="space-y-8">
+        {/* Header */}
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div>
+            <h1 className="text-3xl font-black text-slate-900 tracking-tight">Ward Directory</h1>
+            <p className="text-slate-500 font-medium mt-1">
+              Browse pollution data for all {wards.length} managed wards.
+            </p>
           </div>
 
-          <div className="overflow-y-auto flex-1 p-2 space-y-2">
-            {filteredWards.length === 0 ? (
-              <div className="text-center py-12 text-slate-400">
-                <p>No wards found.</p>
+          {/* Search */}
+          <div className="relative w-full md:w-96">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
+            <input
+              type="text"
+              placeholder="Search by name or zone..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full pl-12 pr-4 py-4 rounded-2xl bg-white border border-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500/10 focus:border-blue-500 transition-all shadow-sm font-medium"
+            />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 min-h-[700px]">
+          {/* Left List */}
+          <div className="lg:col-span-4 bg-white/60 backdrop-blur-md rounded-[2.5rem] border border-white/20 shadow-xl overflow-hidden flex flex-col">
+            <div className="p-6 border-b border-slate-100 bg-slate-50/50">
+              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                {filteredWards.length} Wards Found
+              </span>
+            </div>
+
+            <div className="overflow-y-auto flex-1 p-4 space-y-3">
+              {filteredWards.length === 0 ? (
+                <div className="text-center py-12 text-slate-400">
+                  <p className="font-bold">No wards found.</p>
+                </div>
+              ) : (
+                filteredWards.map((ward) => (
+                  <button
+                    key={ward.wardId}
+                    onClick={() => setSelectedWard(ward)}
+                    className={`w-full text-left p-5 rounded-2xl transition-all duration-300 group border ${selectedWard?.wardId === ward.wardId
+                        ? "bg-blue-600 border-blue-600 shadow-xl shadow-blue-600/20 text-white"
+                        : "bg-white/50 border-slate-100 hover:bg-white hover:border-blue-200"
+                      }`}
+                  >
+                    <div className="flex justify-between items-start mb-2">
+                      <h3 className={`font-black tracking-tight ${selectedWard?.wardId === ward.wardId ? 'text-white' : 'text-slate-700'}`}>
+                        {ward.wardName}
+                      </h3>
+                      <span className={`text-[10px] font-black px-2 py-1 rounded-lg border ${
+                        selectedWard?.wardId === ward.wardId 
+                          ? 'bg-white/20 border-white/30 text-white' 
+                          : getAqiColor(ward.aqi)
+                      }`}>
+                        AQI {ward.aqi}
+                      </span>
+                    </div>
+                    <div className="flex items-center text-[10px] font-bold gap-3 opacity-80">
+                      <span className="flex items-center gap-1">
+                        <MapPin size={12} /> {ward.zone}
+                      </span>
+                      <span className={`${selectedWard?.wardId === ward.wardId ? 'bg-white/20' : 'bg-slate-100'} px-1.5 py-0.5 rounded`}>
+                        #{ward.wardId}
+                      </span>
+                    </div>
+                  </button>
+                ))
+              )}
+            </div>
+          </div>
+
+          {/* Right Details Panel */}
+          <div className="lg:col-span-8">
+            {selectedWard ? (
+              <div className="bg-white/60 backdrop-blur-md rounded-[2.5rem] border border-white/20 shadow-xl p-10 h-full flex flex-col animate-in fade-in slide-in-from-bottom-4 duration-500">
+                {/* Detail Header */}
+                <div className="flex justify-between items-start mb-10">
+                  <div>
+                    <div className="flex items-center gap-4 mb-3">
+                      <h2 className="text-4xl font-black text-slate-900 tracking-tight">{selectedWard.wardName}</h2>
+                      <span className={`px-4 py-1.5 rounded-full text-xs font-black border shadow-sm ${getAqiColor(selectedWard.aqi)}`}>
+                        {selectedWard.status.toUpperCase()}
+                      </span>
+                    </div>
+                    <p className="text-slate-500 font-bold flex items-center gap-2">
+                      <MapPin className="w-4 h-4 text-blue-600" />
+                      {selectedWard.zone} Zone • Ward #{selectedWard.wardId}
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-[10px] text-slate-400 mb-1 font-black uppercase tracking-widest">REAL-TIME AQI</p>
+                    <p className={`text-6xl font-black tracking-tighter ${getAqiColor(selectedWard.aqi).split(' ')[0]}`}>
+                      {selectedWard.aqi}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Officer Info */}
+                {selectedWard.officer && (
+                  <div className="mb-10 p-6 bg-white/50 rounded-3xl border border-slate-100 shadow-sm">
+                    <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Nodal Officer</h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                      <div>
+                        <p className="text-lg font-black text-slate-900">{selectedWard.officer.name || 'Not Assigned'}</p>
+                        <p className="text-xs text-slate-500 font-bold">Ward Administrator</p>
+                      </div>
+                      <div className="space-y-2">
+                        <p className="text-sm font-bold text-blue-600">{selectedWard.officer.contact !== 'o' ? selectedWard.officer.contact : 'No Contact'}</p>
+                        <p className="text-xs text-slate-400 font-medium leading-relaxed">{selectedWard.officer.address}</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Map */}
+                <div className="flex-1 rounded-[2rem] overflow-hidden border border-slate-100 bg-slate-50 relative shadow-inner">
+                  {selectedWard.lat && selectedWard.lon ? (
+                    <WardMap
+                      lat={selectedWard.lat}
+                      lon={selectedWard.lon}
+                      name={selectedWard.wardName}
+                    />
+                  ) : (
+                    <div className="absolute inset-0 flex items-center justify-center text-slate-400">
+                      <p className="font-bold">Map data unavailable</p>
+                    </div>
+                  )}
+                  <div className="absolute bottom-6 right-6 bg-white/90 backdrop-blur px-4 py-2 rounded-xl shadow-lg text-[10px] font-black uppercase tracking-widest z-[1000] border border-white/20">
+                    Live Sensor Data
+                  </div>
+                </div>
               </div>
             ) : (
-              filteredWards.map((ward) => (
-                <button
-                  key={ward.wardId}
-                  onClick={() => setSelectedWard(ward)}
-                  className={`w-full text-left p-4 rounded-xl transition-all duration-200 group border ${selectedWard?.wardId === ward.wardId
-                      ? "bg-blue-50 border-blue-200 shadow-inner"
-                      : "bg-white border-transparent hover:bg-slate-50 hover:border-slate-200"
-                    }`}
-                >
-                  <div className="flex justify-between items-start mb-2">
-                    <h3 className={`font-bold ${selectedWard?.wardId === ward.wardId ? 'text-blue-700' : 'text-slate-700'}`}>
-                      {ward.wardName}
-                    </h3>
-                    <span className={`text-xs font-bold px-2 py-1 rounded-full border ${getAqiColor(ward.aqi)}`}>
-                      AQI {ward.aqi}
-                    </span>
-                  </div>
-                  <div className="flex items-center text-xs text-slate-500 gap-2">
-                    <span className="flex items-center gap-1">
-                      <MapPin size={12} /> {ward.zone}
-                    </span>
-                    <span className="bg-slate-100 px-1.5 py-0.5 rounded text-slate-400">
-                      #{ward.wardId}
-                    </span>
-                  </div>
-                </button>
-              ))
+              <div className="h-full rounded-[2.5rem] border-2 border-dashed border-slate-200 bg-white/30 flex flex-col items-center justify-center text-slate-400 p-12 text-center">
+                <div className="w-20 h-20 bg-white rounded-3xl flex items-center justify-center mb-6 shadow-xl shadow-slate-200/50">
+                  <MapPin className="w-10 h-10 text-slate-300" />
+                </div>
+                <h3 className="text-2xl font-black text-slate-600 mb-2 tracking-tight">No Ward Selected</h3>
+                <p className="max-w-xs font-medium text-slate-400">Select a ward from the list to view real-time pollution data and officer details.</p>
+              </div>
             )}
           </div>
         </div>
-
-        {/* Right Details Panel */}
-        <div className="lg:col-span-2 space-y-6">
-          {selectedWard ? (
-            <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-8 h-full flex flex-col animate-in fade-in slide-in-from-bottom-4 duration-500">
-              {/* Detail Header */}
-              <div className="flex justify-between items-start mb-8">
-                <div>
-                  <div className="flex items-center gap-3 mb-2">
-                    <h2 className="text-3xl font-black text-slate-900">{selectedWard.wardName}</h2>
-                    <span className={`px-3 py-1 rounded-full text-sm font-bold border ${getAqiColor(selectedWard.aqi)}`}>
-                      {selectedWard.status}
-                    </span>
-                  </div>
-                  <p className="text-slate-500 flex items-center gap-2">
-                    <MapPin className="w-4 h-4" />
-                    {selectedWard.zone} Zone • Ward #{selectedWard.wardId}
-                  </p>
-                </div>
-                <div className="text-right">
-                  <p className="text-sm text-slate-400 mb-1 font-medium">REAL-TIME AQI</p>
-                  <p className={`text-5xl font-black ${getAqiColor(selectedWard.aqi).split(' ')[0]}`}>
-                    {selectedWard.aqi}
-                  </p>
-                </div>
-              </div>
-
-              {/* Officer Info */}
-              {selectedWard.officer && (
-                <div className="mb-8 p-4 bg-slate-50 rounded-xl border border-slate-100">
-                  <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Nodal Officer</h4>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <p className="text-sm font-semibold text-slate-900">{selectedWard.officer.name || 'Not Assigned'}</p>
-                      <p className="text-xs text-slate-500">Designation not available</p>
-                    </div>
-                    <div className="text-sm text-slate-600">
-                      <p>{selectedWard.officer.contact !== 'o' ? selectedWard.officer.contact : 'No Contact'}</p>
-                      <p className="text-xs text-slate-400 mt-1 break-words">{selectedWard.officer.address}</p>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* Map */}
-              <div className="flex-1 rounded-xl overflow-hidden border border-slate-200 bg-slate-100 relative">
-                {selectedWard.lat && selectedWard.lon ? (
-                  <WardMap
-                    lat={selectedWard.lat}
-                    lon={selectedWard.lon}
-                    name={selectedWard.wardName}
-                  />
-                ) : (
-                  <div className="absolute inset-0 flex items-center justify-center text-slate-400">
-                    <p>Map data unavailable</p>
-                  </div>
-                )}
-                <div className="absolute bottom-4 right-4 bg-white/90 backdrop-blur px-4 py-2 rounded-lg shadow-sm text-xs font-bold z-[1000]">
-                  Live Sensor Data
-                </div>
-              </div>
-            </div>
-          ) : (
-            <div className="h-full rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50 flex flex-col items-center justify-center text-slate-400 p-8 text-center">
-              <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4">
-                <MapPin className="w-8 h-8 opacity-50" />
-              </div>
-              <h3 className="text-lg font-bold text-slate-600 mb-1">No Ward Selected</h3>
-              <p className="max-w-xs">Select a ward from the list to view real-time pollution data and officer details.</p>
-            </div>
-          )}
-        </div>
       </div>
-    </div>
+    </CitizenLayout>
   );
 }

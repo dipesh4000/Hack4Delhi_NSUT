@@ -1,29 +1,34 @@
-import { authMiddleware, redirectToSignIn } from "@clerk/nextjs";
-import { NextResponse } from "next/server";
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
 
-export default authMiddleware({
-  publicRoutes: ["/", "/sign-in", "/sign-up", "/api/user/role"],
-  afterAuth(auth, req) {
-    // Handle users who are not logged in
-    if (!auth.userId && !auth.isPublicRoute) {
-      return redirectToSignIn({ returnBackUrl: req.url });
-    }
-
-    // If user is logged in and trying to access a public route (like sign-in), let them
-    // unless it's the home page, which is accessible to everyone.
-    // But if they are logged in and on home page, we might want to redirect to dashboard?
-    // For now, let's keep home page accessible.
-
-    if (auth.userId) {
-      // We will handle role-based protection in the Layouts/Pages directly
-      // because sessionClaims doesn't include metadata by default without
-      // Clerk Dashboard configuration.
-      
-      // Allow access to all routes if logged in, but specific pages
-      // will check for the correct role.
-    }
-  },
-});
+export function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+  
+  // Allow all public routes
+  const publicRoutes = [
+    '/',
+    '/role-select',
+    '/citizen',
+    '/auth',
+    '/api'
+  ];
+  
+  // Check if the current path is public or starts with a public route
+  const isPublicRoute = publicRoutes.some(route => 
+    pathname === route || pathname.startsWith(`${route}/`)
+  );
+  
+  // Allow authority routes (they handle their own authentication)
+  if (pathname.startsWith('/authority')) {
+    return NextResponse.next();
+  }
+  
+  if (isPublicRoute) {
+    return NextResponse.next();
+  }
+  
+  return NextResponse.next();
+}
 
 export const config = {
   matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
