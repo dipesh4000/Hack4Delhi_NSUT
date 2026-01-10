@@ -1,0 +1,182 @@
+{
+    "zone": "Rohini",
+    "ward_number": "53",
+    "ward_name": "ROHINI-E",
+    "station_uid": 10117,
+    "generated_at_ist": "2026-01-11T00:48:37.624534+05:30",
+    "aqi": 226,
+    "idx": 10117,
+    "dominentpol": "pm25",
+    "city_name": "Shaheed Sukhdev College of Business Studies, Rohini, Delhi, Delhi, India",
+    "city_geo": [
+        28.732743,
+        77.118788
+    ],
+    "city_url": "https://aqicn.org/city/delhi/shaheed-sukhdev-college-of-business-studies--rohini",
+    "iaqi_pm25": 226,
+    "iaqi_pm10": 139,
+    "iaqi_no2": 14.1,
+    "iaqi_o3": 3,
+    "iaqi_so2": 1.5,
+    "iaqi_co": 7.5,
+    "timestamp_ist_iso": "2026-01-11T00:00:00+05:30",
+    "timestamp_ist_epoch": 1768069800,
+    "reading_date_ist": "2026-01-11",
+    "reading_time_ist": "00:00:00",
+    "time_raw": {
+        "s": "2026-01-11 00:00:00",
+        "tz": "+05:30",
+        "v": 1768089600,
+        "iso": "2026-01-11T00:00:00+05:30"
+    },
+    "forecast_daily_pm25": [
+        {
+            "avg": 167,
+            "day": "2026-01-09",
+            "max": 174,
+            "min": 159
+        },
+        {
+            "avg": 167,
+            "day": "2026-01-10",
+            "max": 174,
+            "min": 138
+        },
+        {
+            "avg": 161,
+            "day": "2026-01-11",
+            "max": 174,
+            "min": 138
+        },
+        {
+            "avg": 170,
+            "day": "2026-01-12",
+            "max": 174,
+            "min": 159
+        },
+        {
+            "avg": 172,
+            "day": "2026-01-13",
+            "max": 196,
+            "min": 138
+        },
+        {
+            "avg": 166,
+            "day": "2026-01-14",
+            "max": 174,
+            "min": 138
+        },
+        {
+            "avg": 162,
+            "day": "2026-01-15",
+            "max": 174,
+            "min": 138
+        },
+        {
+            "avg": 166,
+            "day": "2026-01-16",
+            "max": 174,
+            "min": 138
+        },
+        {
+            "avg": 172,
+            "day": "2026-01-17",
+            "max": 174,
+            "min": 152
+        }
+    ],
+    "forecast_daily_pm10": [
+        {
+            "avg": 66,
+            "day": "2026-01-09",
+            "max": 73,
+            "min": 58
+        },
+        {
+            "avg": 66,
+            "day": "2026-01-10",
+            "max": 73,
+            "min": 47
+        },
+        {
+            "avg": 63,
+            "day": "2026-01-11",
+            "max": 73,
+            "min": 46
+        },
+        {
+            "avg": 68,
+            "day": "2026-01-12",
+            "max": 73,
+            "min": 58
+        },
+        {
+            "avg": 71,
+            "day": "2026-01-13",
+            "max": 94,
+            "min": 46
+        },
+        {
+            "avg": 65,
+            "day": "2026-01-14",
+            "max": 73,
+            "min": 46
+        },
+        {
+            "avg": 62,
+            "day": "2026-01-15",
+            "max": 73,
+            "min": 46
+        },
+        {
+            "avg": 65,
+            "day": "2026-01-16",
+            "max": 73,
+            "min": 46
+        },
+        {
+            "avg": 71,
+            "day": "2026-01-17",
+            "max": 73,
+            "min": 52
+        }
+    ],
+    "forecast_daily_uvi": [
+        {
+            "avg": 1,
+            "day": "2026-01-10",
+            "max": 4,
+            "min": 0
+        },
+        {
+            "avg": 1,
+            "day": "2026-01-11",
+            "max": 4,
+            "min": 0
+        },
+        {
+            "avg": 1,
+            "day": "2026-01-12",
+            "max": 4,
+            "min": 0
+        },
+        {
+            "avg": 1,
+            "day": "2026-01-13",
+            "max": 4,
+            "min": 0
+        },
+        {
+            "avg": 1,
+            "day": "2026-01-14",
+            "max": 4,
+            "min": 0
+        },
+        {
+            "avg": 0,
+            "day": "2026-01-15",
+            "max": 0,
+            "min": 0
+        }
+    ]
+}
