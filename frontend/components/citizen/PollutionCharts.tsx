@@ -88,6 +88,10 @@ export default function PollutionCharts({ hourlyTrend, pollutants }: PollutionCh
               <Tooltip 
                 cursor={{ fill: '#F1F5F9' }}
                 contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)' }}
+                formatter={(value: any, name: any, props: any) => [
+                  `${value ?? 0} ${props.payload.unit || 'µg/m³'}`, 
+                  name
+                ]}
               />
               <Bar dataKey="value" radius={[0, 4, 4, 0]} barSize={20}>
                 {pollutants.map((entry, index) => (
