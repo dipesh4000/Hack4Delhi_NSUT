@@ -3,8 +3,8 @@
     "ward_number": "125",
     "ward_name": "CHHAWALA",
     "station_uid": 10120,
-    "generated_at_ist": "2026-01-11T01:14:36.710137+05:30",
-    "aqi": 194,
+    "generated_at_ist": "2026-01-12T00:18:39.935490+05:30",
+    "aqi": 168,
     "idx": 10120,
     "dominentpol": "pm25",
     "city_name": "Bramprakash Ayurvedic Hospital, Najafgarh, Delhi, Delhi, India",
@@ -13,21 +13,21 @@
         76.933433
     ],
     "city_url": "https://aqicn.org/city/delhi/bramprakash-ayurvedic-hospital--najafgarh",
-    "iaqi_pm25": 194,
-    "iaqi_pm10": 104,
-    "iaqi_no2": 33.3,
-    "iaqi_o3": 1.9,
-    "iaqi_so2": 0.5,
-    "iaqi_co": 8.2,
-    "timestamp_ist_iso": "2026-01-11T01:00:00+05:30",
-    "timestamp_ist_epoch": 1768073400,
+    "iaqi_pm25": 168,
+    "iaqi_pm10": 81,
+    "iaqi_no2": 37.7,
+    "iaqi_o3": 2.1,
+    "iaqi_so2": 0.6,
+    "iaqi_co": 5.7,
+    "timestamp_ist_iso": "2026-01-11T19:00:00+05:30",
+    "timestamp_ist_epoch": 1768138200,
     "reading_date_ist": "2026-01-11",
-    "reading_time_ist": "01:00:00",
+    "reading_time_ist": "19:00:00",
     "time_raw": {
-        "s": "2026-01-11 01:00:00",
+        "s": "2026-01-11 19:00:00",
         "tz": "+05:30",
-        "v": 1768093200,
-        "iso": "2026-01-11T01:00:00+05:30"
+        "v": 1768158000,
+        "iso": "2026-01-11T19:00:00+05:30"
     },
     "forecast_daily_pm25": [
         {
@@ -144,12 +144,6 @@
     "forecast_daily_uvi": [
         {
             "avg": 1,
-            "day": "2026-01-10",
-            "max": 4,
-            "min": 0
-        },
-        {
-            "avg": 1,
             "day": "2026-01-11",
             "max": 4,
             "min": 0
@@ -173,8 +167,14 @@
             "min": 0
         },
         {
-            "avg": 0,
+            "avg": 1,
             "day": "2026-01-15",
+            "max": 4,
+            "min": 0
+        },
+        {
+            "avg": 0,
+            "day": "2026-01-16",
             "max": 0,
             "min": 0
         }
