@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import AIChatbot from "@/components/ai/AIChatbot";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,6 +22,7 @@ export default function RootLayout({
       <html lang="en">
         <body className={cn(inter.className, "min-h-screen bg-slate-50 text-slate-900 antialiased")}>
           {children}
+          <AIChatbot />
         </body>
       </html>
     </ClerkProvider>
