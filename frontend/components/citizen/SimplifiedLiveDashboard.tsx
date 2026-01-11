@@ -6,6 +6,7 @@ import { AlertTriangle, Wind, Loader2, MapPin, Bell, Clock, Activity, Shield, Us
 import { cn } from "@/lib/utils";
 import { fetchWAQIData } from "@/lib/waqi-service";
 import { MOCK_WARD_DATA, WardData, getSeverity } from "@/lib/mock-data";
+import AIHealthAdvisory from "./AIHealthAdvisory";
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5001';
 
@@ -302,6 +303,11 @@ export default function SimplifiedLiveDashboard({ userName }: { userName: string
               <Users className="w-3 h-3" />
               Personal Advice
             </div>
+          </div>
+          
+          {/* AI Health Advisory */}
+          <div className="mb-6">
+            <AIHealthAdvisory aqi={data.aqi} wardId={selectedWard} />
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

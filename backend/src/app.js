@@ -9,6 +9,7 @@ const userRoutes = require('./routes/userRoutes');
 const authRoutes = require('./routes/authRoutes');
 const complaintRoutes = require('./routes/complaintRoutes');
 const pollutionRoutes = require('./routes/pollutionRoutes');
+const aiRoutes = require('./routes/aiRoutes');
 const connectDB = require('./config/database');
 const DataSchedulerService = require('./services/dataSchedulerService');
 
@@ -47,6 +48,9 @@ app.use('/api/complaints', complaintRoutes);
 
 // 7. Enhanced Pollution Routes
 app.use('/api/pollution', pollutionRoutes);
+
+// 8. AI Agent Routes
+app.use('/api/ai', aiRoutes);
 
 // Health Check
 app.get('/health', (req, res) => res.send('OK'));

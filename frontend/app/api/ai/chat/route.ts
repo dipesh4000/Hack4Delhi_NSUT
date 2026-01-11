@@ -1,4 +1,3 @@
-
 import { NextResponse } from 'next/server';
 import { generateGrokResponse, GrokMessage } from '@/lib/grok';
 

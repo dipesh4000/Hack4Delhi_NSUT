@@ -12,6 +12,8 @@ import {
   Target,
   Clock
 } from 'lucide-react';
+import AuthorityLayout from '@/components/authority/AuthorityLayout';
+import AIGovtAction from '@/components/authority/AIGovtAction';
 import dynamic from 'next/dynamic';
 
 const DelhiGeographicalMap = dynamic(() => import('@/components/maps/DelhiGeographicalMap'), {
@@ -307,6 +309,16 @@ export default function AuthorityDashboard() {
               <Shield className="w-6 h-6 text-blue-600" />
               <h3 className="text-lg font-semibold text-slate-900">GRAP Stage {grapStatus} Actions</h3>
             </div>
+            
+            {/* AI Government Action */}
+            <div className="mb-6">
+              <AIGovtAction 
+                aqi={avgAQI} 
+                wardId={selectedWard?.wardId} 
+                pollutionLevel={avgAQI > 300 ? 'severe' : avgAQI > 200 ? 'very_poor' : avgAQI > 100 ? 'poor' : 'moderate'} 
+              />
+            </div>
+            
             <div className="space-y-3">
               {getGrapActions(grapStatus).map((action, index) => (
                 <div key={index} className="flex items-center gap-3 p-3 bg-blue-50 rounded-lg">
