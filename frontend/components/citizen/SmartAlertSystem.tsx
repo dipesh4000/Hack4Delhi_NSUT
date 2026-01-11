@@ -58,55 +58,55 @@ export default function SmartAlertSystem({ data }: SmartAlertSystemProps) {
   const topStyles = getSeverityStyles(topAlert.severity);
 
   return (
-    <div className="w-full space-y-4 mb-6">
+    <div className="w-full space-y-3 mb-6">
       {/* Top Priority Alert */}
       <motion.div
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
-        className={`rounded-xl border ${topStyles.border} ${topStyles.bg} p-4 shadow-sm overflow-hidden relative`}
+        className={`rounded-2xl border ${topStyles.border} ${topStyles.bg} p-3 shadow-sm overflow-hidden relative`}
       >
-        {/* Severity Badge */}
-        <div className={`absolute top-0 right-0 px-3 py-1 rounded-bl-xl text-xs font-bold uppercase tracking-wider ${topStyles.button}`}>
-          {topAlert.severity} Alert
-        </div>
-
-        <div className="flex items-start gap-4">
-          <div className={`p-3 rounded-full bg-white shadow-sm ${topStyles.icon}`}>
-            <topAlert.icon size={24} />
+        <div className="flex items-center gap-3">
+          <div className={`p-2 rounded-xl bg-white shadow-sm ${topStyles.icon}`}>
+            <topAlert.icon size={20} />
           </div>
           
-          <div className="flex-1 pt-1">
-            <h3 className={`font-bold text-lg ${topStyles.text} mb-1 pr-20`}>
-              {topAlert.title}
-            </h3>
-            <p className={`text-sm ${topStyles.text} opacity-90 mb-3`}>
-              {topAlert.message}
-            </p>
-            
-            <div className="bg-white/60 rounded-lg p-3 text-sm font-medium flex items-start gap-2">
-              <ShieldAlert size={16} className={`mt-0.5 ${topStyles.icon}`} />
-              <span className={topStyles.text}>
-                <span className="font-bold">Action:</span> {topAlert.action}
+          <div className="flex-1">
+            <div className="flex justify-between items-center mb-0.5">
+              <h3 className={`font-black text-sm ${topStyles.text} uppercase tracking-tight`}>
+                {topAlert.title}
+              </h3>
+              <span className={`text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded-lg ${topStyles.button}`}>
+                {topAlert.severity}
               </span>
             </div>
+            <p className={`text-xs ${topStyles.text} opacity-80 line-clamp-1`}>
+              {topAlert.message}
+            </p>
           </div>
+        </div>
+
+        <div className="mt-3 flex items-center gap-2 bg-white/40 rounded-xl p-2 text-[11px] font-bold">
+          <ShieldAlert size={14} className={topStyles.icon} />
+          <span className={topStyles.text}>
+            Action: {topAlert.action}
+          </span>
         </div>
 
         {/* Expand Toggle for More Alerts */}
         {otherAlerts.length > 0 && (
           <button
             onClick={() => setExpanded(!expanded)}
-            className={`w-full mt-4 flex items-center justify-center gap-2 py-2 text-sm font-semibold rounded-lg transition-colors ${topStyles.button}`}
+            className={`w-full mt-2 flex items-center justify-center gap-2 py-1.5 text-[10px] font-black uppercase tracking-widest rounded-xl transition-colors ${topStyles.button}`}
           >
             {expanded ? (
               <>
-                <ChevronUp size={16} />
-                Hide {otherAlerts.length} Other Alerts
+                <ChevronUp size={14} />
+                Hide {otherAlerts.length} Alerts
               </>
             ) : (
               <>
-                <ChevronDown size={16} />
-                View {otherAlerts.length} More Alerts
+                <ChevronDown size={14} />
+                +{otherAlerts.length} More Alerts
               </>
             )}
           </button>

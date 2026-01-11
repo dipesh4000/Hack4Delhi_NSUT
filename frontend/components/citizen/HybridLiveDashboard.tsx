@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
 import { AlertTriangle, Wind, Loader2, MapPin, Bell, Clock, Activity, TrendingUp, Shield, Users, Zap, ArrowDown, ArrowUp, Minus, Droplets, CloudFog, Factory } from "lucide-react";
 import VideoAlertCard from './VideoAlertCard';
 import SmartAlertSystem from './SmartAlertSystem';
@@ -11,6 +12,8 @@ import { fetchWAQIData } from "@/lib/waqi-service";
 import { MOCK_WARD_DATA, WardData, getSeverity } from "@/lib/mock-data";
 import { usePollution } from "@/context/PollutionContext";
 import LocationStatusHeader from "./LocationStatusHeader";
+
+const WardMap = dynamic(() => import("./WardMap"), { ssr: false });
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5001';
 
@@ -370,9 +373,6 @@ export default function HybridLiveDashboard({ userName }: { userName: string }) 
           pollutants={data.pollutantComposition} 
         />
 
-        {/* Smart Alert System */}
-        <SmartAlertSystem data={data} />
-
         {/* Health Recommendations */}
         {data.health_recommendations && (
           <motion.div variants={itemVariants} className="bg-white/60 backdrop-blur-md p-8 rounded-[2.5rem] border border-white/20 shadow-xl">
@@ -454,30 +454,28 @@ export default function HybridLiveDashboard({ userName }: { userName: string }) 
               {locationName}
             </div>
           </div>
-          <div className="space-y-6">
-            {/* Top Row: 3 Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {data.pollutants.slice(0, 3).map((p) => (
-                <PollutantCard key={p.name} p={p} />
-              ))}
-            </div>
-            
-            {/* Bottom Row: Centered Remaining Cards */}
-            {data.pollutants.length > 3 && (
-              <div className="flex flex-wrap justify-center gap-6">
-                {data.pollutants.slice(3).map((p) => (
-                  <div key={p.name} className="w-full md:w-[calc(33.333%-1rem)]">
-                    <PollutantCard p={p} />
-                  </div>
-                ))}
-              </div>
-            )}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {data.pollutants.map((p) => (
+              <PollutantCard key={p.name} p={p} />
+            ))}
           </div>
         </motion.div>
+
+        {/* Smart Alert System - Moved below pollutants */}
+        <SmartAlertSystem data={data} />
       </div>
 
       {/* Right Sidebar */}
       <div className="lg:col-span-3 space-y-6">
+        {/* Ward Map */}
+        <motion.div variants={itemVariants} className="bg-white/60 backdrop-blur-md p-4 rounded-[2rem] border border-white/20 shadow-xl overflow-hidden h-[300px]">
+          <WardMap 
+            lat={data.coordinates?.lat || 28.61} 
+            lon={data.coordinates?.lon || 77.20} 
+            name={locationName} 
+          />
+        </motion.div>
+
         {/* Location Info */}
         <motion.div variants={itemVariants} className="bg-white/60 backdrop-blur-md p-6 rounded-[2rem] border border-white/20 shadow-xl">
           <div className="flex items-center gap-3 mb-6">
