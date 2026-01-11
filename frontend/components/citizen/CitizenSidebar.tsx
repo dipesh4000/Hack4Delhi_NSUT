@@ -1,6 +1,6 @@
 "use client";
 
-import { LayoutDashboard, MapPin, Bell, Settings, LogOut, HelpCircle, MessageSquarePlus, MessageSquare, LogIn } from "lucide-react";
+import { LayoutDashboard, MapPin, Bell, Settings, LogOut, HelpCircle, MessageSquarePlus, MessageSquare, LogIn, Heart, Coins, Mail } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -13,6 +13,9 @@ const MENU_ITEMS = [
   { icon: LayoutDashboard, label: "Dashboard", href: "/citizen" },
   { icon: MapPin, label: "Wards", href: "/citizen/wards" },
   { icon: Bell, label: "Alerts", href: "/citizen/alerts" },
+  { icon: Heart, label: "Health Calculator", href: "/citizen/health" },
+  { icon: Coins, label: "Pollution Credits", href: "/citizen/credits" },
+  { icon: Mail, label: "Email Alerts", href: "/citizen/alerts-manage" },
   { icon: MessageSquarePlus, label: "Raise Complaint", href: "/citizen/complaints" },
   { icon: MessageSquare, label: "Support", href: "/citizen/support" },
 ];

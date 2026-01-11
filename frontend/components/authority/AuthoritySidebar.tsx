@@ -1,6 +1,6 @@
 "use client";
 
-import { LayoutDashboard, MapPin, Users, FileText, Settings, LogOut, HelpCircle, LogIn, MessageSquare, Shield } from "lucide-react";
+import { LayoutDashboard, MapPin, Users, FileText, Settings, LogOut, HelpCircle, LogIn, MessageSquare, Shield, CheckCircle } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -16,6 +16,7 @@ const MENU_ITEMS = [
   { icon: FileText, label: "Reports", href: "/authority/reports" },
   { icon: MessageSquare, label: "Complaints", href: "/authority/complaints" },
   { icon: Shield, label: "GRAP Actions", href: "/authority/grap" },
+  { icon: CheckCircle, label: "Credit Approvals", href: "/authority/credits" },
 ];
 
 export default function AuthoritySidebar() {

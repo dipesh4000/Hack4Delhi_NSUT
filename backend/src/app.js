@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 const config = require('./config/env');
 const dashboardController = require('./controllers/dashboardController');
 const wardController = require('./controllers/wardController');
@@ -10,6 +11,8 @@ const authRoutes = require('./routes/authRoutes');
 const complaintRoutes = require('./routes/complaintRoutes');
 const pollutionRoutes = require('./routes/pollutionRoutes');
 const aiRoutes = require('./routes/aiRoutes');
+const alertsRoutes = require('./routes/alerts');
+const creditsRoutes = require('./routes/credits');
 const connectDB = require('./config/database');
 const DataSchedulerService = require('./services/dataSchedulerService');
 
@@ -24,6 +27,7 @@ const app = express();
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // Routes
 // Test endpoints
@@ -51,6 +55,12 @@ app.use('/api/pollution', pollutionRoutes);
 
 // 8. AI Agent Routes
 app.use('/api/ai', aiRoutes);
+
+// 9. Email Alerts Routes
+app.use('/api/alerts', alertsRoutes);
+
+// 10. Pollution Credits Routes
+app.use('/api/credits', creditsRoutes);
 
 // Health Check
 app.get('/health', (req, res) => res.send('OK'));

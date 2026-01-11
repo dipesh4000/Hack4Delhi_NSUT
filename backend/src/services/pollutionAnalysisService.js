@@ -246,7 +246,9 @@ class PollutionAnalysisService {
             health_recommendations: this.generateHealthRecommendations(wardData),
             optimal_times: this.predictOptimalTimes(wardData),
             grap_recommendations: this.generateGRAPRecommendations(wardData),
-            trends: this.pipeline.analyzePollutionTrends(wardData)
+            trends: this.pipeline.analyzePollutionTrends(wardData),
+            forecast_daily_pm25: wardData.forecast_daily_pm25 || [],
+            forecast_daily_pm10: wardData.forecast_daily_pm10 || []
         };
 
         return analysis;

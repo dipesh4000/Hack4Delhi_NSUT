@@ -41,6 +41,10 @@ const citizenUserSchema = new mongoose.Schema(
       },
       preferredWards: [Number], // List of ward IDs
     },
+    totalCredits: {
+      type: Number,
+      default: 0,
+    },
     metadata: {
       lastLogin: Date,
       loginCount: {

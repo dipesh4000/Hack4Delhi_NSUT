@@ -9,9 +9,10 @@ interface LocationStatusHeaderProps {
   aqi: number;
   severity: string;
   usingRealData: boolean;
+  onChangeLocation?: () => void;
 }
 
-export default function LocationStatusHeader({ locationName, aqi, severity, usingRealData }: LocationStatusHeaderProps) {
+export default function LocationStatusHeader({ locationName, aqi, severity, usingRealData, onChangeLocation }: LocationStatusHeaderProps) {
   const { scrollY } = useScroll();
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -47,7 +48,17 @@ export default function LocationStatusHeader({ locationName, aqi, severity, usin
           </div>
           <div>
             <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none">Monitoring</p>
-            <p className="text-sm font-black text-slate-900">{locationName}</p>
+            <div className="flex items-center gap-2">
+              <p className="text-sm font-black text-slate-900">{locationName}</p>
+              {onChangeLocation && (
+                <button 
+                  onClick={onChangeLocation}
+                  className="text-[10px] font-black text-blue-600 uppercase tracking-widest hover:underline"
+                >
+                  Change
+                </button>
+              )}
+            </div>
           </div>
         </div>
 

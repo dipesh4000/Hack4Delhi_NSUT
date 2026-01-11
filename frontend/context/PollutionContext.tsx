@@ -6,25 +6,41 @@ interface PollutionContextType {
   aqi: number;
   location: string;
   status: string;
-  updatePollutionData: (data: { aqi: number; location: string; status: string }) => void;
+  pollutants: any[];
+  dominantPollutant: string;
+  pollutionData: any;
+  updatePollutionData: (data: any) => void;
 }
 
 const PollutionContext = createContext<PollutionContextType | undefined>(undefined);
 
 export function PollutionProvider({ children }: { children: React.ReactNode }) {
-  const [data, setData] = useState({ 
+  const [data, setData] = useState<any>({ 
     aqi: 0, 
     location: 'Delhi', 
-    status: 'Unknown' 
+    status: 'Unknown',
+    pollutants: [],
+    dominantPollutant: 'PM2.5',
+    pollutionData: null
   });
 
-  const updatePollutionData = React.useCallback((newData: { aqi: number; location: string; status: string }) => {
-    setData(prev => {
-      // Only update if data actually changed to prevent unnecessary re-renders
-      if (prev.aqi === newData.aqi && prev.location === newData.location && prev.status === newData.status) {
-        return prev;
-      }
-      return newData;
+  const updatePollutionData = React.useCallback((newData: any) => {
+    setData((prev: any) => {
+      const aqi = newData.aqi ?? prev.aqi;
+      const location = newData.name || newData.location || prev.location;
+      const status = newData.status || prev.status;
+      const pollutants = newData.pollutantComposition || newData.pollutants || prev.pollutants || [];
+      const dominantPollutant = newData.dominantPollutant || prev.dominantPollutant;
+      
+      return {
+        ...prev,
+        aqi,
+        location,
+        status,
+        pollutants,
+        dominantPollutant,
+        pollutionData: newData
+      };
     });
   }, []);
 

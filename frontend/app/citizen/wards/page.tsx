@@ -123,49 +123,75 @@ export default function EnhancedWardsPage() {
   const fetchWards = async () => {
     try {
       setLoading(true);
+      console.log('Fetching wards from:', `${BACKEND_URL}/api/pollution/wards`);
       
-      // Generate wards with actual names, coordinates, and rankings
-      const generatedWards: Ward[] = DELHI_WARDS.map((name, index) => {
-        const wardId = (index + 1).toString();
-        const aqi = Math.floor(Math.random() * 350) + 50;
-        const zones = ['Central Zone', 'Najafgarh Zone', 'Civil Line', 'Karolbagh', 'Keshavpuram', 'Narela', 'Rohini'];
-        const coordinates = WARD_COORDINATES[name] || { 
-          lat: 28.6139 + (Math.random() - 0.5) * 0.5, 
-          lng: 77.2090 + (Math.random() - 0.5) * 0.5 
-        };
+      // Fetch real ward data from backend
+      const response = await fetch(`${BACKEND_URL}/api/pollution/wards`);
+      
+      console.log('Response status:', response.status);
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Response error:', errorText);
+        throw new Error(`Failed to fetch ward data: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      console.log('Received data:', data);
+      
+      if (!data.success || !data.data?.wards) {
+        console.error('Invalid response format:', data);
+        throw new Error('Invalid response format');
+      }
+      
+      console.log('Number of wards:', data.data.wards.length);
+      
+      // Map backend data to Ward interface
+      const wardsData: Ward[] = data.data.wards.map((wardData: any) => {
+        const wardNumber = wardData.ward_number;
+        const wardName = wardData.ward_name;
+        const aqi = wardData.aqi || 0;
+        
+        // Get coordinates from mapping or use from backend
+        const coordinates = WARD_COORDINATES[wardName] || 
+          (wardData.city_geo ? { lat: wardData.city_geo[0], lng: wardData.city_geo[1] } : 
+          { lat: 28.6139, lng: 77.2090 });
         
         return {
-          wardId,
-          wardName: name,
-          aqi,
+          wardId: wardNumber,
+          wardName: wardName,
+          aqi: aqi,
           status: getStatusFromAQI(aqi),
-          sourceStation: `${name} Monitoring Station`,
-          zone: zones[Math.floor(Math.random() * zones.length)],
+          sourceStation: wardData.city_name || `${wardName} Monitoring Station`,
+          zone: wardData.zone || 'Unknown Zone',
           ranking: 0, // Will be set after sorting
           coordinates,
           officer: {
-            name: `Officer ${name.split(' ')[0]}`,
-            contact: `+91 98765${wardId.padStart(5, '0')}`,
-            address: `Ward Office, ${name}, Delhi`
+            name: `Ward Officer ${wardName.split(' ')[0]}`,
+            contact: `+91 98765${wardNumber.padStart(5, '0')}`,
+            address: `Ward Office, ${wardName}, Delhi`
           },
           pollutionSources: {
-            vehicular: Math.floor(Math.random() * 50) + 20,
-            industrial: Math.floor(Math.random() * 40) + 10,
-            construction: Math.floor(Math.random() * 30) + 5,
-            residential: Math.floor(Math.random() * 25) + 5
+            vehicular: Math.floor((wardData.iaqi_no2 || 20) / 2),
+            industrial: Math.floor((wardData.iaqi_so2 || 10) * 2),
+            construction: Math.floor((wardData.iaqi_pm10 || 50) / 3),
+            residential: Math.floor((wardData.iaqi_co || 5) * 2)
           }
         };
       });
 
       // Sort by AQI (best to worst) and assign rankings
-      const sortedWards = generatedWards.sort((a, b) => a.aqi - b.aqi);
+      const sortedWards = wardsData.sort((a, b) => a.aqi - b.aqi);
       sortedWards.forEach((ward, index) => {
         ward.ranking = index + 1;
       });
 
+      console.log('Processed wards:', sortedWards.length);
       setWards(sortedWards);
     } catch (error) {
       console.error('Error fetching wards:', error);
+      // Fallback to empty state or show error message
+      setWards([]);
     } finally {
       setLoading(false);
     }

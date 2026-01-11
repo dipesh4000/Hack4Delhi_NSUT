@@ -10,7 +10,7 @@ class PollutionController {
     }
 
     // Get comprehensive ward analysis
-    async getWardAnalysis(req, res) {
+    getWardAnalysis = async (req, res) => {
         try {
             const { wardNumber } = req.params;
             
@@ -46,7 +46,7 @@ class PollutionController {
     }
 
     // Get pollution hotspots
-    async getHotspots(req, res) {
+    getHotspots = async (req, res) => {
         try {
             const limit = parseInt(req.query.limit) || 10;
             const hotspots = await this.analysisService.getHotspotAnalysis(limit);
@@ -67,7 +67,7 @@ class PollutionController {
     }
 
     // Get zone-wise summary
-    async getZoneSummary(req, res) {
+    getZoneSummary = async (req, res) => {
         try {
             const zoneSummary = await this.pipeline.getZoneSummary();
 
@@ -87,7 +87,7 @@ class PollutionController {
     }
 
     // Get daily pollution report
-    async getDailyReport(req, res) {
+    getDailyReport = async (req, res) => {
         try {
             const report = await this.analysisService.generateDailyReport();
 
@@ -107,7 +107,7 @@ class PollutionController {
     }
 
     // Get all wards data with optional filtering
-    async getAllWards(req, res) {
+    getAllWards = async (req, res) => {
         try {
             const { zone, minAqi, maxAqi, pollutant } = req.query;
             let wards = await this.pipeline.getAllWardsData();
@@ -153,7 +153,7 @@ class PollutionController {
     }
 
     // Get pollution trends for a ward
-    async getWardTrends(req, res) {
+    getWardTrends = async (req, res) => {
         try {
             const { wardNumber } = req.params;
             const wardData = await this.pipeline.getWardData(parseInt(wardNumber));
@@ -193,7 +193,7 @@ class PollutionController {
     }
 
     // Get health recommendations for a ward
-    async getHealthRecommendations(req, res) {
+    getHealthRecommendations = async (req, res) => {
         try {
             const { wardNumber } = req.params;
             const wardData = await this.pipeline.getWardData(parseInt(wardNumber));
@@ -229,7 +229,7 @@ class PollutionController {
     }
 
     // Get pollution sources analysis
-    async getPollutionSources(req, res) {
+    getPollutionSources = async (req, res) => {
         try {
             const { wardNumber } = req.params;
             const wardData = await this.pipeline.getWardData(parseInt(wardNumber));
@@ -273,7 +273,7 @@ class PollutionController {
     }
 
     // Trigger manual data update
-    async triggerDataUpdate(req, res) {
+    triggerDataUpdate = async (req, res) => {
         try {
             const result = await this.scheduler.triggerDataUpdate();
 
@@ -294,7 +294,7 @@ class PollutionController {
     }
 
     // Get system health status
-    async getSystemHealth(req, res) {
+    getSystemHealth = async (req, res) => {
         try {
             const health = await this.scheduler.healthCheck();
 
@@ -314,7 +314,7 @@ class PollutionController {
     }
 
     // Get comparative analysis between wards
-    async getComparativeAnalysis(req, res) {
+    getComparativeAnalysis = async (req, res) => {
         try {
             const { wardNumbers } = req.body;
             

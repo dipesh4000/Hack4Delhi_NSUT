@@ -6,12 +6,14 @@ import { AlertTriangle, Wind, Loader2, MapPin, Bell, Clock, Activity, TrendingUp
 import VideoAlertCard from './VideoAlertCard';
 import SmartAlertSystem from './SmartAlertSystem';
 import PollutionCharts from './PollutionCharts';
+import EmailAlerts from './EmailAlerts';
 import { motion } from 'framer-motion';
 import { cn } from "@/lib/utils";
 import { fetchWAQIData } from "@/lib/waqi-service";
 import { MOCK_WARD_DATA, WardData, getSeverity } from "@/lib/mock-data";
 import { usePollution } from "@/context/PollutionContext";
 import LocationStatusHeader from "./LocationStatusHeader";
+import WardSelector from "./WardSelector";
 
 const WardMap = dynamic(() => import("./WardMap"), { ssr: false });
 
@@ -37,6 +39,18 @@ interface EnhancedWardData extends WardData {
     improvement_expected: boolean;
     description?: string;
   };
+  forecast_daily_pm25?: Array<{
+    avg: number;
+    day: string;
+    max: number;
+    min: number;
+  }>;
+  forecast_daily_pm10?: Array<{
+    avg: number;
+    day: string;
+    max: number;
+    min: number;
+  }>;
   dominantPollutant?: string;
   status?: string;
 }
@@ -86,25 +100,39 @@ const PollutantCard = ({ p }: { p: any }) => {
 
   return (
     <div className={cn(
-      "p-6 rounded-3xl border shadow-sm bg-gradient-to-br transition-all duration-300 hover:shadow-md hover:scale-[1.02]",
+      "group relative p-6 rounded-3xl border-2 shadow-lg bg-gradient-to-br transition-all duration-300",
+      "hover:shadow-2xl hover:scale-105 hover:-translate-y-1 cursor-pointer",
       getGradient(p.status)
     )}>
-      <div className="flex justify-between items-start mb-4">
-        <div className={cn("p-2 rounded-xl bg-white shadow-sm", 
-          p.status === 'Severe' || p.status === 'Poor' || p.status === 'Very Poor' || p.status === 'Hazardous' ? 'text-red-600' :
-          p.status === 'Moderate' ? 'text-amber-600' : 'text-emerald-600'
-        )}>
-          {getIcon(p.name)}
+      {/* Decorative gradient overlay */}
+      <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-white/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      
+      <div className="relative z-10">
+        <div className="flex justify-between items-start mb-4">
+          <div className={cn(
+            "p-3 rounded-2xl bg-white shadow-md transition-all duration-300",
+            "group-hover:scale-110 group-hover:rotate-3",
+            p.status === 'Severe' || p.status === 'Poor' || p.status === 'Very Poor' || p.status === 'Hazardous' ? 'text-red-600' :
+            p.status === 'Moderate' ? 'text-amber-600' : 'text-emerald-600'
+          )}>
+            {getIcon(p.name)}
+          </div>
+          <div className={cn(
+            "px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-sm",
+            "transition-all duration-300 group-hover:scale-105",
+            getStatusColor(p.status)
+          )}>
+            {p.status}
+          </div>
         </div>
-        <div className={cn("px-2 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest", getStatusColor(p.status))}>
-          {p.status}
-        </div>
-      </div>
-      <div className="text-left">
-        <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">{p.name}</h4>
-        <div className="flex items-baseline gap-1">
-          <span className="text-3xl font-black text-slate-900">{p.value || 'N/A'}</span>
-          <span className="text-xs font-bold text-slate-400">{p.unit}</span>
+        <div className="text-left">
+          <h4 className="text-xs font-bold text-slate-600 uppercase tracking-wider mb-2">{p.name}</h4>
+          <div className="flex items-baseline gap-2">
+            <span className="text-4xl font-black text-slate-900 transition-all duration-300 group-hover:text-5xl">
+              {p.value || 'N/A'}
+            </span>
+            <span className="text-sm font-bold text-slate-500">{p.unit}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -119,6 +147,7 @@ export default function HybridLiveDashboard({ userName }: { userName: string }) 
   const [locationName, setLocationName] = useState(MOCK_WARD_DATA.name);
   const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
   const [selectedWard, setSelectedWard] = useState<string>('123');
+  const [showWardSelector, setShowWardSelector] = useState(false);
 
   const fetchEnhancedData = async (wardNumber: string) => {
     try {
@@ -135,23 +164,62 @@ export default function HybridLiveDashboard({ userName }: { userName: string }) 
             ...MOCK_WARD_DATA,
             name: pollutionData.ward_info.ward_name,
             aqi: pollutionData.current_status.aqi,
-            status: pollutionData.current_status.category.level,
-            dominantPollutant: pollutionData.current_status.dominant_pollutant.toUpperCase(),
+            status: getSeverity(pollutionData.current_status.aqi),
+            dominantPollutant: (pollutionData.current_status.dominant_pollutant || 'pm25').toUpperCase(),
             pollutants: [
-              { name: "PM2.5", value: pollutionData.current_status.pollutant_levels.pm25, unit: "µg/m³", status: "Severe", change: "+5%" },
-              { name: "PM10", value: pollutionData.current_status.pollutant_levels.pm10, unit: "µg/m³", status: "Moderate", change: "+2%" },
-              { name: "NO2", value: pollutionData.current_status.pollutant_levels.no2, unit: "µg/m³", status: "Good", change: "-1%" },
-              { name: "O3", value: pollutionData.current_status.pollutant_levels.o3, unit: "µg/m³", status: "Good", change: "+3%" },
-              { name: "SO2", value: pollutionData.current_status.pollutant_levels.so2, unit: "µg/m³", status: "Good", change: "0%" },
-              { name: "CO", value: pollutionData.current_status.pollutant_levels.co, unit: "mg/m³", status: "Good", change: "-2%" }
+              { 
+                name: "PM2.5", 
+                value: pollutionData.current_status.pollutant_levels.pm25, 
+                unit: "µg/m³", 
+                status: getSeverity(pollutionData.current_status.pollutant_levels.pm25),
+                change: "+5%" 
+              },
+              { 
+                name: "PM10", 
+                value: pollutionData.current_status.pollutant_levels.pm10, 
+                unit: "µg/m³", 
+                status: getSeverity(pollutionData.current_status.pollutant_levels.pm10),
+                change: "+2%" 
+              },
+              { 
+                name: "NO2", 
+                value: pollutionData.current_status.pollutant_levels.no2, 
+                unit: "µg/m³", 
+                status: getSeverity(pollutionData.current_status.pollutant_levels.no2),
+                change: "-1%" 
+              },
+              { 
+                name: "O3", 
+                value: pollutionData.current_status.pollutant_levels.o3, 
+                unit: "µg/m³", 
+                status: getSeverity(pollutionData.current_status.pollutant_levels.o3),
+                change: "+3%" 
+              },
+              { 
+                name: "SO2", 
+                value: pollutionData.current_status.pollutant_levels.so2, 
+                unit: "µg/m³", 
+                status: getSeverity(pollutionData.current_status.pollutant_levels.so2),
+                change: "0%" 
+              },
+              { 
+                name: "CO", 
+                value: pollutionData.current_status.pollutant_levels.co, 
+                unit: "mg/m³", 
+                status: getSeverity(pollutionData.current_status.pollutant_levels.co), // CO levels are already IAQI
+                change: "-2%" 
+              }
             ],
             pollution_sources: pollutionData.pollution_sources,
             health_recommendations: pollutionData.health_recommendations,
             trends: pollutionData.trends,
+            forecast_daily_pm25: pollutionData.forecast_daily_pm25,
+            forecast_daily_pm10: pollutionData.forecast_daily_pm10,
             lastUpdated: new Date(pollutionData.ward_info.last_updated).toLocaleTimeString()
           };
           
           setData(enhancedData);
+          setLocationName(pollutionData.ward_info.ward_name);
           setUsingRealData(true);
           setLastUpdated(new Date());
           return;
@@ -212,13 +280,9 @@ export default function HybridLiveDashboard({ userName }: { userName: string }) 
     }
   };
 
-  // Update global context for Chatbot
+  // Update global context for Chatbot and other pages
   useEffect(() => {
-    updatePollutionData({
-      aqi: data.aqi,
-      location: data.name,
-      status: getSeverity(data.aqi)
-    });
+    updatePollutionData(data);
   }, [data, updatePollutionData]);
 
   // Initial Data Fetch
@@ -282,6 +346,18 @@ export default function HybridLiveDashboard({ userName }: { userName: string }) 
         aqi={data.aqi} 
         severity={severity} 
         usingRealData={usingRealData} 
+        onChangeLocation={() => setShowWardSelector(true)}
+      />
+
+      <WardSelector 
+        isOpen={showWardSelector}
+        onClose={() => setShowWardSelector(false)}
+        currentWardNumber={selectedWard}
+        onSelect={(wardNumber, wardName) => {
+          setSelectedWard(wardNumber);
+          localStorage.setItem('userWard', wardNumber);
+          fetchEnhancedData(wardNumber);
+        }}
       />
       {/* Left Main Content */}
       <div className="lg:col-span-9 space-y-8">

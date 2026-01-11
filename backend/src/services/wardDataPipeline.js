@@ -7,8 +7,8 @@ class WardDataPipeline {
     constructor() {
         this.API_KEY = config.WAQI_TOKEN || process.env.WAQI_TOKEN || process.env.aqicn_api;
         this.BASE_URL = "https://api.waqi.info/feed/@{uid}/?token={token}";
-        this.CSV_PATH = path.join(__dirname, '../../../data-pipeline/dynamic_ward_data/Ward_monitoring.csv');
-        this.OUTPUT_DIR = path.join(__dirname, '../../../data-pipeline/dynamic_ward_data');
+        this.CSV_PATH = path.join(__dirname, '../../../data-pipeline/ward_data/data_source/Ward_monitoring.csv');
+        this.OUTPUT_DIR = path.join(__dirname, '../../../data-pipeline/ward_data/dynamic_ward_data');
         
         if (!this.API_KEY) {
             throw new Error("WAQI API key not found in environment variables");
