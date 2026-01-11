@@ -19,11 +19,11 @@ import {
   Flag,
   ArrowRight
 } from 'lucide-react';
-import AuthorityLayout from '@/components/authority/AuthorityLayout';
 
 interface Complaint {
-  id: string;
-  title: string;
+  _id: string;
+  userId: string;
+  userName: string;
   description: string;
   category: 'air_quality' | 'industrial' | 'vehicular' | 'construction' | 'burning' | 'other';
   priority: 'low' | 'medium' | 'high' | 'critical';
@@ -31,16 +31,16 @@ interface Complaint {
   wardId: string;
   wardName: string;
   location: {
-    lat: number;
-    lng: number;
+    latitude: number;
+    longitude: number;
     address: string;
   };
-  citizen: {
+  citizen?: {
     name: string;
-    phone: string;
-    email: string;
+    phone?: string;
+    email?: string;
   };
-  attachments: string[];
+  imageUrl: string;
   createdAt: string;
   updatedAt: string;
   assignedOfficer?: string;
@@ -63,108 +63,61 @@ export default function ComplaintsPage() {
 
   useEffect(() => {
     fetchComplaints();
-  }, []);
-
-  useEffect(() => {
-    filterComplaints();
-  }, [complaints, filters, searchTerm]);
+  }, [filters, searchTerm]);
 
   const fetchComplaints = async () => {
     try {
       setLoading(true);
       
-      // Generate sample complaints data
-      const sampleComplaints: Complaint[] = Array.from({ length: 50 }, (_, index) => {
-        const categories = ['air_quality', 'industrial', 'vehicular', 'construction', 'burning', 'other'] as const;
-        const priorities = ['low', 'medium', 'high', 'critical'] as const;
-        const statuses = ['pending', 'investigating', 'in_progress', 'resolved', 'closed'] as const;
-        
-        const wardId = Math.floor(Math.random() * 250) + 1;
-        const category = categories[Math.floor(Math.random() * categories.length)];
-        const priority = priorities[Math.floor(Math.random() * priorities.length)];
-        const status = statuses[Math.floor(Math.random() * statuses.length)];
-        
-        const complaintTitles = {
-          air_quality: ['High pollution levels in area', 'Smog affecting visibility', 'Breathing difficulties due to air quality'],
-          industrial: ['Factory emissions causing pollution', 'Industrial waste burning', 'Chemical smell from factory'],
-          vehicular: ['Heavy traffic causing pollution', 'Diesel vehicles emitting black smoke', 'Traffic congestion increasing pollution'],
-          construction: ['Construction dust pollution', 'Illegal construction activities', 'Dust from building demolition'],
-          burning: ['Garbage burning in open area', 'Crop residue burning', 'Plastic burning causing toxic fumes'],
-          other: ['General pollution complaint', 'Environmental concern', 'Air quality deterioration']
-        };
-
-        return {
-          id: `COMP-${(index + 1).toString().padStart(4, '0')}`,
-          title: complaintTitles[category][Math.floor(Math.random() * complaintTitles[category].length)],
-          description: `Detailed description of the ${category} issue affecting the local area. Citizens are experiencing health issues and requesting immediate action.`,
-          category,
-          priority,
-          status,
-          wardId: wardId.toString(),
-          wardName: `Ward ${wardId}`,
-          location: {
-            lat: 28.6139 + (Math.random() - 0.5) * 0.5,
-            lng: 77.2090 + (Math.random() - 0.5) * 0.5,
-            address: `Sector ${Math.floor(Math.random() * 50) + 1}, Ward ${wardId}, Delhi`
-          },
-          citizen: {
-            name: `Citizen ${index + 1}`,
-            phone: `+91 98765${(index + 1).toString().padStart(5, '0')}`,
-            email: `citizen${index + 1}@email.com`
-          },
-          attachments: Math.random() > 0.5 ? [`photo_${index + 1}.jpg`] : [],
-          createdAt: new Date(Date.now() - Math.random() * 7 * 24 * 60 * 60 * 1000).toISOString(),
-          updatedAt: new Date(Date.now() - Math.random() * 24 * 60 * 60 * 1000).toISOString(),
-          assignedOfficer: status !== 'pending' ? `Officer ${Math.floor(Math.random() * 10) + 1}` : undefined,
-          estimatedResolution: status === 'in_progress' ? new Date(Date.now() + Math.random() * 7 * 24 * 60 * 60 * 1000).toISOString() : undefined,
-          resolutionNotes: status === 'resolved' ? 'Issue has been resolved through appropriate measures.' : undefined
-        };
-      });
-
-      setComplaints(sampleComplaints);
+      // Build query params
+      const params = new URLSearchParams();
+      if (filters.status !== 'all') params.append('status', filters.status);
+      if (filters.priority !== 'all') params.append('priority', filters.priority);
+      if (filters.category !== 'all') params.append('category', filters.category);
+      if (filters.ward !== 'all') params.append('ward', filters.ward);
+      if (searchTerm) params.append('search', searchTerm);
+      
+      const response = await fetch(`/api/complaints?${params.toString()}`);
+      
+      if (response.ok) {
+        const data = await response.json();
+        setComplaints(data.complaints || []);
+        setFilteredComplaints(data.complaints || []);
+      } else {
+        console.error('Failed to fetch complaints');
+        setComplaints([]);
+        setFilteredComplaints([]);
+      }
     } catch (error) {
       console.error('Error fetching complaints:', error);
+      setComplaints([]);
+      setFilteredComplaints([]);
     } finally {
       setLoading(false);
     }
   };
 
-  const filterComplaints = () => {
-    let filtered = complaints;
 
-    // Apply filters
-    if (filters.status !== 'all') {
-      filtered = filtered.filter(c => c.status === filters.status);
-    }
-    if (filters.priority !== 'all') {
-      filtered = filtered.filter(c => c.priority === filters.priority);
-    }
-    if (filters.category !== 'all') {
-      filtered = filtered.filter(c => c.category === filters.category);
-    }
-    if (filters.ward !== 'all') {
-      filtered = filtered.filter(c => c.wardId === filters.ward);
-    }
 
-    // Apply search
-    if (searchTerm) {
-      filtered = filtered.filter(c => 
-        c.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        c.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        c.wardName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        c.citizen.name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
+  const updateComplaintStatus = async (complaintId: string, newStatus: Complaint['status']) => {
+    try {
+      const response = await fetch(`/api/complaints/${complaintId}/status`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ status: newStatus }),
+      });
+
+      if (response.ok) {
+        // Refresh complaints after successful update
+        fetchComplaints();
+      } else {
+        console.error('Failed to update complaint status');
+      }
+    } catch (error) {
+      console.error('Error updating complaint status:', error);
     }
-
-    setFilteredComplaints(filtered);
-  };
-
-  const updateComplaintStatus = (complaintId: string, newStatus: Complaint['status']) => {
-    setComplaints(prev => prev.map(c => 
-      c.id === complaintId 
-        ? { ...c, status: newStatus, updatedAt: new Date().toISOString() }
-        : c
-    ));
   };
 
   const getPriorityColor = (priority: string) => {
@@ -207,20 +160,17 @@ export default function ComplaintsPage() {
 
   if (loading) {
     return (
-      <AuthorityLayout>
-        <div className="flex items-center justify-center min-h-[50vh]">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600 mx-auto mb-4"></div>
-            <p className="text-slate-600">Loading complaints...</p>
-          </div>
+      <div className="flex items-center justify-center min-h-[50vh]">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600 mx-auto mb-4"></div>
+          <p className="text-slate-600">Loading complaints...</p>
         </div>
-      </AuthorityLayout>
+      </div>
     );
   }
 
   return (
-    <AuthorityLayout>
-      <div className="space-y-6">
+    <div className="space-y-6">
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <motion.div 
@@ -330,17 +280,17 @@ export default function ComplaintsPage() {
             <div className="max-h-[600px] overflow-y-auto">
               {filteredComplaints.map((complaint) => (
                 <div
-                  key={complaint.id}
+                  key={complaint._id}
                   onClick={() => setSelectedComplaint(complaint)}
                   className={`p-4 border-b border-slate-100 cursor-pointer hover:bg-slate-50 transition-colors ${
-                    selectedComplaint?.id === complaint.id ? 'bg-red-50 border-red-100' : ''
+                    selectedComplaint?._id === complaint._id ? 'bg-red-50 border-red-100' : ''
                   }`}
                 >
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-2">
                         <span className="text-lg">{getCategoryIcon(complaint.category)}</span>
-                        <h4 className="font-medium text-slate-900">{complaint.title}</h4>
+                        <h4 className="font-medium text-slate-900 line-clamp-1">{complaint.description.substring(0, 60)}...</h4>
                         <span className={`text-xs px-2 py-1 rounded-full font-medium ${getPriorityColor(complaint.priority)}`}>
                           {complaint.priority.toUpperCase()}
                         </span>
@@ -353,7 +303,7 @@ export default function ComplaintsPage() {
                         </span>
                         <span className="flex items-center gap-1">
                           <User size={12} />
-                          {complaint.citizen.name}
+                          {complaint.citizen?.name || complaint.userName || 'Anonymous'}
                         </span>
                         <span className="flex items-center gap-1">
                           <Clock size={12} />
@@ -379,9 +329,18 @@ export default function ComplaintsPage() {
                 <div>
                   <div className="flex items-center gap-2 mb-2">
                     <span className="text-2xl">{getCategoryIcon(selectedComplaint.category)}</span>
-                    <h3 className="text-lg font-semibold text-slate-900">{selectedComplaint.title}</h3>
+                    <h3 className="text-lg font-semibold text-slate-900 line-clamp-2">{selectedComplaint.description.substring(0, 100)}</h3>
                   </div>
                   <p className="text-sm text-slate-600 mb-4">{selectedComplaint.description}</p>
+                  
+                  {/* Show image if available */}
+                  {selectedComplaint.imageUrl && (
+                    <img 
+                      src={selectedComplaint.imageUrl} 
+                      alt="Complaint evidence" 
+                      className="w-full rounded-lg mb-4 max-h-64 object-cover"
+                    />
+                  )}
                   
                   <div className="flex gap-2 mb-4">
                     <span className={`text-xs px-2 py-1 rounded-full font-medium ${getPriorityColor(selectedComplaint.priority)}`}>
@@ -399,20 +358,23 @@ export default function ComplaintsPage() {
                   <div className="space-y-2">
                     <div className="flex items-center gap-2 text-sm">
                       <User size={16} className="text-slate-400" />
-                      <span className="text-slate-600">{selectedComplaint.citizen.name}</span>
+                      <span className="text-slate-600">{selectedComplaint.citizen?.name || selectedComplaint.userName || 'Anonymous'}</span>
                     </div>
-                    <div className="flex items-center gap-2 text-sm">
-                      <Phone size={16} className="text-slate-400" />
-                      <span className="text-slate-600">{selectedComplaint.citizen.phone}</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm">
-                      <Mail size={16} className="text-slate-400" />
-                      <span className="text-slate-600">{selectedComplaint.citizen.email}</span>
-                    </div>
+                    {selectedComplaint.citizen?.phone && (
+                      <div className="flex items-center gap-2 text-sm">
+                        <Phone size={16} className="text-slate-400" />
+                        <span className="text-slate-600">{selectedComplaint.citizen.phone}</span>
+                      </div>
+                    )}
+                    {selectedComplaint.citizen?.email && (
+                      <div className="flex items-center gap-2 text-sm">
+                        <Mail size={16} className="text-slate-400" />
+                        <span className="text-slate-600">{selectedComplaint.citizen.email}</span>
+                      </div>
+                    )}
                   </div>
                 </div>
 
-                {/* Location */}
                 <div className="border-t border-slate-200 pt-4">
                   <h4 className="font-medium text-slate-900 mb-3">Location</h4>
                   <div className="flex items-start gap-2 text-sm">
@@ -427,7 +389,7 @@ export default function ComplaintsPage() {
                   <div className="space-y-2">
                     {selectedComplaint.status === 'pending' && (
                       <button
-                        onClick={() => updateComplaintStatus(selectedComplaint.id, 'investigating')}
+                        onClick={() => updateComplaintStatus(selectedComplaint._id, 'investigating')}
                         className="w-full py-2 px-4 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors text-sm font-medium"
                       >
                         Start Investigation
@@ -435,7 +397,7 @@ export default function ComplaintsPage() {
                     )}
                     {selectedComplaint.status === 'investigating' && (
                       <button
-                        onClick={() => updateComplaintStatus(selectedComplaint.id, 'in_progress')}
+                        onClick={() => updateComplaintStatus(selectedComplaint._id, 'in_progress')}
                         className="w-full py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
                       >
                         Mark In Progress
@@ -443,15 +405,26 @@ export default function ComplaintsPage() {
                     )}
                     {selectedComplaint.status === 'in_progress' && (
                       <button
-                        onClick={() => updateComplaintStatus(selectedComplaint.id, 'resolved')}
+                        onClick={() => updateComplaintStatus(selectedComplaint._id, 'resolved')}
                         className="w-full py-2 px-4 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm font-medium"
                       >
                         Mark Resolved
                       </button>
                     )}
-                    <button className="w-full py-2 px-4 bg-slate-600 text-white rounded-lg hover:bg-slate-700 transition-colors text-sm font-medium">
-                      Contact Citizen
-                    </button>
+                    <div className="flex gap-2 mt-2">
+                      <a 
+                        href={`mailto:${selectedComplaint.citizen?.email || ''}`}
+                        className={`flex-1 py-2 px-4 bg-slate-100 text-slate-700 rounded-lg hover:bg-slate-200 transition-colors text-sm font-medium text-center flex items-center justify-center gap-2 ${!selectedComplaint.citizen?.email ? 'opacity-50 pointer-events-none' : ''}`}
+                      >
+                        <Mail size={16} /> Email
+                      </a>
+                      <a 
+                        href={`tel:${selectedComplaint.citizen?.phone || ''}`}
+                        className={`flex-1 py-2 px-4 bg-slate-100 text-slate-700 rounded-lg hover:bg-slate-200 transition-colors text-sm font-medium text-center flex items-center justify-center gap-2 ${!selectedComplaint.citizen?.phone ? 'opacity-50 pointer-events-none' : ''}`}
+                      >
+                        <Phone size={16} /> Call
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -464,6 +437,5 @@ export default function ComplaintsPage() {
           </div>
         </div>
       </div>
-    </AuthorityLayout>
   );
 }

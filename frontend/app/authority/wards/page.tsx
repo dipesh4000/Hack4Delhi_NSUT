@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Download, MapPin, TrendingUp, AlertTriangle, Activity } from 'lucide-react';
-import AuthorityLayout from '@/components/authority/AuthorityLayout';
 import dynamic from 'next/dynamic';
 
 const WardGeographicalMap = dynamic(() => import('@/components/maps/WardGeographicalMap'), {
@@ -104,20 +103,17 @@ export default function WardAnalysisPage() {
 
   if (loading) {
     return (
-      <AuthorityLayout>
-        <div className="flex items-center justify-center min-h-[50vh]">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600 mx-auto mb-4"></div>
-            <p className="text-slate-600">Loading Ward Analysis...</p>
-          </div>
+      <div className="flex items-center justify-center min-h-[50vh]">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600 mx-auto mb-4"></div>
+          <p className="text-slate-600">Loading Ward Analysis...</p>
         </div>
-      </AuthorityLayout>
+      </div>
     );
   }
 
   return (
-    <AuthorityLayout>
-      <div className="space-y-6 min-h-screen">
+    <div className="space-y-6 min-h-screen">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           {/* Ward Selection */}
           <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
@@ -235,6 +231,5 @@ export default function WardAnalysisPage() {
           </div>
         )}
       </div>
-    </AuthorityLayout>
   );
 }

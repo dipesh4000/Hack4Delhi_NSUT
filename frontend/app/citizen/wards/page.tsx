@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Search, MapPin, Phone, Users, Activity, Building, Car, Factory, Construction, Map, Globe } from 'lucide-react';
-import CitizenLayout from "@/components/citizen/CitizenLayout";
 import dynamic from 'next/dynamic';
 
 // Dynamic import for maps
@@ -202,22 +201,19 @@ export default function EnhancedWardsPage() {
 
   if (loading) {
     return (
-      <CitizenLayout>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="flex items-center justify-center min-h-[50vh]">
-            <div className="text-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-              <p className="text-slate-600">Loading Delhi wards...</p>
-            </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="flex items-center justify-center min-h-[50vh]">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+            <p className="text-slate-600">Loading Delhi wards...</p>
           </div>
         </div>
-      </CitizenLayout>
+      </div>
     );
   }
 
   return (
-    <CitizenLayout>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Header */}
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
@@ -457,6 +453,5 @@ export default function EnhancedWardsPage() {
           </motion.div>
         </div>
       </div>
-    </CitizenLayout>
   );
 }

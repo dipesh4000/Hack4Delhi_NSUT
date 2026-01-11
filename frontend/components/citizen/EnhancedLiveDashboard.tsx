@@ -424,8 +424,8 @@ export default function LiveDashboard({ userName }: { userName: string }) {
         </motion.div>
       </div>
 
-      {/* Emergency Alert */}
-      {data.current_status.aqi > 300 && (
+      {/* Emergency Alert - Removed as per user request to avoid overlap with Chatbot */}
+      {/* {data.current_status.aqi > 300 && (
         <motion.div
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
@@ -439,7 +439,7 @@ export default function LiveDashboard({ userName }: { userName: string }) {
             </div>
           </div>
         </motion.div>
-      )}
+      )} */}
     </motion.div>
   );
 }

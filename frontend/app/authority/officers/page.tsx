@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Users, Mail, Phone, MapPin, AlertCircle, CheckCircle, Clock } from 'lucide-react';
-import AuthorityLayout from '@/components/authority/AuthorityLayout';
+import dynamic from 'next/dynamic';
 
 interface Officer {
   id: string;
@@ -103,20 +103,17 @@ export default function OfficersPage() {
 
   if (loading) {
     return (
-      <AuthorityLayout>
-        <div className="flex items-center justify-center min-h-[50vh]">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600 mx-auto mb-4"></div>
-            <p className="text-slate-600">Loading Officers Data...</p>
-          </div>
+      <div className="flex items-center justify-center min-h-[50vh]">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600 mx-auto mb-4"></div>
+          <p className="text-slate-600">Loading Officers Data...</p>
         </div>
-      </AuthorityLayout>
+      </div>
     );
   }
 
   return (
-    <AuthorityLayout>
-      <div className="space-y-6 min-h-screen">
+    <div className="space-y-6 min-h-screen">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Officers List */}
           <div className="lg:col-span-1 bg-white rounded-xl shadow-sm border border-slate-200 p-6">
@@ -261,6 +258,5 @@ export default function OfficersPage() {
           </div>
         </div>
       </div>
-    </AuthorityLayout>
   );
 }

@@ -49,6 +49,12 @@ export default function AuthorityLayout({ children }: AuthorityLayoutProps) {
       current: pathname === '/authority/officers'
     },
     {
+      name: 'Reports',
+      href: '/authority/reports',
+      icon: FileText,
+      current: pathname === '/authority/reports'
+    },
+    {
       name: 'Complaints',
       href: '/authority/complaints',
       icon: MessageSquare,
@@ -182,7 +188,7 @@ export default function AuthorityLayout({ children }: AuthorityLayoutProps) {
         </header>
 
         {/* Page Content */}
-        <main className="p-6 bg-slate-50 min-h-[calc(100vh-80px)]">
+        <main className="p-8 bg-slate-50 min-h-[calc(100vh-80px)]">
           {children}
         </main>
       </div>

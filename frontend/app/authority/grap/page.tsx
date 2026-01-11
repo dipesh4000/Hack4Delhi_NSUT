@@ -20,7 +20,6 @@ import {
   TrendingUp,
   Calendar
 } from 'lucide-react';
-import AuthorityLayout from '@/components/authority/AuthorityLayout';
 
 interface GRAPAction {
   id: string;
@@ -313,20 +312,17 @@ export default function GRAPPage() {
 
   if (loading) {
     return (
-      <AuthorityLayout>
-        <div className="flex items-center justify-center min-h-[50vh]">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600 mx-auto mb-4"></div>
-            <p className="text-slate-600">Loading GRAP data...</p>
-          </div>
+      <div className="flex items-center justify-center min-h-[50vh]">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600 mx-auto mb-4"></div>
+          <p className="text-slate-600">Loading GRAP data...</p>
         </div>
-      </AuthorityLayout>
+      </div>
     );
   }
 
   return (
-    <AuthorityLayout>
-      <div className="space-y-6">
+    <div className="space-y-6">
         {/* GRAP Status Header */}
         <div className="bg-gradient-to-r from-red-500 to-orange-500 rounded-xl p-6 text-white">
           <div className="flex items-center justify-between">
@@ -599,6 +595,5 @@ export default function GRAPPage() {
           </div>
         </div>
       </div>
-    </AuthorityLayout>
   );
 }

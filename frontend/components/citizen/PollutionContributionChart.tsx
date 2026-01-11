@@ -38,7 +38,7 @@ export default function PollutionContributionChart({ data }: PollutionContributi
             <Tooltip 
                 cursor={{ fill: 'transparent' }}
                 contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
-                formatter={(value: number) => [`${value}%`, "Contribution"]}
+                formatter={(value: any) => [`${value}%`, "Contribution"]}
             />
             <Bar dataKey="percentage" radius={[0, 4, 4, 0]} barSize={20}>
                 {data.map((entry, index) => (

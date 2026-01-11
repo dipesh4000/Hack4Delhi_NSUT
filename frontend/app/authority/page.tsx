@@ -12,7 +12,6 @@ import {
   Target,
   Clock
 } from 'lucide-react';
-import AuthorityLayout from '@/components/authority/AuthorityLayout';
 import dynamic from 'next/dynamic';
 
 const DelhiGeographicalMap = dynamic(() => import('@/components/maps/DelhiGeographicalMap'), {
@@ -135,20 +134,17 @@ export default function AuthorityDashboard() {
 
   if (loading) {
     return (
-      <AuthorityLayout>
-        <div className="flex items-center justify-center min-h-[50vh]">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600 mx-auto mb-4"></div>
-            <p className="text-slate-600">Loading Authority Dashboard...</p>
-          </div>
+      <div className="flex items-center justify-center min-h-[50vh]">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600 mx-auto mb-4"></div>
+          <p className="text-slate-600">Loading Authority Dashboard...</p>
         </div>
-      </AuthorityLayout>
+      </div>
     );
   }
 
   return (
-    <AuthorityLayout>
-      <div className="space-y-6 min-h-screen">
+    <div className="space-y-6">
         {/* Critical Alerts Banner */}
         {emergencyAlerts > 0 && (
           <motion.div 
@@ -271,7 +267,7 @@ export default function AuthorityDashboard() {
                 <span>Updated 2 min ago</span>
               </div>
             </div>
-            <DelhiGeographicalMap wards={wards} onWardSelect={setSelectedWard} />
+            <DelhiGeographicalMap wards={wards} onWardSelect={(ward) => setSelectedWard(ward as Ward)} />
           </motion.div>
 
           {/* Critical Wards */}
@@ -403,6 +399,5 @@ export default function AuthorityDashboard() {
           </div>
         </motion.div>
       </div>
-    </AuthorityLayout>
   );
 }

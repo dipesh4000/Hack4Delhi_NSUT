@@ -251,7 +251,7 @@ export default function EnhancedAuthorityDashboard() {
                 <AlertTriangle size={20} className="text-orange-600" />
               </div>
             </div>
-            <p className="text-xs text-slate-500">AQI > 300 - Immediate action needed</p>
+            <p className="text-xs text-slate-500">AQI {'>'} 300 - Immediate action needed</p>
           </div>
 
           <div className="bg-white p-5 rounded-xl shadow-sm border border-slate-200">

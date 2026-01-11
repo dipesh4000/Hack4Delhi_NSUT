@@ -1,13 +1,11 @@
 "use client";
 
-import CitizenLayout from "@/components/citizen/CitizenLayout";
 import { MessageSquare, Phone, Mail, FileText, ExternalLink, Shield } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function SupportPage() {
   return (
-    <CitizenLayout>
-      <div className="max-w-4xl mx-auto space-y-12">
+    <div className="max-w-4xl mx-auto space-y-12">
         <div className="text-center space-y-4">
           <div className="w-20 h-20 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-[2rem] flex items-center justify-center mx-auto shadow-xl shadow-blue-600/20">
             <Shield className="w-10 h-10 text-white" />
@@ -103,6 +101,5 @@ export default function SupportPage() {
           </div>
         </div>
       </div>
-    </CitizenLayout>
   );
 }

@@ -18,7 +18,6 @@ import {
   Target,
   RefreshCw
 } from 'lucide-react';
-import AuthorityLayout from '@/components/authority/AuthorityLayout';
 import dynamic from 'next/dynamic';
 
 const DelhiGeographicalMap = dynamic(() => import('@/components/maps/DelhiGeographicalMap'), {
@@ -183,20 +182,17 @@ export default function MonitoringPage() {
 
   if (loading) {
     return (
-      <AuthorityLayout>
-        <div className="flex items-center justify-center min-h-[50vh]">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600 mx-auto mb-4"></div>
-            <p className="text-slate-600">Loading monitoring data...</p>
-          </div>
+      <div className="flex items-center justify-center min-h-[50vh]">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600 mx-auto mb-4"></div>
+          <p className="text-slate-600">Loading monitoring data...</p>
         </div>
-      </AuthorityLayout>
+      </div>
     );
   }
 
   return (
-    <AuthorityLayout>
-      <div className="space-y-6">
+    <div className="space-y-6">
         {/* Header with Refresh */}
         <div className="flex items-center justify-between">
           <div>
@@ -259,7 +255,7 @@ export default function MonitoringPage() {
               <div>
                 <p className="text-sm font-medium text-slate-600">Critical Stations</p>
                 <p className="text-3xl font-bold text-red-600 mt-1">{criticalStations}</p>
-                <p className="text-sm text-orange-600 mt-1">AQI > 300</p>
+                <p className="text-sm text-orange-600 mt-1">AQI &gt; 300</p>
               </div>
               <AlertTriangle className="w-8 h-8 text-red-600" />
             </div>
@@ -422,6 +418,5 @@ export default function MonitoringPage() {
           </motion.div>
         )}
       </div>
-    </AuthorityLayout>
   );
 }

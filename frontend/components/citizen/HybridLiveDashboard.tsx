@@ -1,13 +1,15 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import { AlertTriangle, Wind, Loader2, MapPin, Bell, Clock, Activity, TrendingUp, Shield, Users, Zap } from "lucide-react";
+import { AlertTriangle, Wind, Loader2, MapPin, Bell, Clock, Activity, TrendingUp, Shield, Users, Zap, ArrowDown, ArrowUp, Minus } from "lucide-react";
 import VideoAlertCard from './VideoAlertCard';
 import SmartAlertSystem from './SmartAlertSystem';
+import PollutionCharts from './PollutionCharts';
+import { motion } from 'framer-motion';
 import { cn } from "@/lib/utils";
 import { fetchWAQIData } from "@/lib/waqi-service";
 import { MOCK_WARD_DATA, WardData, getSeverity } from "@/lib/mock-data";
+import { usePollution } from "@/context/PollutionContext";
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5001';
 
@@ -29,12 +31,14 @@ interface EnhancedWardData extends WardData {
     trend_direction: string;
     avg_forecast: number;
     improvement_expected: boolean;
+    description?: string;
   };
   dominantPollutant?: string;
   status?: string;
 }
 
 export default function HybridLiveDashboard({ userName }: { userName: string }) {
+  const { updatePollutionData } = usePollution();
   const [data, setData] = useState<EnhancedWardData>(MOCK_WARD_DATA);
   const [loading, setLoading] = useState(true);
   const [usingRealData, setUsingRealData] = useState(false);
@@ -134,6 +138,16 @@ export default function HybridLiveDashboard({ userName }: { userName: string }) 
     }
   };
 
+  // Update global context for Chatbot
+  useEffect(() => {
+    updatePollutionData({
+      aqi: data.aqi,
+      location: data.name,
+      status: getSeverity(data.aqi)
+    });
+  }, [data, updatePollutionData]);
+
+  // Initial Data Fetch
   useEffect(() => {
     const userWard = localStorage.getItem('userWard') || '123';
     setSelectedWard(userWard);
@@ -193,29 +207,41 @@ export default function HybridLiveDashboard({ userName }: { userName: string }) 
       <div className="lg:col-span-9 space-y-8">
         {/* Top Row: Quick Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <motion.div variants={itemVariants} className="bg-white/60 backdrop-blur-md p-6 rounded-[2rem] border border-white/20 shadow-xl">
-            <div className="flex justify-between items-start mb-4">
-              <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Current AQI</h3>
-              <div className="p-2 bg-blue-50 rounded-xl">
-                <Activity className="w-4 h-4 text-blue-600" />
+          <motion.div variants={itemVariants} className="bg-white/60 backdrop-blur-md p-6 rounded-[2rem] border border-white/20 shadow-xl relative overflow-hidden group">
+            {/* 3D Background */}
+            <div className="absolute inset-0 opacity-20 group-hover:opacity-30 transition-opacity duration-500 pointer-events-none">
+               <img 
+                 src={data.aqi > 200 ? "/assets/3d/polluted_air.png" : "/assets/3d/clean_air.png"} 
+                 alt="Visual" 
+                 className="w-full h-full object-cover"
+               />
+               <div className="absolute inset-0 bg-gradient-to-t from-white/80 via-white/40 to-transparent" />
+            </div>
+
+            <div className="relative z-10">
+              <div className="flex justify-between items-start mb-4">
+                <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Current AQI</h3>
+                <div className="p-2 bg-blue-50 rounded-xl">
+                  <Activity className="w-4 h-4 text-blue-600" />
+                </div>
               </div>
-            </div>
-            <div className="flex items-end gap-2">
-              <span className="text-4xl font-black text-slate-900 tracking-tighter">{data.aqi}</span>
-              <span className={cn("text-[10px] font-black mb-1 px-2 py-0.5 rounded-lg border uppercase tracking-widest", getSeverityColor(severity))}>
-                {severity}
-              </span>
-            </div>
-            <div className="mt-4 h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
-              <motion.div 
-                initial={{ width: 0 }}
-                animate={{ width: `${Math.min(100, (data.aqi / 500) * 100)}%` }}
-                className={cn("h-full", 
-                  data.aqi <= 50 ? "bg-emerald-500" : 
-                  data.aqi <= 100 ? "bg-yellow-500" : 
-                  data.aqi <= 200 ? "bg-orange-500" : "bg-red-500"
-                )}
-              />
+              <div className="flex items-end gap-2">
+                <span className="text-4xl font-black text-slate-900 tracking-tighter">{data.aqi}</span>
+                <span className={cn("text-[10px] font-black mb-1 px-2 py-0.5 rounded-lg border uppercase tracking-widest", getSeverityColor(severity))}>
+                  {severity}
+                </span>
+              </div>
+              <div className="mt-4 h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
+                <motion.div 
+                  initial={{ width: 0 }}
+                  animate={{ width: `${Math.min(100, (data.aqi / 500) * 100)}%` }}
+                  className={cn("h-full", 
+                    data.aqi <= 50 ? "bg-emerald-500" : 
+                    data.aqi <= 100 ? "bg-yellow-500" : 
+                    data.aqi <= 200 ? "bg-orange-500" : "bg-red-500"
+                  )}
+                />
+              </div>
             </div>
           </motion.div>
 
@@ -260,6 +286,12 @@ export default function HybridLiveDashboard({ userName }: { userName: string }) 
             </p>
           </motion.div>
         </div>
+
+        {/* Charts Section */}
+        <PollutionCharts 
+          hourlyTrend={data.hourlyTrend} 
+          pollutants={data.pollutantComposition} 
+        />
 
         {/* Smart Alert System */}
         <SmartAlertSystem data={data} />
@@ -365,71 +397,76 @@ export default function HybridLiveDashboard({ userName }: { userName: string }) 
       </div>
 
       {/* Right Sidebar */}
-      <div className="lg:col-span-3 space-y-8">
+      <div className="lg:col-span-3 space-y-6">
         {/* Location Info */}
         <motion.div variants={itemVariants} className="bg-white/60 backdrop-blur-md p-6 rounded-[2rem] border border-white/20 shadow-xl">
-          <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Your Location</h3>
-          <div className="flex items-center gap-4 mb-6">
-            <div className="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-blue-600/20">
-              <MapPin className="w-6 h-6" />
+          <div className="flex items-center gap-3 mb-6">
+            <div className="p-3 bg-blue-50 rounded-2xl">
+              <MapPin className="w-6 h-6 text-blue-600" />
             </div>
             <div>
-              <p className="text-sm font-black text-slate-900 tracking-tight">{locationName}</p>
-              <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Delhi, India</p>
+              <h3 className="font-bold text-slate-900">{locationName}</h3>
+              <p className="text-xs text-slate-500 font-medium">Monitoring Station</p>
             </div>
           </div>
-          <div className="text-xs text-slate-500">
-            <p>Data Source: {usingRealData ? 'Live API' : 'Demo Mode'}</p>
-            <p>Updated: {lastUpdated.toLocaleTimeString()}</p>
+          
+          <div className="space-y-4">
+            <div className="flex justify-between items-center p-3 bg-slate-50 rounded-xl">
+              <span className="text-xs font-bold text-slate-500 uppercase">Status</span>
+              <span className={cn("px-2 py-1 rounded-lg text-xs font-bold uppercase", getSeverityColor(severity))}>
+                {severity}
+              </span>
+            </div>
+            <div className="flex justify-between items-center p-3 bg-slate-50 rounded-xl">
+              <span className="text-xs font-bold text-slate-500 uppercase">Coordinates</span>
+              <span className="text-xs font-bold text-slate-900">28.61°N, 77.20°E</span>
+            </div>
           </div>
         </motion.div>
-
 
         {/* Trend Analysis */}
         {data.trends && (
           <motion.div variants={itemVariants} className="bg-white/60 backdrop-blur-md p-6 rounded-[2rem] border border-white/20 shadow-xl">
-            <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Trend Analysis</h3>
+            <h3 className="text-sm font-black text-slate-900 uppercase tracking-widest mb-4">Trend Analysis</h3>
             <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-bold text-slate-700">Direction</span>
-                <span className={cn("px-3 py-1 rounded-full text-xs font-bold", 
-                  data.trends.trend_direction === 'improving' ? 'bg-green-100 text-green-700' :
-                  data.trends.trend_direction === 'worsening' ? 'bg-red-100 text-red-700' :
-                  'bg-gray-100 text-gray-700'
+              <div className="flex items-center gap-3">
+                <div className={cn("p-2 rounded-full", 
+                  data.trends.trend_direction === 'improving' ? 'bg-green-100 text-green-600' : 
+                  data.trends.trend_direction === 'worsening' ? 'bg-red-100 text-red-600' : 'bg-slate-100 text-slate-600'
                 )}>
-                  {data.trends.trend_direction}
-                </span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-bold text-slate-700">Forecast Avg</span>
-                <span className="text-lg font-black text-slate-900">{data.trends.avg_forecast}</span>
-              </div>
-              {data.trends.improvement_expected && (
-                <div className="p-3 bg-green-50 rounded-xl border border-green-100">
-                  <p className="text-xs text-green-700 font-medium">✅ Improvement expected</p>
+                  {data.trends.trend_direction === 'improving' ? <ArrowDown className="w-5 h-5" /> : 
+                   data.trends.trend_direction === 'worsening' ? <ArrowUp className="w-5 h-5" /> : <Minus className="w-5 h-5" />}
                 </div>
-              )}
+                <div>
+                  <p className="text-sm font-bold text-slate-900 capitalize">
+                    Air Quality is {data.trends.trend_direction}
+                  </p>
+                  <p className="text-xs text-slate-500">
+                    Compared to last hour
+                  </p>
+                </div>
+              </div>
+              
+              <div className="p-3 bg-slate-50 rounded-xl">
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  {data.trends.description}
+                </p>
+              </div>
             </div>
           </motion.div>
         )}
 
         {/* Last Updated */}
-        <motion.div variants={itemVariants} className="bg-gradient-to-br from-blue-600 to-indigo-600 p-6 rounded-[2rem] shadow-xl shadow-blue-600/20 text-white">
-          <div className="flex items-center gap-3 mb-4">
-            <Clock className="w-5 h-5" />
-            <h3 className="text-sm font-bold">Live Monitoring</h3>
-          </div>
-          <p className="text-blue-100 text-xs mb-4">
-            Data refreshes automatically every 5 minutes from {usingRealData ? 'government monitoring stations' : 'demo sources'}.
+        <motion.div variants={itemVariants} className="text-center">
+          <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">
+            Last Updated: {new Date(data.lastUpdated).toLocaleTimeString()}
           </p>
-          <div className="text-xs opacity-75">
-            Last update: {lastUpdated.toLocaleTimeString()}
-          </div>
         </motion.div>
       </div>
 
       {/* Emergency Alert */}
-      {data.aqi > 300 && (
+      {/* Emergency Alert - Removed to avoid overlap with Chatbot */}
+      {/* {data.aqi > 300 && (
         <motion.div
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
@@ -443,7 +480,7 @@ export default function HybridLiveDashboard({ userName }: { userName: string }) 
             </div>
           </div>
         </motion.div>
-      )}
+      )} */}
     </motion.div>
   );
 }

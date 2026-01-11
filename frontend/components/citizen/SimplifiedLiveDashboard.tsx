@@ -26,6 +26,8 @@ interface SimplifiedWardData extends WardData {
     trend_direction: string;
     improvement_expected: boolean;
   };
+  status?: string;
+  dominantPollutant?: string;
 }
 
 export default function SimplifiedLiveDashboard({ userName }: { userName: string }) {
@@ -56,7 +58,7 @@ export default function SimplifiedLiveDashboard({ userName }: { userName: string
               health_recommendations: pollutionData.health_recommendations,
               forecast: pollutionData.optimal_times?.optimal_days || [],
               trends: pollutionData.trends,
-              lastUpdated: new Date(pollutionData.ward_info.last_updated)
+              lastUpdated: new Date(pollutionData.ward_info.last_updated).toLocaleTimeString()
             };
             
             setData(enhancedData);

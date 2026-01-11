@@ -3,8 +3,16 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
-import { Camera, MapPin, Send, Loader2, AlertCircle } from "lucide-react";
-import CitizenLayout from "@/components/citizen/CitizenLayout";
+import { Camera, MapPin, Send, Loader2, AlertCircle, CheckCircle2, Tag, Phone, Mail } from "lucide-react";
+
+const COMPLAINT_CATEGORIES = [
+  { value: 'air_quality', label: 'Air Quality Issue', icon: '🌫️', description: 'Poor AQI, smog, or breathing difficulties' },
+  { value: 'industrial', label: 'Industrial Pollution', icon: '🏭', description: 'Factory emissions or chemical smell' },
+  { value: 'vehicular', label: 'Vehicular Pollution', icon: '🚗', description: 'Traffic congestion or vehicle emissions' },
+  { value: 'construction', label: 'Construction Dust', icon: '🏗️', description: 'Building dust or demolition' },
+  { value: 'burning', label: 'Open Burning', icon: '🔥', description: 'Garbage, crop, or waste burning' },
+  { value: 'other', label: 'Other', icon: '📋', description: 'General pollution complaint' }
+];
 
 export default function ComplaintsPage() {
   const router = useRouter();
@@ -12,10 +20,30 @@ export default function ComplaintsPage() {
   const [image, setImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>("");
   const [description, setDescription] = useState("");
+  const [category, setCategory] = useState("other");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
   const [location, setLocation] = useState<{lat: number, lng: number, address: string} | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isGettingLocation, setIsGettingLocation] = useState(false);
   const [error, setError] = useState("");
+  const [submitSuccess, setSubmitSuccess] = useState<any>(null);
+  const [activeTab, setActiveTab] = useState<'raise' | 'my-complaints'>('raise');
+
+  const MOCK_MY_COMPLAINTS = [
+    { id: 'CMP-2024-001', category: 'burning', date: '2024-01-10', status: 'Resolved', description: 'Burning garbage near park', location: 'Sector 4, Dwarka' },
+    { id: 'CMP-2024-002', category: 'construction', date: '2024-01-11', status: 'In Progress', description: 'Uncovered construction material', location: 'Palam Colony' },
+    { id: 'CMP-2024-003', category: 'vehicular', date: '2024-01-11', status: 'Pending', description: 'Heavy smoke from truck', location: 'Main Road, Najafgarh' },
+  ];
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'Resolved': return 'bg-green-100 text-green-700 border-green-200';
+      case 'In Progress': return 'bg-blue-100 text-blue-700 border-blue-200';
+      case 'Pending': return 'bg-yellow-100 text-yellow-700 border-yellow-200';
+      default: return 'bg-slate-100 text-slate-700 border-slate-200';
+    }
+  };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -69,9 +97,13 @@ export default function ComplaintsPage() {
     e.preventDefault();
     
     if (!image || !description.trim() || !location) {
-      setError("Please fill all fields and enable location");
+      setError("Please fill all required fields and enable location");
       return;
     }
+
+    // Prefill contact info from Clerk if not provided
+    const finalPhone = phone || user?.phoneNumbers?.[0]?.phoneNumber || '';
+    const finalEmail = email || user?.primaryEmailAddress?.emailAddress || '';
 
     setIsSubmitting(true);
     setError("");
@@ -82,6 +114,9 @@ export default function ComplaintsPage() {
       formData.append('userId', user?.id || '');
       formData.append('userName', user?.fullName || 'Anonymous');
       formData.append('description', description);
+      formData.append('category', category);
+      formData.append('phone', finalPhone);
+      formData.append('email', finalEmail);
       formData.append('latitude', location.lat.toString());
       formData.append('longitude', location.lng.toString());
       formData.append('address', location.address);
@@ -92,7 +127,14 @@ export default function ComplaintsPage() {
       });
 
       if (response.ok) {
-        router.push('/citizen?complaint=success');
+        const data = await response.json();
+        setSubmitSuccess(data);
+        // Clear form
+        setImage(null);
+        setImagePreview("");
+        setDescription("");
+        setCategory("other");
+        setLocation(null);
       } else {
         const data = await response.json();
         setError(data.message || 'Failed to submit complaint');
@@ -104,18 +146,120 @@ export default function ComplaintsPage() {
     }
   };
 
-  return (
-    <CitizenLayout>
+  // If submission was successful, show success message
+  if (submitSuccess) {
+    return (
       <div className="max-w-2xl mx-auto">
+          <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 text-center">
+            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <CheckCircle2 className="w-8 h-8 text-green-600" />
+            </div>
+            <h2 className="text-2xl font-bold text-slate-900 mb-2">Complaint Submitted Successfully!</h2>
+            <p className="text-slate-600 mb-6">Your complaint has been registered and assigned to the appropriate authorities.</p>
+            
+            <div className="bg-slate-50 rounded-lg p-4 mb-6">
+              <div className="grid grid-cols-2 gap-4 text-sm">
+                <div className="text-left">
+                  <p className="text-slate-500 font-medium">Complaint ID</p>
+                  <p className="text-slate-900 font-semibold">{submitSuccess.complaintId}</p>
+                </div>
+                <div className="text-left">
+                  <p className="text-slate-500 font-medium">Category</p>
+                  <p className="text-slate-900 font-semibold capitalize">{submitSuccess.complaint?.category?.replace('_', ' ')}</p>
+                </div>
+                <div className="text-left">
+                  <p className="text-slate-500 font-medium">Priority</p>
+                  <p className="text-slate-900 font-semibold capitalize">{submitSuccess.complaint?.priority}</p>
+                </div>
+                <div className="text-left">
+                  <p className="text-slate-500 font-medium">Ward</p>
+                  <p className="text-slate-900 font-semibold">{submitSuccess.complaint?.wardName}</p>
+                </div>
+              </div>
+            </div>
+            
+            <div className="flex gap-3 justify-center">
+              <button
+                onClick={() => setSubmitSuccess(null)}
+                className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+              >
+                Submit Another Complaint
+              </button>
+              <button
+                onClick={() => router.push('/citizen')}
+                className="px-6 py-2 bg-slate-200 text-slate-700 rounded-lg hover:bg-slate-300 transition-colors font-medium"
+              >
+                Back to Dashboard
+              </button>
+            </div>
+          </div>
+        </div>
+    );
+  }
+
+  return (
+    <div className="max-w-2xl mx-auto">
         <div className="mb-8">
           <h1 className="text-3xl font-black text-slate-900 tracking-tight">
-            Raise a Complaint
+            Complaints & Reports
           </h1>
-          <p className="text-slate-500 font-medium mt-1">
-            Report pollution sources in your area to help improve air quality
+          <p className="text-slate-500 font-medium mt-1 mb-6">
+            Report pollution sources and track your submitted complaints
           </p>
+          
+          <div className="flex gap-2 p-1 bg-slate-100 rounded-xl w-fit">
+            <button
+              onClick={() => setActiveTab('raise')}
+              className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${
+                activeTab === 'raise' 
+                  ? 'bg-white text-blue-600 shadow-sm' 
+                  : 'text-slate-500 hover:text-slate-700'
+              }`}
+            >
+              Raise Complaint
+            </button>
+            <button
+              onClick={() => setActiveTab('my-complaints')}
+              className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${
+                activeTab === 'my-complaints' 
+                  ? 'bg-white text-blue-600 shadow-sm' 
+                  : 'text-slate-500 hover:text-slate-700'
+              }`}
+            >
+              My Complaints
+            </button>
+          </div>
         </div>
 
+        {activeTab === 'my-complaints' ? (
+          <div className="space-y-4">
+            {MOCK_MY_COMPLAINTS.map((complaint) => (
+              <div key={complaint.id} className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+                <div className="flex justify-between items-start mb-3">
+                  <div>
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-xs font-bold text-slate-400">{complaint.id}</span>
+                      <span className="text-xs text-slate-400">• {complaint.date}</span>
+                    </div>
+                    <h3 className="font-bold text-slate-900 capitalize">{complaint.category.replace('_', ' ')}</h3>
+                  </div>
+                  <span className={`px-3 py-1 rounded-full text-xs font-bold border ${getStatusColor(complaint.status)}`}>
+                    {complaint.status}
+                  </span>
+                </div>
+                <p className="text-sm text-slate-600 mb-3">{complaint.description}</p>
+                <div className="flex items-center gap-2 text-xs text-slate-500 bg-slate-50 p-2 rounded-lg">
+                  <MapPin size={14} />
+                  {complaint.location}
+                </div>
+              </div>
+            ))}
+            
+            <div className="text-center py-8">
+              <p className="text-slate-400 text-sm">Showing recent complaints</p>
+            </div>
+          </div>
+        ) : (
         <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
           {error && (
             <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-start gap-3">
@@ -125,6 +269,36 @@ export default function ComplaintsPage() {
           )}
 
           <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Category Selection */}
+            <div>
+              <label className="block text-sm font-medium text-slate-900 mb-3">
+                <Tag className="inline w-4 h-4 mr-1" />
+                Complaint Category *
+              </label>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {COMPLAINT_CATEGORIES.map((cat) => (
+                  <button
+                    key={cat.value}
+                    type="button"
+                    onClick={() => setCategory(cat.value)}
+                    className={`p-3 border-2 rounded-lg text-left transition-all ${
+                      category === cat.value
+                        ? 'border-blue-500 bg-blue-50'
+                        : 'border-slate-200 hover:border-slate-300'
+                    }`}
+                  >
+                    <div className="flex items-start gap-2">
+                      <span className="text-2xl">{cat.icon}</span>
+                      <div className="flex-1">
+                        <p className="font-medium text-slate-900 text-sm">{cat.label}</p>
+                        <p className="text-xs text-slate-500 mt-0.5">{cat.description}</p>
+                      </div>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+
             {/* Image Upload */}
             <div>
               <label className="block text-sm font-medium text-slate-900 mb-3">
@@ -178,6 +352,36 @@ export default function ComplaintsPage() {
                 maxLength={500}
               />
               <p className="text-xs text-slate-500 mt-1">{description.length}/500 characters</p>
+            </div>
+
+            {/* Contact Information */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-slate-900 mb-3">
+                  <Phone className="inline w-4 h-4 mr-1" />
+                  Phone Number (Optional)
+                </label>
+                <input
+                  type="tel"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  placeholder="+91 XXXXX XXXXX"
+                  className="w-full p-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-slate-900 mb-3">
+                  <Mail className="inline w-4 h-4 mr-1" />
+                  Email (Optional)
+                </label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="your@email.com"
+                  className="w-full p-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
             </div>
 
             {/* Location */}
@@ -237,7 +441,7 @@ export default function ComplaintsPage() {
             </button>
           </form>
         </div>
+        )}
       </div>
-    </CitizenLayout>
   );
 }

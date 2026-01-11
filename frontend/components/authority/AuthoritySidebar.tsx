@@ -1,6 +1,6 @@
 "use client";
 
-import { LayoutDashboard, MapPin, Users, FileText, Settings, LogOut, HelpCircle, LogIn } from "lucide-react";
+import { LayoutDashboard, MapPin, Users, FileText, Settings, LogOut, HelpCircle, LogIn, MessageSquare, Shield } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -12,6 +12,8 @@ const MENU_ITEMS = [
   { icon: MapPin, label: "Wards", href: "/authority/wards" },
   { icon: Users, label: "Officers", href: "/authority/officers" },
   { icon: FileText, label: "Reports", href: "/authority/reports" },
+  { icon: MessageSquare, label: "Complaints", href: "/authority/complaints" },
+  { icon: Shield, label: "GRAP Actions", href: "/authority/grap" },
 ];
 
 export default function AuthoritySidebar() {
@@ -69,7 +71,7 @@ export default function AuthoritySidebar() {
         </button>
 
         {isSignedIn ? (
-          <SignOutButton redirectUrl="/">
+          <SignOutButton>
             <button className="w-full flex items-center gap-4 p-4 rounded-2xl text-slate-400 hover:bg-red-50 hover:text-red-600 transition-all group cursor-pointer">
               <LogOut className="w-6 h-6 group-hover:text-red-600" />
               <span className="hidden lg:block font-bold text-sm tracking-tight">Logout</span>
