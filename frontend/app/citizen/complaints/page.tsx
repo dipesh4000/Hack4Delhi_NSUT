@@ -150,116 +150,116 @@ export default function ComplaintsPage() {
   if (submitSuccess) {
     return (
       <div className="max-w-2xl mx-auto">
-          <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 text-center">
-            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <CheckCircle2 className="w-8 h-8 text-green-600" />
-            </div>
-            <h2 className="text-2xl font-bold text-slate-900 mb-2">Complaint Submitted Successfully!</h2>
-            <p className="text-slate-600 mb-6">Your complaint has been registered and assigned to the appropriate authorities.</p>
-            
-            <div className="bg-slate-50 rounded-lg p-4 mb-6">
-              <div className="grid grid-cols-2 gap-4 text-sm">
-                <div className="text-left">
-                  <p className="text-slate-500 font-medium">Complaint ID</p>
-                  <p className="text-slate-900 font-semibold">{submitSuccess.complaintId}</p>
-                </div>
-                <div className="text-left">
-                  <p className="text-slate-500 font-medium">Category</p>
-                  <p className="text-slate-900 font-semibold capitalize">{submitSuccess.complaint?.category?.replace('_', ' ')}</p>
-                </div>
-                <div className="text-left">
-                  <p className="text-slate-500 font-medium">Priority</p>
-                  <p className="text-slate-900 font-semibold capitalize">{submitSuccess.complaint?.priority}</p>
-                </div>
-                <div className="text-left">
-                  <p className="text-slate-500 font-medium">Ward</p>
-                  <p className="text-slate-900 font-semibold">{submitSuccess.complaint?.wardName}</p>
-                </div>
+        <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 text-center">
+          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <CheckCircle2 className="w-8 h-8 text-green-600" />
+          </div>
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">Complaint Submitted Successfully!</h2>
+          <p className="text-slate-600 mb-6">Your complaint has been registered and assigned to the appropriate authorities.</p>
+          
+          <div className="bg-slate-50 rounded-lg p-4 mb-6">
+            <div className="grid grid-cols-2 gap-4 text-sm">
+              <div className="text-left">
+                <p className="text-slate-500 font-medium">Complaint ID</p>
+                <p className="text-slate-900 font-semibold">{submitSuccess.complaintId}</p>
+              </div>
+              <div className="text-left">
+                <p className="text-slate-500 font-medium">Category</p>
+                <p className="text-slate-900 font-semibold capitalize">{submitSuccess.complaint?.category?.replace('_', ' ')}</p>
+              </div>
+              <div className="text-left">
+                <p className="text-slate-500 font-medium">Priority</p>
+                <p className="text-slate-900 font-semibold capitalize">{submitSuccess.complaint?.priority}</p>
+              </div>
+              <div className="text-left">
+                <p className="text-slate-500 font-medium">Ward</p>
+                <p className="text-slate-900 font-semibold">{submitSuccess.complaint?.wardName}</p>
               </div>
             </div>
-            
-            <div className="flex gap-3 justify-center">
-              <button
-                onClick={() => setSubmitSuccess(null)}
-                className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
-              >
-                Submit Another Complaint
-              </button>
-              <button
-                onClick={() => router.push('/citizen')}
-                className="px-6 py-2 bg-slate-200 text-slate-700 rounded-lg hover:bg-slate-300 transition-colors font-medium"
-              >
-                Back to Dashboard
-              </button>
-            </div>
+          </div>
+          
+          <div className="flex gap-3 justify-center">
+            <button
+              onClick={() => setSubmitSuccess(null)}
+              className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+            >
+              Submit Another Complaint
+            </button>
+            <button
+              onClick={() => router.push('/citizen')}
+              className="px-6 py-2 bg-slate-200 text-slate-700 rounded-lg hover:bg-slate-300 transition-colors font-medium"
+            >
+              Back to Dashboard
+            </button>
           </div>
         </div>
+      </div>
     );
   }
 
   return (
     <div className="max-w-2xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-3xl font-black text-slate-900 tracking-tight">
-            Complaints & Reports
-          </h1>
-          <p className="text-slate-500 font-medium mt-1 mb-6">
-            Report pollution sources and track your submitted complaints
-          </p>
+      <div className="mb-8">
+        <h1 className="text-3xl font-black text-slate-900 tracking-tight">
+          Complaints & Reports
+        </h1>
+        <p className="text-slate-500 font-medium mt-1 mb-6">
+          Report pollution sources and track your submitted complaints
+        </p>
+        
+        <div className="flex gap-2 p-1 bg-slate-100 rounded-xl w-fit">
+          <button
+            onClick={() => setActiveTab('raise')}
+            className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${
+              activeTab === 'raise' 
+                ? 'bg-white text-blue-600 shadow-sm' 
+                : 'text-slate-500 hover:text-slate-700'
+            }`}
+          >
+            Raise Complaint
+          </button>
+          <button
+            onClick={() => setActiveTab('my-complaints')}
+            className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${
+              activeTab === 'my-complaints' 
+                ? 'bg-white text-blue-600 shadow-sm' 
+                : 'text-slate-500 hover:text-slate-700'
+            }`}
+          >
+            My Complaints
+          </button>
+        </div>
+      </div>
+
+      {activeTab === 'my-complaints' ? (
+        <div className="space-y-4">
+          {MOCK_MY_COMPLAINTS.map((complaint) => (
+            <div key={complaint.id} className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+              <div className="flex justify-between items-start mb-3">
+                <div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-xs font-bold text-slate-400">{complaint.id}</span>
+                    <span className="text-xs text-slate-400">• {complaint.date}</span>
+                  </div>
+                  <h3 className="font-bold text-slate-900 capitalize">{complaint.category.replace('_', ' ')}</h3>
+                </div>
+                <span className={`px-3 py-1 rounded-full text-xs font-bold border ${getStatusColor(complaint.status)}`}>
+                  {complaint.status}
+                </span>
+              </div>
+              <p className="text-sm text-slate-600 mb-3">{complaint.description}</p>
+              <div className="flex items-center gap-2 text-xs text-slate-500 bg-slate-50 p-2 rounded-lg">
+                <MapPin size={14} />
+                {complaint.location}
+              </div>
+            </div>
+          ))}
           
-          <div className="flex gap-2 p-1 bg-slate-100 rounded-xl w-fit">
-            <button
-              onClick={() => setActiveTab('raise')}
-              className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${
-                activeTab === 'raise' 
-                  ? 'bg-white text-blue-600 shadow-sm' 
-                  : 'text-slate-500 hover:text-slate-700'
-              }`}
-            >
-              Raise Complaint
-            </button>
-            <button
-              onClick={() => setActiveTab('my-complaints')}
-              className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${
-                activeTab === 'my-complaints' 
-                  ? 'bg-white text-blue-600 shadow-sm' 
-                  : 'text-slate-500 hover:text-slate-700'
-              }`}
-            >
-              My Complaints
-            </button>
+          <div className="text-center py-8">
+            <p className="text-slate-400 text-sm">Showing recent complaints</p>
           </div>
         </div>
-
-        {activeTab === 'my-complaints' ? (
-          <div className="space-y-4">
-            {MOCK_MY_COMPLAINTS.map((complaint) => (
-              <div key={complaint.id} className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
-                <div className="flex justify-between items-start mb-3">
-                  <div>
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="text-xs font-bold text-slate-400">{complaint.id}</span>
-                      <span className="text-xs text-slate-400">• {complaint.date}</span>
-                    </div>
-                    <h3 className="font-bold text-slate-900 capitalize">{complaint.category.replace('_', ' ')}</h3>
-                  </div>
-                  <span className={`px-3 py-1 rounded-full text-xs font-bold border ${getStatusColor(complaint.status)}`}>
-                    {complaint.status}
-                  </span>
-                </div>
-                <p className="text-sm text-slate-600 mb-3">{complaint.description}</p>
-                <div className="flex items-center gap-2 text-xs text-slate-500 bg-slate-50 p-2 rounded-lg">
-                  <MapPin size={14} />
-                  {complaint.location}
-                </div>
-              </div>
-            ))}
-            
-            <div className="text-center py-8">
-              <p className="text-slate-400 text-sm">Showing recent complaints</p>
-            </div>
-          </div>
-        ) : (
+      ) : (
         <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
           {error && (
             <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-start gap-3">
@@ -441,7 +441,7 @@ export default function ComplaintsPage() {
             </button>
           </form>
         </div>
-        )}
-      </div>
+      )}
+    </div>
   );
 }
