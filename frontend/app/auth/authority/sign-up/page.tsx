@@ -149,201 +149,169 @@ export default function AuthoritySignUpPage() {
         </Link>
       </div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="w-full max-w-md mx-4"
-      >
-        <div className="bg-white rounded-2xl shadow-xl p-8">
-          <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-slate-900 mb-2">Create Authority Account</h1>
-            <p className="text-slate-600">Join the WardAir Authority Portal</p>
-          </div>
+<motion.div
+  initial={{ opacity: 0, y: 20 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.4 }}
+  className="relative w-full max-w-3xl"
+>
+  {/* decorative layers */}
+  <div className="absolute inset-0 bg-gradient-to-br from-sky-200 via-blue-200 to-slate-200 rounded-2xl rotate-1"></div>
+  <div className="absolute inset-0 bg-gradient-to-tl from-blue-200 via-sky-100 to-white rounded-2xl -rotate-1 opacity-70"></div>
 
-          {error && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-start gap-3"
-            >
-              <AlertCircle className="text-red-600 flex-shrink-0 mt-0.5" size={20} />
-              <p className="text-red-700 font-medium text-sm">{error}</p>
-            </motion.div>
-          )}
+  {/* main card */}
+  <div className="relative bg-gradient-to-br from-sky-600 to-blue-600 rounded-2xl shadow-xl p-6 border border-blue-200/60">
+    <div className="absolute top-0 right-0 w-28 h-28 bg-sky-400/30 rounded-bl-full"></div>
 
-          <form onSubmit={handleSignUp} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-slate-900 mb-2">
-                Authority ID
-              </label>
-              <div className="relative">
-                <Shield size={20} className="absolute left-3 top-3 text-slate-400" />
-                <input
-                  type="text"
-                  name="authorityId"
-                  value={formData.authorityId}
-                  onChange={handleChange}
-                  placeholder="e.g., AUTH001"
-                  className="w-full pl-10 pr-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent uppercase"
-                  disabled={isLoading}
-                />
-              </div>
-            </div>
+    <h1 className="text-2xl font-bold text-white text-center mb-1">
+      Authority Sign Up
+    </h1>
+    <p className="text-sm text-white/70 text-center mb-6">
+      Create your authority account
+    </p>
 
-            <div>
-              <label className="block text-sm font-medium text-slate-900 mb-2">
-                Full Name
-              </label>
-              <div className="relative">
-                <User size={20} className="absolute left-3 top-3 text-slate-400" />
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  placeholder="Your full name"
-                  className="w-full pl-10 pr-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  disabled={isLoading}
-                />
-              </div>
-            </div>
+    {error && (
+      <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg flex gap-2 text-sm text-red-700">
+        <AlertCircle size={18} />
+        {error}
+      </div>
+    )}
 
-            <div>
-              <label className="block text-sm font-medium text-slate-900 mb-2">
-                Email Address
-              </label>
-              <div className="relative">
-                <Mail size={20} className="absolute left-3 top-3 text-slate-400" />
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="your.email@example.com"
-                  className="w-full pl-10 pr-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  disabled={isLoading}
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-slate-900 mb-2">
-                Assigned Ward
-              </label>
-              <div className="relative">
-                <MapPin size={20} className="absolute left-3 top-3 text-slate-400 pointer-events-none z-10" />
-                <div className="relative ward-dropdown-container">
-                  <input
-                    type="text"
-                    value={wardSearch}
-                    onChange={(e) => {
-                      setWardSearch(e.target.value);
-                      setShowWardDropdown(true);
-                    }}
-                    onFocus={() => setShowWardDropdown(true)}
-                    placeholder="Search for ward or select Central Officer"
-                    className="w-full pl-10 pr-10 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    disabled={isLoading}
-                  />
-                  <Search size={16} className="absolute right-3 top-3.5 text-slate-400" />
-                  {showWardDropdown && (
-                    <div className="absolute z-20 w-full mt-1 bg-white border border-slate-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
-                      {filteredWards.map((ward) => (
-                        <div
-                          key={ward.id}
-                          onClick={() => {
-                            setFormData(prev => ({ ...prev, ward: ward.id.toString() }));
-                            setWardSearch(ward.name);
-                            setShowWardDropdown(false);
-                          }}
-                          className="px-4 py-2 hover:bg-blue-50 cursor-pointer border-b border-slate-100 last:border-b-0"
-                        >
-                          <span className={ward.id === "central" ? "font-semibold text-blue-600" : ""}>
-                            {ward.name}
-                          </span>
-                        </div>
-                      ))}
-                      {filteredWards.length === 0 && (
-                        <div className="px-4 py-2 text-slate-500 text-sm">
-                          No wards found
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-slate-900 mb-2">
-                Password
-              </label>
-              <div className="relative">
-                <Lock size={20} className="absolute left-3 top-3 text-slate-400" />
-                <input
-                  type="password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  placeholder="••••••••"
-                  className="w-full pl-10 pr-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  disabled={isLoading}
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-slate-900 mb-2">
-                Confirm Password
-              </label>
-              <div className="relative">
-                <Lock size={20} className="absolute left-3 top-3 text-slate-400" />
-                <input
-                  type="password"
-                  name="confirmPassword"
-                  value={formData.confirmPassword}
-                  onChange={handleChange}
-                  placeholder="••••••••"
-                  className="w-full pl-10 pr-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  disabled={isLoading}
-                />
-              </div>
-            </div>
-
-            <button
-              type="submit"
+    {/* FORM */}
+    <form onSubmit={handleSignUp} className="grid grid-cols-2 gap-4">
+      {/* LEFT */}
+      <div className="space-y-4">
+        <div>
+          <label className="text-sm font-medium text-grey-900">Authority ID</label>
+          <div className="relative">
+            <Shield size={18} className="absolute left-3 top-3 text-blue-400" />
+            <input
+              name="authorityId"
+              value={formData.authorityId}
+              onChange={handleChange}
+              className="w-full pl-9 py-2.5 rounded-lg bg-white focus:ring-2 focus:ring-sky-300 outline-none"
               disabled={isLoading}
-              className="w-full py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-semibold flex items-center justify-center gap-2 disabled:bg-blue-400 disabled:cursor-not-allowed"
-            >
-              {isLoading ? (
-                <>
-                  <Loader2 size={20} className="animate-spin" />
-                  Creating Account...
-                </>
-              ) : (
-                <>
-                  Sign Up
-                  <ArrowRight size={20} />
-                </>
-              )}
-            </button>
-          </form>
-
-          <div className="mt-6 text-center">
-            <p className="text-slate-600 text-sm">
-              Already have an account?{" "}
-              <Link href="/auth/authority/sign-in" className="text-blue-600 font-semibold hover:text-blue-700">
-                Sign In
-              </Link>
-            </p>
+            />
           </div>
         </div>
 
-        <p className="text-center text-slate-600 text-sm mt-6">
-          For support, contact your administrator
+        <div>
+          <label className="text-sm font-medium text-grey-900">Full Name</label>
+          <div className="relative">
+            <User size={18} className="absolute left-3 top-3 text-blue-400" />
+            <input
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              className="w-full pl-9 py-2.5 rounded-lg bg-white focus:ring-2 focus:ring-sky-300 outline-none"
+              disabled={isLoading}
+            />
+          </div>
+        </div>
+
+        <div>
+          <label className="text-sm font-medium text-grey-900">Email</label>
+          <div className="relative">
+            <Mail size={18} className="absolute left-3 top-3 text-blue-400" />
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              className="w-full pl-9 py-2.5 rounded-lg bg-white focus:ring-2 focus:ring-sky-300 outline-none"
+              disabled={isLoading}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* RIGHT */}
+      <div className="space-y-4">
+        <div className="ward-dropdown-container">
+          <label className="text-sm font-medium text-grey-900">Assigned Ward</label>
+          <div className="relative">
+            <MapPin size={18} className="absolute left-3 top-3 text-blue-400" />
+            <input
+              value={wardSearch}
+              onChange={(e) => {
+                setWardSearch(e.target.value);
+                setShowWardDropdown(true);
+              }}
+              onFocus={() => setShowWardDropdown(true)}
+              className="w-full pl-9 py-2.5 rounded-lg bg-white focus:ring-2 focus:ring-sky-300 outline-none"
+              disabled={isLoading}
+            />
+          </div>
+
+          {showWardDropdown && (
+            <div className="absolute z-20 w-full bg-white rounded-lg shadow mt-1 max-h-48 overflow-y-auto">
+              {filteredWards.map((ward) => (
+                <div
+                  key={ward.id}
+                  onClick={() => {
+                    setFormData(prev => ({ ...prev, ward: ward.id.toString() }));
+                    setWardSearch(ward.name);
+                    setShowWardDropdown(false);
+                  }}
+                  className="px-4 py-2 hover:bg-sky-50 cursor-pointer text-sm"
+                >
+                  {ward.name}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <div>
+          <label className="text-sm font-medium text-grey-900">Password</label>
+          <input
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            className="w-full py-2.5 rounded-lg bg-white px-3 focus:ring-2 focus:ring-sky-300 outline-none"
+            disabled={isLoading}
+          />
+        </div>
+
+        <div>
+          <label className="text-sm font-medium text-grey-900">Confirm Password</label>
+          <input
+            type="password"
+            name="confirmPassword"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            className="w-full py-2.5 rounded-lg bg-white px-3 focus:ring-2 focus:ring-sky-300 outline-none"
+            disabled={isLoading}
+          />
+        </div>
+      </div>
+
+      {/* BOTTOM */}
+      <div className="col-span-2 pt-4">
+        <button
+          type="submit"
+          disabled={isLoading}
+          className="w-full bg-white hover:bg-sky-50 text-blue-800 font-bold py-2.5 rounded-xl transition-all hover:shadow-lg flex justify-center items-center gap-2"
+        >
+          {isLoading ? <Loader2 className="animate-spin" /> : "Create Account"}
+          {!isLoading && <ArrowRight size={18} />}
+        </button>
+
+        <p className="text-m text-center text-grey-900/70 mt-3">
+          Already have an account?{" "}
+          <Link href="/auth/authority/sign-in" className="font-semibold text-white">
+            Sign In
+          </Link>
         </p>
-      </motion.div>
+      </div>
+    </form>
+
+    <div className="absolute bottom-0 left-0 w-20 h-20 bg-blue-400/30 rounded-tr-full"></div>
+  </div>
+</motion.div>
+
+
     </div>
   );
 }

@@ -1,188 +1,120 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
-import { ArrowRight, AlertCircle, Loader2, Lock, Shield } from "lucide-react";
 import Link from "next/link";
+import { User, Lock, Eye, EyeOff } from "lucide-react";
 
-export default function AuthoritySignInPage() {
-  const router = useRouter();
-  const [authorityId, setAuthorityId] = useState("");
+export default function SignInPage() {
+  const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
 
-  const validateForm = () => {
-    if (!authorityId.trim()) {
-      setError("Authority ID is required");
-      return false;
-    }
-    if (authorityId.length < 4) {
-      setError("Authority ID must be at least 4 characters");
-      return false;
-    }
-    if (!password) {
-      setError("Password is required");
-      return false;
-    }
-    if (password.length < 6) {
-      setError("Password must be at least 6 characters");
-      return false;
-    }
-    return true;
-  };
-
-  const handleSignIn = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-
-    if (!validateForm()) {
-      return;
-    }
-
-    setIsLoading(true);
-    try {
-      const response = await fetch("/api/auth/authority/signin", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ authorityId: authorityId.toUpperCase(), password }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        setError(data.message || "Invalid authority ID or password");
-        return;
-      }
-
-      // Store token in localStorage
-      if (data.token) {
-        localStorage.setItem("authToken", data.token);
-        localStorage.setItem("userRole", "authority");
-      }
-
-      router.push("/authority");
-    } catch (err) {
-      setError("An error occurred. Please try again.");
-    } finally {
-      setIsLoading(false);
-    }
+  const handleSubmit = () => {
+    console.log("Sign in attempt", { username, password, rememberMe });
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-slate-100">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-sky-50 via-blue-50 to-white">
+      {/* Logo */}
       <div className="absolute top-8 left-8">
-        <Link href="/" className="text-xl font-bold text-slate-900 flex items-center gap-2">
-          <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold">
+        <div className="text-2xl font-bold text-slate-800 flex items-center gap-2">
+          <div className="w-10 h-10 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-xl flex items-center justify-center text-white font-bold shadow-lg">
             W
           </div>
           WardAir
-        </Link>
+        </div>
       </div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="w-full max-w-md mx-4"
-      >
-        <div className="bg-white rounded-2xl shadow-xl p-8">
-          <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-slate-900 mb-2">Welcome Back</h1>
-            <p className="text-slate-600">Authority Portal</p>
-          </div>
+      {/* Card Wrapper */}
+      <div className="w-full max-w-md px-4">
+        <div className="relative">
+          {/* Soft decorative layers */}
+          <div className="absolute inset-0 bg-gradient-to-br from-sky-700 via-blue-700 to-slate-500 rounded-3xl rotate-1 shadow-xl"></div>
+          <div className="absolute inset-0 bg-gradient-to-tl from-blue-500 via-sky-500 to-white rounded-3xl -rotate-1 opacity-60"></div>
 
-          {error && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-start gap-3"
-            >
-              <AlertCircle className="text-red-600 flex-shrink-0 mt-0.5" size={20} />
-              <p className="text-red-700 font-medium">{error}</p>
-            </motion.div>
-          )}
+          {/* Main Card */}
+          <div className="relative bg-gradient-to-br from-sky-600 to-blue-600 rounded-3xl shadow-xl p-8 border border-blue-200/60">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-sky-400/30 rounded-bl-full"></div>
 
-          <form onSubmit={handleSignIn} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-slate-900 mb-2">
-                Authority ID
-              </label>
+            <div className="relative z-10 space-y-6">
+              {/* Username */}
               <div className="relative">
-                <Shield size={20} className="absolute left-3 top-3 text-slate-400" />
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
+                  <User size={20} />
+                </div>
                 <input
                   type="text"
-                  value={authorityId}
-                  onChange={(e) => {
-                    setAuthorityId(e.target.value.toUpperCase());
-                    setError("");
-                  }}
-                  placeholder="e.g., AUTH001"
-                  className="w-full pl-10 pr-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent uppercase"
-                  disabled={isLoading}
+                  placeholder="Username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  className="w-full bg-white text-slate-800 placeholder-slate-400 rounded-xl py-4 pl-12 pr-4 focus:outline-none focus:ring-2 focus:ring-sky-300"
                 />
               </div>
-            </div>
 
-            <div>
-              <div className="flex justify-between items-center mb-2">
-                <label className="block text-sm font-medium text-slate-900">
-                  Password
-                </label>
-                <Link href="/auth/authority/forgot-password" className="text-xs text-blue-600 hover:text-blue-700">
-                  Forgot password?
-                </Link>
-              </div>
+              {/* Password */}
               <div className="relative">
-                <Lock size={20} className="absolute left-3 top-3 text-slate-400" />
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
+                  <Lock size={20} />
+                </div>
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Password"
                   value={password}
-                  onChange={(e) => {
-                    setPassword(e.target.value);
-                    setError("");
-                  }}
-                  placeholder="••••••••"
-                  className="w-full pl-10 pr-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  disabled={isLoading}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full bg-white text-slate-800 placeholder-slate-400 rounded-xl py-4 pl-12 pr-12 focus:outline-none focus:ring-2 focus:ring-sky-300"
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                >
+                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                </button>
               </div>
+
+              {/* Remember */}
+              <div className="flex items-center justify-between text-sm">
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={rememberMe}
+                    onChange={(e) => setRememberMe(e.target.checked)}
+                    className="accent-sky-400"
+                  />
+                  <span className="text-grey-700">Remember me</span>
+                </label>
+                <button className="text-white-600 hover:text-white-700 italic">
+                  Forgot Password?
+                </button>
+              </div>
+
+              {/* Login */}
+              <button
+                onClick={handleSubmit}
+                className="w-full bg-white hover:bg-sky-50 text-blue-700 font-bold py-4 rounded-xl transition-all hover:shadow-lg uppercase tracking-wider"
+              >
+                Login
+              </button>
             </div>
 
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="w-full py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-semibold flex items-center justify-center gap-2 disabled:bg-blue-400 disabled:cursor-not-allowed"
-            >
-              {isLoading ? (
-                <>
-                  <Loader2 size={20} className="animate-spin" />
-                  Signing In...
-                </>
-              ) : (
-                <>
-                  Sign In
-                  <ArrowRight size={20} />
-                </>
-              )}
-            </button>
-          </form>
-
-          <div className="mt-6 text-center">
-            <p className="text-slate-600 text-sm">
-              Don't have an account?{" "}
-              <Link href="/auth/authority/sign-up" className="text-blue-600 font-semibold hover:text-blue-700">
-                Sign Up
-              </Link>
-            </p>
+            <div className="absolute bottom-0 left-0 w-24 h-24 bg-blue-400/30 rounded-tr-full"></div>
           </div>
         </div>
 
-        <p className="text-center text-slate-600 text-sm mt-6">
-          For support, contact your administrator
-        </p>
-      </motion.div>
+        {/* Signup */}
+        <div className="text-center mt-6">
+          <p className="text-slate-600">
+            Don’t have an account?{" "}
+            <Link
+              href="/auth/authority/sign-up"
+              className="text-blue-600 hover:text-blue-700 font-semibold"
+            >
+              Sign up
+            </Link>
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
