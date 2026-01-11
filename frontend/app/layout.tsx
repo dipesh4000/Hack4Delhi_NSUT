@@ -3,7 +3,8 @@ import { Inter } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 import { cn } from "@/lib/utils";
-import AIChatbot from "@/components/ai/AIChatbot";
+import { PollutionProvider } from "@/context/PollutionContext";
+import AIChatbot from "@/components/citizen/AIChatbot";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,8 +22,10 @@ export default function RootLayout({
     <ClerkProvider publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}>
       <html lang="en">
         <body className={cn(inter.className, "min-h-screen bg-slate-50 text-slate-900 antialiased")}>
-          {children}
-          <AIChatbot />
+          <PollutionProvider>
+            {children}
+            <AIChatbot />
+          </PollutionProvider>
         </body>
       </html>
     </ClerkProvider>
