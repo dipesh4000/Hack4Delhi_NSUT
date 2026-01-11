@@ -53,7 +53,7 @@ Before starting, ensure you have:
 2. Choose **"Connect your application"**
 3. Copy the connection string:
    ```
-   mongodb+srv://pollution-admin:<password>@pollution-dashboard.xxxxx.mongodb.net/?retryWrites=true&w=majority
+   mongodb+srv://<username>:<password>@<cluster-url>/?retryWrites=true&w=majority
    ```
 4. Replace `<password>` with your actual password
 5. **Save this connection string** - you'll need it later
@@ -89,7 +89,7 @@ railway init
 
 ```bash
 # Set MongoDB connection string
-railway variables set MONGO_URI="mongodb+srv://pollution-admin:YOUR_PASSWORD@pollution-dashboard.xxxxx.mongodb.net/wardair?retryWrites=true&w=majority"
+railway variables set MONGO_URI="mongodb+srv://<username>:<password>@<cluster-url>/<database-name>?retryWrites=true&w=majority"
 
 # Set WAQI token
 railway variables set WAQI_TOKEN="your-waqi-token-here"
