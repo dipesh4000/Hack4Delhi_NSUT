@@ -7,6 +7,8 @@ import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { useUser, SignOutButton } from "@clerk/nextjs";
 
+import Image from "next/image";
+
 const MENU_ITEMS = [
   { icon: LayoutDashboard, label: "Dashboard", href: "/citizen" },
   { icon: MapPin, label: "Wards", href: "/citizen/wards" },
@@ -30,9 +32,13 @@ export default function CitizenSidebar() {
   return (
     <div className="w-24 lg:w-64 h-screen fixed left-0 top-0 bg-white/40 backdrop-blur-xl border-r border-white/20 flex flex-col p-6 z-[60]">
       <Link href="/" className="flex items-center gap-3 mb-12 px-2 hover:opacity-80 transition-opacity">
-        <div className="w-10 h-10 bg-blue-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-blue-600/30">
-          <MapPin className="w-6 h-6" />
-        </div>
+        <Image 
+          src="/logo.png" 
+          alt="WardAir Logo" 
+          width={40} 
+          height={40} 
+          className="rounded-xl shadow-lg shadow-blue-600/30"
+        />
         <span className="hidden lg:block text-xl font-black text-slate-900 tracking-tight">WardAir</span>
       </Link>
 

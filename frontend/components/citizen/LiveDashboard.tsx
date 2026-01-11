@@ -8,7 +8,6 @@ import AQITrendChart from "@/components/citizen/AQITrendChart";
 import PollutantSourceChart from "@/components/citizen/PollutantSourceChart";
 import ImpactActionCard from "@/components/citizen/ImpactActionCard";
 import ContextualAdviceCard from "@/components/citizen/ContextualAdviceCard";
-import HealthAdvisoryCard from "@/components/citizen/HealthAdvisoryCard";
 import PollutantCard from "@/components/citizen/PollutantCard";
 import VideoAlertModal from "@/components/citizen/VideoAlertModal";
 import PollutantRadarChart from "@/components/citizen/PollutantRadarChart";

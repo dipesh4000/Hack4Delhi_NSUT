@@ -4,6 +4,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
+import Image from "next/image";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,16 +14,19 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           
-          {/* Logo - White for contrast */}
+          {/* Logo */}
           <Link
             href="/"
             className="flex items-center gap-3 font-semibold"
           >
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-white to-blue-100
-                            flex items-center justify-center text-blue-800 font-bold shadow-md">
-              W
-            </div>
-            <span className="text-lg tracking-tight text-white">WardAir</span>
+            <Image 
+              src="/logo.png" 
+              alt="WardAir Logo" 
+              width={40} 
+              height={40} 
+              className="rounded-lg"
+            />
+            <span className="text-xl tracking-tight text-white font-bold">WardAir</span>
           </Link>
 
           {/* Desktop Nav */}

@@ -7,6 +7,8 @@ import { Home, Map, Bell, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
+import Image from "next/image";
+
 const navItems = [
   { href: "/citizen", label: "Home", icon: Home },
   { href: "/citizen/ward", label: "Ward Details", icon: Map },
@@ -23,9 +25,13 @@ export default function CitizenNavbar() {
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Link href="/citizen" className="flex-shrink-0 flex items-center gap-2">
-              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-lg">W</span>
-              </div>
+              <Image 
+                src="/logo.png" 
+                alt="WardAir Logo" 
+                width={32} 
+                height={32} 
+                className="rounded-lg"
+              />
               <span className="font-bold text-xl text-slate-900 hidden sm:block">WardAir</span>
             </Link>
           </div>
