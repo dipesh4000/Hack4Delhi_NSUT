@@ -3,8 +3,8 @@
     "ward_number": "15",
     "ward_name": "ADARSH NAGAR",
     "station_uid": 10113,
-    "generated_at_ist": "2026-01-11T01:13:00.291763+05:30",
-    "aqi": 265,
+    "generated_at_ist": "2026-01-12T00:17:20.867815+05:30",
+    "aqi": 245,
     "idx": 10113,
     "dominentpol": "pm25",
     "city_name": "ITI Jahangirpuri, Delhi, Delhi, India",
@@ -13,90 +13,84 @@
         77.17197
     ],
     "city_url": "https://aqicn.org/city/delhi/iti-jahangirpuri",
-    "iaqi_pm25": 265,
-    "iaqi_pm10": 171,
-    "iaqi_no2": 29.3,
-    "iaqi_o3": 1.7,
-    "iaqi_so2": 3.6,
-    "iaqi_co": 10.3,
-    "timestamp_ist_iso": "2026-01-11T01:00:00+05:30",
-    "timestamp_ist_epoch": 1768073400,
-    "reading_date_ist": "2026-01-11",
-    "reading_time_ist": "01:00:00",
+    "iaqi_pm25": 245,
+    "iaqi_pm10": 165,
+    "iaqi_no2": 32.5,
+    "iaqi_o3": 2.2,
+    "iaqi_so2": 3.4,
+    "iaqi_co": 10.9,
+    "timestamp_ist_iso": "2026-01-12T00:00:00+05:30",
+    "timestamp_ist_epoch": 1768156200,
+    "reading_date_ist": "2026-01-12",
+    "reading_time_ist": "00:00:00",
     "time_raw": {
-        "s": "2026-01-11 01:00:00",
+        "s": "2026-01-12 00:00:00",
         "tz": "+05:30",
-        "v": 1768093200,
-        "iso": "2026-01-11T01:00:00+05:30"
+        "v": 1768176000,
+        "iso": "2026-01-12T00:00:00+05:30"
     },
     "forecast_daily_pm25": [
         {
-            "avg": 167,
-            "day": "2026-01-09",
-            "max": 174,
+            "avg": 159,
+            "day": "2026-01-10",
+            "max": 159,
             "min": 159
         },
         {
-            "avg": 167,
-            "day": "2026-01-10",
-            "max": 174,
-            "min": 138
-        },
-        {
-            "avg": 161,
+            "avg": 164,
             "day": "2026-01-11",
             "max": 174,
             "min": 138
         },
         {
-            "avg": 170,
+            "avg": 169,
             "day": "2026-01-12",
             "max": 174,
             "min": 159
         },
         {
-            "avg": 172,
+            "avg": 167,
             "day": "2026-01-13",
-            "max": 196,
+            "max": 174,
             "min": 138
         },
         {
-            "avg": 166,
+            "avg": 167,
             "day": "2026-01-14",
             "max": 174,
             "min": 138
         },
         {
-            "avg": 162,
+            "avg": 166,
             "day": "2026-01-15",
             "max": 174,
             "min": 138
         },
         {
-            "avg": 166,
+            "avg": 169,
             "day": "2026-01-16",
             "max": 174,
             "min": 138
         },
         {
-            "avg": 172,
+            "avg": 163,
             "day": "2026-01-17",
             "max": 174,
-            "min": 152
+            "min": 138
+        },
+        {
+            "avg": 172,
+            "day": "2026-01-18",
+            "max": 174,
+            "min": 159
         }
     ],
     "forecast_daily_pm10": [
         {
-            "avg": 66,
-            "day": "2026-01-09",
-            "max": 73,
-            "min": 58
-        },
-        {
-            "avg": 66,
+            "avg": 58,
             "day": "2026-01-10",
-            "max": 73,
-            "min": 47
+            "max": 58,
+            "min": 58
         },
         {
             "avg": 63,
@@ -111,43 +105,43 @@
             "min": 58
         },
         {
-            "avg": 71,
+            "avg": 66,
             "day": "2026-01-13",
-            "max": 94,
-            "min": 46
+            "max": 73,
+            "min": 47
         },
         {
-            "avg": 65,
+            "avg": 66,
             "day": "2026-01-14",
             "max": 73,
             "min": 46
         },
         {
-            "avg": 62,
+            "avg": 65,
             "day": "2026-01-15",
             "max": 73,
             "min": 46
         },
         {
-            "avg": 65,
+            "avg": 68,
             "day": "2026-01-16",
             "max": 73,
             "min": 46
         },
         {
-            "avg": 71,
+            "avg": 65,
             "day": "2026-01-17",
             "max": 73,
-            "min": 52
+            "min": 46
+        },
+        {
+            "avg": 70,
+            "day": "2026-01-18",
+            "max": 73,
+            "min": 58
         }
     ],
     "forecast_daily_uvi": [
-        {
-            "avg": 1,
-            "day": "2026-01-10",
-            "max": 4,
-            "min": 0
-        },
         {
             "avg": 1,
             "day": "2026-01-11",
@@ -173,8 +167,14 @@
             "min": 0
         },
         {
-            "avg": 0,
+            "avg": 1,
             "day": "2026-01-15",
+            "max": 4,
+            "min": 0
+        },
+        {
+            "avg": 0,
+            "day": "2026-01-16",
             "max": 0,
             "min": 0
         }
