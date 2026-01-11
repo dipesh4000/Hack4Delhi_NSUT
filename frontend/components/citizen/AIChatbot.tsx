@@ -21,7 +21,7 @@ export default function AIChatbot() {
     {
       id: '1',
       role: 'assistant',
-      content: "Hi! I'm your WardAir AI assistant. Ask me anything about air quality, health advice, or government regulations.",
+      content: "Hi! I'm your Vayu Bot. Ask me anything about air quality, health advice, or government regulations.",
       timestamp: new Date()
     }
   ]);
@@ -136,7 +136,7 @@ export default function AIChatbot() {
         className="fixed bottom-6 right-6 z-50 p-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-full shadow-lg hover:shadow-xl transition-shadow flex items-center gap-2"
       >
         {isOpen ? <X size={24} /> : <Sparkles size={24} />}
-        {!isOpen && <span className="font-medium pr-2">Ask AI</span>}
+        {!isOpen && <span className="font-medium pr-2">VAYU BOT</span>}
       </motion.button>
 
       {/* Chat Window */}
@@ -155,10 +155,10 @@ export default function AIChatbot() {
                   <Sparkles size={18} />
                 </div>
                 <div>
-                  <h3 className="font-semibold">WardAir Assistant</h3>
+                  <h3 className="font-semibold">VAYU BOT</h3>
                   <p className="text-xs text-blue-100 flex items-center gap-1">
                     <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></span>
-                    Online • Powered by Grok
+                    Online 
                   </p>
                 </div>
               </div>
