@@ -3,11 +3,13 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { AlertTriangle, Wind, Loader2, MapPin, Bell, Clock, Activity, TrendingUp, Shield, Users, Zap } from "lucide-react";
+import VideoAlertCard from './VideoAlertCard';
+import SmartAlertSystem from './SmartAlertSystem';
 import { cn } from "@/lib/utils";
 import { fetchWAQIData } from "@/lib/waqi-service";
 import { MOCK_WARD_DATA, WardData, getSeverity } from "@/lib/mock-data";
 
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000';
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5001';
 
 interface EnhancedWardData extends WardData {
   pollution_sources?: {
@@ -28,6 +30,8 @@ interface EnhancedWardData extends WardData {
     avg_forecast: number;
     improvement_expected: boolean;
   };
+  dominantPollutant?: string;
+  status?: string;
 }
 
 export default function HybridLiveDashboard({ userName }: { userName: string }) {
@@ -56,17 +60,17 @@ export default function HybridLiveDashboard({ userName }: { userName: string }) 
             status: pollutionData.current_status.category.level,
             dominantPollutant: pollutionData.current_status.dominant_pollutant.toUpperCase(),
             pollutants: [
-              { name: "PM2.5", value: pollutionData.current_status.pollutant_levels.pm25, unit: "µg/m³", status: "High", change: "+5%" },
+              { name: "PM2.5", value: pollutionData.current_status.pollutant_levels.pm25, unit: "µg/m³", status: "Severe", change: "+5%" },
               { name: "PM10", value: pollutionData.current_status.pollutant_levels.pm10, unit: "µg/m³", status: "Moderate", change: "+2%" },
-              { name: "NO2", value: pollutionData.current_status.pollutant_levels.no2, unit: "µg/m³", status: "Low", change: "-1%" },
-              { name: "O3", value: pollutionData.current_status.pollutant_levels.o3, unit: "µg/m³", status: "Low", change: "+3%" },
-              { name: "SO2", value: pollutionData.current_status.pollutant_levels.so2, unit: "µg/m³", status: "Low", change: "0%" },
-              { name: "CO", value: pollutionData.current_status.pollutant_levels.co, unit: "mg/m³", status: "Low", change: "-2%" }
+              { name: "NO2", value: pollutionData.current_status.pollutant_levels.no2, unit: "µg/m³", status: "Good", change: "-1%" },
+              { name: "O3", value: pollutionData.current_status.pollutant_levels.o3, unit: "µg/m³", status: "Good", change: "+3%" },
+              { name: "SO2", value: pollutionData.current_status.pollutant_levels.so2, unit: "µg/m³", status: "Good", change: "0%" },
+              { name: "CO", value: pollutionData.current_status.pollutant_levels.co, unit: "mg/m³", status: "Good", change: "-2%" }
             ],
             pollution_sources: pollutionData.pollution_sources,
             health_recommendations: pollutionData.health_recommendations,
             trends: pollutionData.trends,
-            lastUpdated: new Date(pollutionData.ward_info.last_updated)
+            lastUpdated: new Date(pollutionData.ward_info.last_updated).toLocaleTimeString()
           };
           
           setData(enhancedData);
@@ -257,6 +261,9 @@ export default function HybridLiveDashboard({ userName }: { userName: string }) 
           </motion.div>
         </div>
 
+        {/* Smart Alert System */}
+        <SmartAlertSystem data={data} />
+
         {/* Health Recommendations */}
         {data.health_recommendations && (
           <motion.div variants={itemVariants} className="bg-white/60 backdrop-blur-md p-8 rounded-[2.5rem] border border-white/20 shadow-xl">
@@ -345,7 +352,7 @@ export default function HybridLiveDashboard({ userName }: { userName: string }) 
                 <p className="text-2xl font-black text-slate-900">{p.value || 'N/A'}</p>
                 <p className="text-xs text-slate-400 mt-1">{p.unit}</p>
                 <div className={cn("inline-block px-2 py-1 rounded text-xs font-semibold mt-2",
-                  p.status === 'High' ? 'bg-red-100 text-red-700' :
+                  p.status === 'Severe' || p.status === 'Poor' || p.status === 'Very Poor' || p.status === 'Hazardous' ? 'bg-red-100 text-red-700' :
                   p.status === 'Moderate' ? 'bg-yellow-100 text-yellow-700' :
                   'bg-green-100 text-green-700'
                 )}>
@@ -377,38 +384,6 @@ export default function HybridLiveDashboard({ userName }: { userName: string }) 
           </div>
         </motion.div>
 
-        {/* Alerts */}
-        <motion.div variants={itemVariants} className="bg-white/60 backdrop-blur-md p-6 rounded-[2rem] border border-white/20 shadow-xl">
-          <div className="flex justify-between items-center mb-6">
-            <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Active Alerts</h3>
-            <Bell className="w-4 h-4 text-slate-300" />
-          </div>
-          <div className="space-y-4">
-            {data.aqi > 200 && (
-              <div className="flex gap-4 p-3 rounded-2xl bg-red-50 border border-red-100">
-                <div className="w-2 h-2 rounded-full bg-red-500 mt-1.5 shrink-0" />
-                <div>
-                  <p className="text-xs font-black text-red-900 tracking-tight">High Pollution Alert</p>
-                  <p className="text-[10px] text-red-600 font-medium mt-0.5">Air quality is unhealthy. Limit outdoor activities.</p>
-                </div>
-              </div>
-            )}
-            {data.aqi > 100 && data.aqi <= 200 && (
-              <div className="flex gap-4 p-3 rounded-2xl bg-orange-50 border border-orange-100">
-                <div className="w-2 h-2 rounded-full bg-orange-500 mt-1.5 shrink-0" />
-                <div>
-                  <p className="text-xs font-black text-orange-900 tracking-tight">Moderate Pollution</p>
-                  <p className="text-[10px] text-orange-600 font-medium mt-0.5">Sensitive groups should limit outdoor exposure.</p>
-                </div>
-              </div>
-            )}
-            {data.aqi <= 100 && (
-              <div className="text-center py-6">
-                <p className="text-xs font-bold text-green-600">Air quality is acceptable</p>
-              </div>
-            )}
-          </div>
-        </motion.div>
 
         {/* Trend Analysis */}
         {data.trends && (

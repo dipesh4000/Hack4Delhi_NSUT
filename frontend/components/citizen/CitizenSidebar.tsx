@@ -70,7 +70,7 @@ export default function CitizenSidebar() {
         </button>
 
         {isSignedIn ? (
-          <SignOutButton redirectUrl="/">
+          <SignOutButton>
             <button className="w-full flex items-center gap-4 p-4 rounded-2xl text-slate-400 hover:bg-red-50 hover:text-red-600 transition-all group cursor-pointer">
               <LogOut className="w-6 h-6 group-hover:text-red-600" />
               <span className="hidden lg:block font-bold text-sm tracking-tight">Logout</span>

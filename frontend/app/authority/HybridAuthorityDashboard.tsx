@@ -52,7 +52,7 @@ const PollutionMap = dynamic(() => import('@/components/dashboard/PollutionMap')
   loading: () => <div className="h-[500px] w-full bg-slate-100 animate-pulse rounded-xl flex items-center justify-center">Loading Map...</div>
 });
 
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000';
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5001';
 
 type FilterType = 'All' | 'Good' | 'Moderate' | 'Unhealthy' | 'Severe';
 
@@ -338,7 +338,7 @@ export default function HybridAuthorityDashboard() {
                 <AlertTriangle size={20} className="text-orange-600" />
               </div>
             </div>
-            <p className="text-xs text-slate-500">AQI > 300 - Immediate action needed</p>
+            <p className="text-xs text-slate-500">AQI &gt; 300 - Immediate action needed</p>
           </div>
 
           <div className="bg-white p-5 rounded-xl shadow-sm border border-slate-200">

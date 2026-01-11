@@ -60,7 +60,7 @@ interface PollutionData {
   };
 }
 
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000';
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5001';
 
 export default function LiveDashboard({ userName }: { userName: string }) {
   const [data, setData] = useState<PollutionData | null>(null);

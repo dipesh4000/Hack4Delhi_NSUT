@@ -4,113 +4,85 @@ import { MOCK_WARD_DATA } from "@/lib/mock-data";
 import { Bell, Play, Film } from "lucide-react";
 import VideoAlertCard from "@/components/citizen/VideoAlertCard";
 import CitizenLayout from "@/components/citizen/CitizenLayout";
+import { getActiveAlerts } from "@/lib/alert-rules";
 
 export default function AlertsPage() {
-  const alerts = MOCK_WARD_DATA.alerts;
-  const videoAlerts = alerts.filter((a) => a.videoUrl);
-  const textAlerts = alerts.filter((a) => !a.videoUrl);
+  // Use dynamic alerts for text updates
+  const dynamicAlerts = getActiveAlerts(MOCK_WARD_DATA);
 
   return (
     <CitizenLayout>
-      <div className="max-w-4xl mx-auto space-y-10">
+      <div className="max-w-7xl mx-auto space-y-10 px-4 sm:px-6 lg:px-8 py-12">
         {/* Header */}
         <div className="text-center">
-          <div className="w-16 h-16 bg-gradient-to-br from-red-500 to-orange-500 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl shadow-red-500/20">
+          <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl shadow-blue-500/20">
             <Bell className="w-8 h-8 text-white" />
           </div>
           <h1 className="text-3xl font-black text-slate-900 tracking-tight">Pollution Alerts</h1>
           <p className="text-slate-500 font-medium mt-2 max-w-md mx-auto">
-            Stay updated with critical air quality warnings for your ward. Watch video alerts for important updates.
+            Stay updated with critical air quality warnings and actionable advice for your ward.
           </p>
         </div>
 
-        {/* Featured Video Alerts Section */}
-        {videoAlerts.length > 0 && (
+        {/* Alerts Grid Section */}
+        {dynamicAlerts.length > 0 ? (
           <section>
-            <div className="flex items-center gap-3 mb-6">
-              <div className="p-3 bg-red-100 rounded-2xl">
-                <Film className="w-6 h-6 text-red-600" />
-              </div>
-              <h2 className="text-xl font-black text-slate-900 tracking-tight">Video Alerts</h2>
-              <span className="bg-red-100 text-red-700 text-[10px] font-black px-2 py-1 rounded-lg animate-pulse uppercase tracking-widest">
-                {videoAlerts.length} NEW
-              </span>
-            </div>
-            
-            <div className="grid md:grid-cols-2 gap-8">
-              {videoAlerts.map((alert) => (
-                <VideoAlertCard
-                  key={alert.id}
-                  id={alert.id}
-                  type={alert.type}
-                  title={alert.title}
-                  message={alert.message}
-                  timestamp={alert.timestamp}
-                  targetGroups={alert.targetGroups}
-                  videoUrl={alert.videoUrl}
-                  thumbnailUrl={alert.thumbnailUrl}
-                  duration={alert.duration}
-                  wardName={MOCK_WARD_DATA.name}
-                  aqi={MOCK_WARD_DATA.aqi}
-                />
-              ))}
-            </div>
-          </section>
-        )}
-
-        {/* Text Alerts Section */}
-        {textAlerts.length > 0 && (
-          <section>
-            <h2 className="text-xl font-black text-slate-900 mb-6 tracking-tight">Other Updates</h2>
-            <div className="space-y-4">
-              {textAlerts.map((alert) => (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {dynamicAlerts.map((alert) => (
                 <div
                   key={alert.id}
-                  className={`p-6 rounded-[2rem] border-l-8 shadow-xl bg-white/60 backdrop-blur-md ${
-                    alert.type === "Severe"
-                      ? "border-l-red-500"
-                      : alert.type === "Warning"
-                      ? "border-l-orange-500"
-                      : "border-l-blue-500"
+                  className={`p-6 rounded-[2rem] border-t-8 shadow-xl bg-white/60 backdrop-blur-md flex flex-col h-full ${
+                    alert.severity === "Critical"
+                      ? "border-t-red-500"
+                      : alert.severity === "Warning"
+                      ? "border-t-orange-500"
+                      : "border-t-blue-500"
                   }`}
                 >
-                  <div className="flex justify-between items-start">
-                    <h3 className="font-black text-slate-900 tracking-tight">{alert.title}</h3>
-                    <span className="text-[10px] font-black text-slate-400 bg-slate-50 px-3 py-1 rounded-full uppercase tracking-widest">
-                      {alert.timestamp}
+                  <div className="flex justify-between items-start mb-4">
+                    <div className={`p-3 rounded-2xl ${
+                      alert.severity === "Critical" ? "bg-red-100 text-red-600" :
+                      alert.severity === "Warning" ? "bg-orange-100 text-orange-600" :
+                      "bg-blue-100 text-blue-600"
+                    }`}>
+                      <alert.icon size={24} />
+                    </div>
+                    <span className={`text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest ${
+                       alert.severity === "Critical" ? "bg-red-100 text-red-700" :
+                       alert.severity === "Warning" ? "bg-orange-100 text-orange-700" :
+                       "bg-blue-100 text-blue-700"
+                    }`}>
+                      {alert.severity}
                     </span>
                   </div>
-                  <p className="text-slate-600 font-medium mt-2 leading-relaxed">{alert.message}</p>
+                  
+                  <h3 className="font-black text-lg text-slate-900 tracking-tight mb-2">{alert.title}</h3>
+                  <p className="text-slate-600 font-medium text-sm leading-relaxed flex-grow">{alert.message}</p>
+                  
+                  <div className="mt-6 pt-6 border-t border-slate-100">
+                    <div className="flex items-start gap-2">
+                      <span className={`mt-0.5 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
+                        alert.severity === "Critical" ? "bg-red-50 text-red-700" :
+                        alert.severity === "Warning" ? "bg-orange-50 text-orange-700" :
+                        "bg-blue-50 text-blue-700"
+                      }`}>
+                        Action
+                      </span>
+                      <span className="text-sm font-bold text-slate-800">{alert.action}</span>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
           </section>
-        )}
-
-        {/* Empty State */}
-        {alerts.length === 0 && (
+        ) : (
+          /* Empty State */
           <div className="text-center py-20 bg-white/40 backdrop-blur-md rounded-[3rem] border-2 border-dashed border-slate-200">
             <Bell className="w-16 h-16 text-slate-300 mx-auto mb-6" />
             <p className="text-xl font-black text-slate-500 tracking-tight">No active alerts at this time.</p>
             <p className="text-slate-400 font-medium mt-1">Check back later for updates.</p>
           </div>
         )}
-
-        {/* Info Banner */}
-        <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-[2.5rem] p-8 text-white shadow-2xl shadow-blue-600/20">
-          <div className="flex items-start gap-6">
-            <div className="p-4 bg-white/20 backdrop-blur-md rounded-2xl border border-white/20">
-              <Play className="w-8 h-8 text-white" />
-            </div>
-            <div>
-              <h3 className="text-xl font-black tracking-tight">📹 Video Alerts are Live!</h3>
-              <p className="text-blue-100 font-medium mt-2 leading-relaxed">
-                We now send you video-based alerts when air quality is dangerous in your ward. 
-                These quick videos help you understand the situation and take immediate action.
-              </p>
-            </div>
-          </div>
-        </div>
       </div>
     </CitizenLayout>
   );

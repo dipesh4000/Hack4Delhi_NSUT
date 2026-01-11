@@ -39,7 +39,7 @@ export default function SignInPage() {
           }}
           signUpUrl="/sign-up"
           redirectUrl="/citizen"
-          providers={["email"]}
+
         />
       </div>
     </div>

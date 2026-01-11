@@ -3,7 +3,8 @@ export interface Pollutant {
   value: number;
   unit: string;
   status: AQISeverity;
-  description: string;
+  description?: string;
+  change?: string;
 }
 
 export interface Alert {

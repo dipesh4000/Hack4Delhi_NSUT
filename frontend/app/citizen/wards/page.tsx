@@ -42,7 +42,7 @@ interface Ward {
   };
 }
 
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000';
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5001';
 
 // Delhi ward names (actual ward names)
 const DELHI_WARDS = [
@@ -317,7 +317,7 @@ export default function EnhancedWardsPage() {
                   </div>
                 </div>
                 <DelhiGeographicalMap wards={wards} onWardSelect={(ward) => {
-                  setSelectedWard(ward);
+                  setSelectedWard(ward as Ward);
                   setShowDelhiMap(false);
                 }} />
               </div>

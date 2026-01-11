@@ -1,7 +1,7 @@
 "use client";
 
 import CitizenLayout from "@/components/citizen/CitizenLayout";
-import SimplifiedLiveDashboard from "@/components/citizen/SimplifiedLiveDashboard";
+import HybridLiveDashboard from "@/components/citizen/HybridLiveDashboard";
 
 export default function CitizenDashboard() {
   return (
@@ -12,7 +12,7 @@ export default function CitizenDashboard() {
           <p className="text-slate-500 font-medium mt-2">Here's what's happening with the air in your area today.</p>
         </div>
 
-        <SimplifiedLiveDashboard userName="Citizen" />
+        <HybridLiveDashboard userName="Citizen" />
       </div>
     </CitizenLayout>
   );

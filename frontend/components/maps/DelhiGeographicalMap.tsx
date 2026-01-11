@@ -16,9 +16,9 @@ interface Ward {
   };
 }
 
-interface DelhiGeographicalMapProps {
-  wards: Ward[];
-  onWardSelect: (ward: Ward) => void;
+interface DelhiGeographicalMapProps<T extends Ward> {
+  wards: T[];
+  onWardSelect: (ward: T) => void;
 }
 
 // Delhi ward coordinates (actual geographical locations)
@@ -30,7 +30,7 @@ const WARD_COORDINATES: { [key: string]: { lat: number; lng: number } } = {
   'Ward 5': { lat: 28.7800, lng: 77.1500 }
 };
 
-export default function DelhiGeographicalMap({ wards, onWardSelect }: DelhiGeographicalMapProps) {
+export default function DelhiGeographicalMap<T extends Ward>({ wards, onWardSelect }: DelhiGeographicalMapProps<T>) {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
 
@@ -102,7 +102,7 @@ export default function DelhiGeographicalMap({ wards, onWardSelect }: DelhiGeogr
     });
 
     // Add Delhi boundary (approximate)
-    const delhiBounds = [
+    const delhiBounds: L.LatLngBoundsExpression = [
       [28.4041, 76.8388],
       [28.8841, 77.3488]
     ];
