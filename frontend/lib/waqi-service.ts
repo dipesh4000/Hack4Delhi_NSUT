@@ -124,7 +124,7 @@ export async function fetchWAQIData(lat: number, lon: number, keyword?: string):
     return {
       id: `waqi-${data.data.idx}`,
       name: data.data.city.name,
-      aqi: processed.aqi.aqi, // Use computed AQI or fallback to API? Let's use computed for consistency with model
+      aqi: data.data.aqi || processed.aqi.aqi, // Use official AQI from API as primary source
       lastUpdated: "Live from Sensor",
       dominantSource: processed.inference.dominantSource,
       sourceConfidence: processed.inference.confidence,
@@ -144,6 +144,7 @@ export async function fetchWAQIData(lat: number, lon: number, keyword?: string):
       pollutantComposition: pollutants.map(p => ({
         name: p.name,
         value: p.value,
+        unit: p.unit,
         color: p.status === "Severe" ? "#EF4444" : p.status === "Poor" ? "#F97316" : "#EAB308"
       })),
       dailyActions: {

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { AlertTriangle, Wind, Loader2, MapPin, Bell, Clock, Activity, TrendingUp, Shield, Users, Zap, ArrowDown, ArrowUp, Minus } from "lucide-react";
+import { AlertTriangle, Wind, Loader2, MapPin, Bell, Clock, Activity, TrendingUp, Shield, Users, Zap, ArrowDown, ArrowUp, Minus, Droplets, CloudFog, Factory } from "lucide-react";
 import VideoAlertCard from './VideoAlertCard';
 import SmartAlertSystem from './SmartAlertSystem';
 import PollutionCharts from './PollutionCharts';
@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 import { fetchWAQIData } from "@/lib/waqi-service";
 import { MOCK_WARD_DATA, WardData, getSeverity } from "@/lib/mock-data";
 import { usePollution } from "@/context/PollutionContext";
+import LocationStatusHeader from "./LocationStatusHeader";
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5001';
 
@@ -36,6 +37,76 @@ interface EnhancedWardData extends WardData {
   dominantPollutant?: string;
   status?: string;
 }
+
+const PollutantCard = ({ p }: { p: any }) => {
+  const getIcon = (name: string) => {
+    switch (name.toUpperCase()) {
+      case 'PM2.5': return <Wind className="w-5 h-5" />;
+      case 'PM10': return <CloudFog className="w-5 h-5" />;
+      case 'NO2': return <Zap className="w-5 h-5" />;
+      case 'SO2': return <Droplets className="w-5 h-5" />;
+      case 'CO': return <Activity className="w-5 h-5" />;
+      case 'O3': return <Factory className="w-5 h-5" />;
+      default: return <Activity className="w-5 h-5" />;
+    }
+  };
+
+  const getGradient = (status: string) => {
+    switch (status) {
+      case 'Severe':
+      case 'Hazardous':
+      case 'Very Poor':
+      case 'Poor':
+        return 'from-red-50 to-white border-red-100';
+      case 'Moderate':
+        return 'from-amber-50 to-white border-amber-100';
+      case 'Good':
+      default:
+        return 'from-emerald-50 to-white border-emerald-100';
+    }
+  };
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'Severe':
+      case 'Hazardous':
+      case 'Very Poor':
+      case 'Poor':
+        return 'bg-red-100 text-red-700';
+      case 'Moderate':
+        return 'bg-amber-100 text-amber-700';
+      case 'Good':
+      default:
+        return 'bg-emerald-100 text-emerald-700';
+    }
+  };
+
+  return (
+    <div className={cn(
+      "p-6 rounded-3xl border shadow-sm bg-gradient-to-br transition-all duration-300 hover:shadow-md hover:scale-[1.02]",
+      getGradient(p.status)
+    )}>
+      <div className="flex justify-between items-start mb-4">
+        <div className={cn("p-2 rounded-xl bg-white shadow-sm", 
+          p.status === 'Severe' || p.status === 'Poor' || p.status === 'Very Poor' || p.status === 'Hazardous' ? 'text-red-600' :
+          p.status === 'Moderate' ? 'text-amber-600' : 'text-emerald-600'
+        )}>
+          {getIcon(p.name)}
+        </div>
+        <div className={cn("px-2 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest", getStatusColor(p.status))}>
+          {p.status}
+        </div>
+      </div>
+      <div className="text-left">
+        <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">{p.name}</h4>
+        <div className="flex items-baseline gap-1">
+          <span className="text-3xl font-black text-slate-900">{p.value || 'N/A'}</span>
+          <span className="text-xs font-bold text-slate-400">{p.unit}</span>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default function HybridLiveDashboard({ userName }: { userName: string }) {
   const { updatePollutionData } = usePollution();
@@ -203,6 +274,12 @@ export default function HybridLiveDashboard({ userName }: { userName: string }) 
       animate="visible"
       className="grid grid-cols-1 lg:grid-cols-12 gap-8"
     >
+      <LocationStatusHeader 
+        locationName={locationName} 
+        aqi={data.aqi} 
+        severity={severity} 
+        usingRealData={usingRealData} 
+      />
       {/* Left Main Content */}
       <div className="lg:col-span-9 space-y-8">
         {/* Top Row: Quick Stats */}
@@ -259,7 +336,7 @@ export default function HybridLiveDashboard({ userName }: { userName: string }) 
               </span>
             </div>
             <p className="text-[10px] text-slate-400 font-bold mt-4 uppercase tracking-widest">
-              {data.pollutants.find(p => p.name === "PM2.5")?.value || 'N/A'} µg/m³ detected
+              {data.pollutants.find(p => p.name === (data.dominantPollutant || "PM2.5"))?.value || 'N/A'} {data.pollutants.find(p => p.name === (data.dominantPollutant || "PM2.5"))?.unit || 'µg/m³'} detected
             </p>
           </motion.div>
 
@@ -377,21 +454,24 @@ export default function HybridLiveDashboard({ userName }: { userName: string }) 
               {locationName}
             </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {data.pollutants.map((p) => (
-              <div key={p.name} className="p-4 bg-slate-50 rounded-xl text-center">
-                <h4 className="text-xs font-bold text-slate-500 uppercase mb-2">{p.name}</h4>
-                <p className="text-2xl font-black text-slate-900">{p.value || 'N/A'}</p>
-                <p className="text-xs text-slate-400 mt-1">{p.unit}</p>
-                <div className={cn("inline-block px-2 py-1 rounded text-xs font-semibold mt-2",
-                  p.status === 'Severe' || p.status === 'Poor' || p.status === 'Very Poor' || p.status === 'Hazardous' ? 'bg-red-100 text-red-700' :
-                  p.status === 'Moderate' ? 'bg-yellow-100 text-yellow-700' :
-                  'bg-green-100 text-green-700'
-                )}>
-                  {p.status}
-                </div>
+          <div className="space-y-6">
+            {/* Top Row: 3 Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {data.pollutants.slice(0, 3).map((p) => (
+                <PollutantCard key={p.name} p={p} />
+              ))}
+            </div>
+            
+            {/* Bottom Row: Centered Remaining Cards */}
+            {data.pollutants.length > 3 && (
+              <div className="flex flex-wrap justify-center gap-6">
+                {data.pollutants.slice(3).map((p) => (
+                  <div key={p.name} className="w-full md:w-[calc(33.333%-1rem)]">
+                    <PollutantCard p={p} />
+                  </div>
+                ))}
               </div>
-            ))}
+            )}
           </div>
         </motion.div>
       </div>
@@ -418,8 +498,8 @@ export default function HybridLiveDashboard({ userName }: { userName: string }) 
               </span>
             </div>
             <div className="flex justify-between items-center p-3 bg-slate-50 rounded-xl">
-              <span className="text-xs font-bold text-slate-500 uppercase">Coordinates</span>
-              <span className="text-xs font-bold text-slate-900">28.61°N, 77.20°E</span>
+              <span className="text-xs font-bold text-slate-500 uppercase -translate-x-6">Coordinates</span>
+              <span className="text-xs font-bold text-slate-900">28.61° N, 77.20° E</span>
             </div>
           </div>
         </motion.div>
