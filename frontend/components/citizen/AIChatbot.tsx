@@ -21,7 +21,7 @@ export default function AIChatbot() {
     {
       id: '1',
       role: 'assistant',
-      content: "Hi! I'm your Vayu Bot. Ask me anything about air quality, health advice, or government regulations.",
+      content: "Hi! I'm your Chatbot Vayu. Ask me anything about air quality, health advice, or government regulations.",
       timestamp: new Date()
     }
   ]);
@@ -155,7 +155,7 @@ export default function AIChatbot() {
                   <Sparkles size={18} />
                 </div>
                 <div>
-                  <h3 className="font-semibold">VAYU BOT</h3>
+                  <h3 className="font-semibold">VAYU</h3>
                   <p className="text-xs text-blue-100 flex items-center gap-1">
                     <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></span>
                     Online 
