@@ -24,8 +24,9 @@ export default function Navbar() {
               alt="WardAir Logo" 
               width={40} 
               height={40} 
-              className="rounded-lg"
+              className="rounded-lg h-auto"
             />
+
             <span className="text-xl tracking-tight text-white font-bold">WardAir</span>
           </Link>
 

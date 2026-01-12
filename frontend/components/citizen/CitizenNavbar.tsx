@@ -30,8 +30,9 @@ export default function CitizenNavbar() {
                 alt="WardAir Logo" 
                 width={32} 
                 height={32} 
-                className="rounded-lg"
+                className="rounded-lg h-auto"
               />
+
               <span className="font-bold text-xl text-slate-900 hidden sm:block">WardAir</span>
             </Link>
           </div>

@@ -13,6 +13,7 @@ const pollutionRoutes = require('./routes/pollutionRoutes');
 const aiRoutes = require('./routes/aiRoutes');
 const alertsRoutes = require('./routes/alerts');
 const creditsRoutes = require('./routes/credits');
+const waterloggingRoutes = require('./routes/waterlogging');
 const connectDB = require('./config/database');
 const DataSchedulerService = require('./services/dataSchedulerService');
 
@@ -27,6 +28,7 @@ const app = express();
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // Routes
@@ -61,6 +63,9 @@ app.use('/api/alerts', alertsRoutes);
 
 // 10. Pollution Credits Routes
 app.use('/api/credits', creditsRoutes);
+
+// 11. Waterlogging Routes
+app.use('/api/waterlogging', waterloggingRoutes);
 
 // Health Check
 app.get('/health', (req, res) => res.send('OK'));
